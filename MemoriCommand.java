@@ -17,11 +17,19 @@ public class MemoriCommand {
 		commandTypeString = commandTypeString.toUpperCase();
 		switch (commandTypeString) {
         case "ADD":
-            return MemoriCommandType.ADD;
+             return MemoriCommandType.ADD;
         case "UPDATE":
-        	 return MemoriCommandType.UPDATE;
+             return MemoriCommandType.UPDATE;
         case "DELETE":
              return MemoriCommandType.DELETE;
+        case "READ":
+             return MemoriCommandType.READ;
+        case "UNDO":
+             return MemoriCommandType.UNDO;
+        case "REDO":
+             return MemoriCommandType.REDO;
+        case "EXIT":
+             return MemoriCommandType.EXIT;
         default:
         	 return MemoriCommandType.INVALID;
 		}
