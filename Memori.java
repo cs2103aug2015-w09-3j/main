@@ -9,7 +9,7 @@ import com.google.gson.GsonBuilder;
 public class Memori {
 	private MemoriUI  ui = new MemoriUI();
 	private Storage st = new Storage();
-	MemoriCalendar memoriCalendar = new MemoriCalendar();
+	MemoriCalendar memoriCalendar;
 	MemoriParser  memoriParser = new MemoriParser();
 	
 	private static final String WELCOME_MSG = "Welcome to Memori";
@@ -25,7 +25,7 @@ public class Memori {
 			ui.displayToUser(COMMAND_PROMPT);
 			String userInput = ui.takeInput();			
 			MemoriCommand command = memoriParser.parse(userInput);
-			memoriCalendar.execute(command);
+			ui.displayToUser(memoriCalendar.execute(command));
 			ui.displayToUser(memoriCalendar.display());
 			st.saveCalendar(memoriCalendar);
 		}
@@ -33,6 +33,9 @@ public class Memori {
 	
 	public void setup(){
 		memoriCalendar = st.loadCalendar();
+		if(memoriCalendar.equals(null)){
+			memoriCalendar = new MemoriCalendar();
+		}
 		ui.displayToUser(WELCOME_MSG);
 		ui.displayToUser(memoriCalendar.display());
 	}
