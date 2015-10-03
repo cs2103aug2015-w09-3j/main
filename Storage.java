@@ -1,5 +1,5 @@
 package memori;
-
+// sample
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.FileWriter;
@@ -37,30 +37,12 @@ public class Storage {
 	}
 	
 	public void saveCalendar(MemoriCalendar memoriCalendar){
-		if (!file.exists()) {
-			try {
-				file.createNewFile();
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-		}
-		
-		FileWriter writer;
-		try {
-			writer = new FileWriter(file);
-			
-			Gson gson = new GsonBuilder().serializeNulls()
-		 			.setPrettyPrinting()
-					.create();
-			String toWrite = gson.toJson(memoriCalendar);
-			
-			writer.write(toWrite);
-			writer.flush();
-			writer.close();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		FileHandler fh = new FileHandler();
 	
+		Gson gson = new GsonBuilder().serializeNulls()
+		 		.setPrettyPrinting()
+				.create();
+		String fileContent = gson.toJson(memoriCalendar);
+		fh.writeFile("memori.json", fileContent);
 	}
 }
