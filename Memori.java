@@ -33,7 +33,7 @@ public class Memori {
 	
 	public void setup(){
 		memoriCalendar = st.loadCalendar();
-		if(memoriCalendar.equals(null)){
+		if(memoriCalendar == null){
 			memoriCalendar = new MemoriCalendar();
 		}
 		ui.displayToUser(WELCOME_MSG);

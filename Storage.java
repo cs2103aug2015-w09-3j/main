@@ -13,22 +13,11 @@ import com.google.gson.GsonBuilder;
 public class Storage {
 	private File file = new File("memori.json");
 	String fileContents ="";
+	MemoriSettings ms = MemoriSettings.loadMemoriSettings();
+	FileHandler fh = new FileHandler();
 	
 	private void readFile() {
-		try {
-			String line;
-			BufferedReader br = new BufferedReader(new FileReader(file));
-			line = br.readLine();
-			while (line != null) {
-				fileContents += line;
-				line = br.readLine();
-			}
-			br.close();
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+		fileContents = fh.readFile(ms.getFileName());
 	}
 	
 	public MemoriCalendar loadCalendar(){
@@ -43,6 +32,6 @@ public class Storage {
 		 		.setPrettyPrinting()
 				.create();
 		String fileContent = gson.toJson(memoriCalendar);
-		fh.writeFile("memori.json", fileContent);
+		fh.writeFile(ms.getFileName(), fileContent);
 	}
 }
