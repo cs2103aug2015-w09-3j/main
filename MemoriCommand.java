@@ -22,6 +22,8 @@ public class MemoriCommand {
         	 return MemoriCommandType.UPDATE;
         case "DELETE":
              return MemoriCommandType.DELETE;
+        case "READ":
+        	 return MemoriCommandType.READ;
         default:
         	 return MemoriCommandType.INVALID;
 		}

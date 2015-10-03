@@ -23,13 +23,22 @@ public class MemoriEvent {
 	private int internalId;
 	
 	//blank constructor
-	public MemoriEvent(String name, String startString, String endString){
+	public MemoriEvent(String name, String startString, String endString, int internalId){
 		this.name = name;
 		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 		this.start = LocalDate.parse(startString,formatter);
 		this.end = LocalDate.parse(endString,formatter);
+		this.internalId = internalId;
 	}
 	
+	public MemoriEvent(String name,LocalDate start,LocalDate end,int internalId,String externalCalId, String description){
+		this.name = name;
+		this.start = start;
+		this.end = end;
+		this.internalId = internalId;
+		this.externalCalId = externalCalId;
+		this.description = description;
+	}
 	
 	public String getName(){
 		return name;
@@ -54,26 +63,31 @@ public class MemoriEvent {
 	public LocalDate getEnd(){
 		return end;
 	}
-	public MemoriEvent(String name,LocalDate start,LocalDate end,int internalId,String externalCalId, String description){
-		this.name = name;
-		this.start = start;
-		this.end = end;
-		this.internalId = internalId;
-		this.externalCalId = externalCalId;
-		this.description = description;
-	}
+
 	
-	public void update(String name,LocalDate start,LocalDate end,String description){
+	public void update(String name,String startString,String endString,String description){
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");		
 		if(name != null)
 			this.name = name;
-		if(start !=null)
-			this.start = start;
-		if(end != null)
-			this.end = end;
+		if(startString !=null)
+			this.start = LocalDate.parse(startString,formatter);
+		if(endString != null)
+			this.end = LocalDate.parse(endString,formatter);
 		if(description != null)
 			this.description= description;
 	}
 	
+	public String read(){
+		StringBuilder output = new StringBuilder();
+		output.append(this.name);
+		output.append(" ");
+		output.append(start);
+		output.append(" ");
+		output.append(end);
+		output.append(" ");
+		output.append(internalId);
+		return output.toString();
+	}
 	public String display(){
 		StringBuilder output = new StringBuilder();
 		if(this.name.length() > NAMECUTOFF){
