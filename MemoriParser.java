@@ -1,68 +1,58 @@
 package memori;
 
-import java.util.Arrays;
-
 public class MemoriParser {
 	
 	// commandConfig Array indexes
-	private static final int USER_CMD = 0;
-	private static final int USER_ARGS = 1;
-	
-	private static final int NAME = MemoriCommand.NAME;
-	private static final int START = MemoriCommand.START;
-	private static final int END =  MemoriCommand.END;
-	private String[] cmdArgs = new String[3];
-	
+	private static final int COMMAND_TYPE = 0;
+	private static final int FIELDS = 1;
+	private String[] commandConfig = new String[2];
+		
 	public MemoriCommand parse(String userInput) {
 		String[] commandConfig = seperateCommand(userInput);
-		seperateArguements(commandConfig[USER_ARGS]);
-		return new MemoriCommand(commandConfig[USER_CMD],cmdArgs);
+		MemoriCommandType cmdType = determineCommandType(commandConfig[COMMAND_TYPE]);
+		FieldsParser fp = createFieldsParser(cmdType);
+		return fp.parse(cmdType, commandConfig[FIELDS]);
 	}
 	
-	public String seperateArguements(String s){
-		String[] args = s.split(":",2);
-		if(args.length <= 1){
-			return s;
-		}
-		else{
-			String arg = seperateArguements(args[1]);
-			String[] splitted = reverseSplit(args[0]);
-			splitted[0] = splitted[0].toUpperCase();
-		
-			if(splitted[0].equals("NAME"))
-				cmdArgs[NAME] = arg;
-			else if(splitted[0].equals("START"))
-				cmdArgs[START] = arg;
-			else if(splitted[0].equals("END"))
-				cmdArgs[END] = arg;
-			
-			if(splitted.length > 1){
-				return splitted[1];
-			}
-			else{
-				System.out.println(Arrays.toString(cmdArgs));
-				return null;
-			}
+	private FieldsParser createFieldsParser(MemoriCommandType cmdType){
+		switch(cmdType){
+		case ADD:
+			return new AddParser();
+		case UPDATE:
+			return new UpdateParser();
+		case DELETE:
+			return new DeleteParser();
+		case READ:
+			return new ReadParser();
+		default:
+			return null;
 		}
 	}
 	
-	private String[] reverseSplit(String s) {
-		String reverse = new StringBuilder(s).reverse().toString();
-		String[] splitted = reverse.split(" ",2);
-		for(int i=0;i<splitted.length;i++){
-			splitted[i] = new StringBuilder(splitted[i]).reverse().toString();
-		}
-		return splitted;
-	}
-
 	private static String[] seperateCommand(String userInput) {
 		return userInput.split(" ",2);
 	}
 	
+	private MemoriCommandType determineCommandType(String commandTypeString){
+		commandTypeString = commandTypeString.toUpperCase();
+		switch (commandTypeString) {
+        case "ADD":
+            return MemoriCommandType.ADD;
+        case "UPDATE":
+        	 return MemoriCommandType.UPDATE;
+        case "DELETE":
+             return MemoriCommandType.DELETE;
+        case "READ":
+        	 return MemoriCommandType.READ;
+        default:
+        	 return MemoriCommandType.INVALID;
+		}
+	}
+		
+	
 	public static void main(String[] args){
 		MemoriParser parser = new  MemoriParser();
 		String userinput = "name:abc start:tomorrow end:yesterday";
-		parser.seperateArguements(userinput);
 	}
 	
 }

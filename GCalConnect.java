@@ -3,6 +3,8 @@ package memori;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.io.PrintStream;
 import java.util.Arrays;
 import java.util.List;
 
@@ -22,6 +24,7 @@ public class GCalConnect {
 
 	private static final String APPLICATION_NAME = "Google Calendar API Java Quickstart";
 	private static final String CREDENTIALS_LOCATION = "GCalCredentials";
+
 	/** Directory to store user credentials for this application. */
 	private static final java.io.File DATA_STORE_DIR = new java.io.File(CREDENTIALS_LOCATION);
 
@@ -36,6 +39,9 @@ public class GCalConnect {
 
 	/** Global instance of the scopes required by this quickstart. */
 	private static final List<String> SCOPES = Arrays.asList(CalendarScopes.CALENDAR);
+	
+
+
 
 
 	static {
@@ -63,9 +69,10 @@ public class GCalConnect {
 		GoogleAuthorizationCodeFlow flow = new GoogleAuthorizationCodeFlow.Builder(HTTP_TRANSPORT, JSON_FACTORY,
 				clientSecrets, SCOPES).setDataStoreFactory(DATA_STORE_FACTORY).setAccessType("offline").build();
 		Credential credential = new AuthorizationCodeInstalledApp(flow, new LocalServerReceiver()).authorize("user");
-		System.out.println("Credentials saved to " + DATA_STORE_DIR.getAbsolutePath());
 		return credential;
 	}
+	
+	
 
 	/**
 	 * Build and return an authorized Calendar client service.
@@ -74,6 +81,7 @@ public class GCalConnect {
 	 * @throws IOException
 	 */
 	public static com.google.api.services.calendar.Calendar getCalendarService() throws IOException {
+		
 		Credential credential = authorize();
 		return new com.google.api.services.calendar.Calendar.Builder(HTTP_TRANSPORT, JSON_FACTORY, credential)
 				.setApplicationName(APPLICATION_NAME).build();

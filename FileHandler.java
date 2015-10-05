@@ -15,9 +15,12 @@ public class FileHandler {
 		try {
 	
 			String sCurrentLine;
-	
+			File file = new File(filePath);
+			if(!file.exists())
+				return null;
+			
 			br = new BufferedReader(new FileReader(filePath));
-	
+			
 			while ((sCurrentLine = br.readLine()) != null) {
 				output += sCurrentLine;
 			}
@@ -47,8 +50,6 @@ public class FileHandler {
 			BufferedWriter bw = new BufferedWriter(fw);
 			bw.write(content);
 			bw.close();
-
-			System.out.println("Done");
 
 		} catch (IOException e) {
 			e.printStackTrace();

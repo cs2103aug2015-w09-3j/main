@@ -1,7 +1,5 @@
 package memori;
 
-import java.io.File;
-
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
@@ -9,8 +7,8 @@ public class MemoriSettings {
 	private String fileName = "memori.json";
 	private final static String SETTINGS_LOCATION = "settings.json";
 
-	public MemoriSettings(String fileName) {
-		this.fileName = fileName;
+	public MemoriSettings() {
+		writeSettingsFile();
 	}
 	
 	public String getFileName() {
@@ -18,15 +16,18 @@ public class MemoriSettings {
 	}
 	
 	public void changeFilePath(String name){
-		FileHandler fh = new FileHandler();
 		this.fileName = name;
+		writeSettingsFile();
+		
+	}
+	private void writeSettingsFile(){
+		FileHandler fh = new FileHandler();
 		Gson gson = new GsonBuilder().serializeNulls()
 		 		.setPrettyPrinting()
 				.create();
 		String userSettings = gson.toJson(this);
 		fh.writeFile(SETTINGS_LOCATION, userSettings);
 	}
-	
 	public static MemoriSettings loadMemoriSettings() {
 		FileHandler fh = new FileHandler();
 		String settingsJSON= fh.readFile(SETTINGS_LOCATION);
@@ -34,7 +35,7 @@ public class MemoriSettings {
 	}
 	
 	public static void main(String[] args) {
-		MemoriSettings ms = new MemoriSettings("memori1.json");
+		MemoriSettings ms = new MemoriSettings();
 		ms.changeFilePath("memori2.json");
 		MemoriSettings ms2 = MemoriSettings.loadMemoriSettings();
 		System.out.println(ms2.getFileName());

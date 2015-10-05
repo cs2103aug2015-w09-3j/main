@@ -1,11 +1,5 @@
 package memori;
 
-import java.time.LocalDateTime;
-import java.util.Scanner;
-
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-
 public class Memori {
 	private MemoriUI  ui = new MemoriUI();
 	private Storage st = new Storage();

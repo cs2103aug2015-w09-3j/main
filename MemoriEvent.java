@@ -1,11 +1,8 @@
 package memori;
 
-import java.io.IOException;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.Scanner;
+import java.util.Date;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -18,20 +15,11 @@ public class MemoriEvent {
 	private String name;
 	private String description;
 	private String externalCalId;
-	private LocalDate start;
-	private LocalDate end;
+	private Date start;
+	private Date end;
 	private int internalId;
 	
-	//blank constructor
-	public MemoriEvent(String name, String startString, String endString, int internalId){
-		this.name = name;
-		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-		this.start = LocalDate.parse(startString,formatter);
-		this.end = LocalDate.parse(endString,formatter);
-		this.internalId = internalId;
-	}
-	
-	public MemoriEvent(String name,LocalDate start,LocalDate end,int internalId,String externalCalId, String description){
+	public MemoriEvent(String name,Date start,Date end,int internalId,String externalCalId, String description){
 		this.name = name;
 		this.start = start;
 		this.end = end;
@@ -56,23 +44,22 @@ public class MemoriEvent {
 		return internalId;
 	}
 	
-	public LocalDate getStart(){
+	public Date getStart(){
 		return start;
 	}
 	
-	public LocalDate getEnd(){
+	public Date getEnd(){
 		return end;
 	}
 
 	
-	public void update(String name,String startString,String endString,String description){
-		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");		
+	public void update(String name,Date start, Date end, String description){	
 		if(name != null)
 			this.name = name;
-		if(startString !=null)
-			this.start = LocalDate.parse(startString,formatter);
-		if(endString != null)
-			this.end = LocalDate.parse(endString,formatter);
+		if(start !=null)
+			this.start = start;
+		if(end != null)
+			this.end = end;
 		if(description != null)
 			this.description= description;
 	}

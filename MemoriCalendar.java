@@ -32,11 +32,11 @@ public class MemoriCalendar {
 	}
 	
 	public String add(MemoriCommand command){
-		if(maxIdSet = false)
+		if(maxIdSet == false)
 			findMaxId();
 		maxId++;
 		MemoriEvent event = new MemoriEvent(command.getName(),command.getStart(),command.getEnd(),
-									maxId);
+									maxId,"google",command.getDescription());
 		
 		memoriCalendar.add(event);
 		return MESSAGE_ADD;
@@ -87,7 +87,7 @@ public class MemoriCalendar {
 			if(memoriCalendar.isEmpty()){
 				return MESSAGE_EMPTYFILE;
 			}else{
-				int index = Integer.parseInt("1");
+				int index =  command.getIndex();
 				//to implement getIndex in MemoriCommand that returns a String
 				
 				if(memoriCalendar.size() < index){
@@ -107,7 +107,7 @@ public class MemoriCalendar {
 			if(memoriCalendar.isEmpty()){
 				return MESSAGE_EMPTYFILE;
 			}else{
-				int index = Integer.parseInt("1");
+				int index = command.getIndex();
 				
 				if(memoriCalendar.size() < index){
 					return LINE_INDEX_DOES_NOT_EXISTS;

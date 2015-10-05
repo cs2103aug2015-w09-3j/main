@@ -1,17 +1,9 @@
 package memori;
-// sample
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.File;
-import java.io.FileNotFoundException;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
 public class Storage {
-	private File file = new File("memori.json");
 	String fileContents ="";
 	MemoriSettings ms;
 	FileHandler fh = new FileHandler();
@@ -36,6 +28,10 @@ public class Storage {
 	}
 	
 	public MemoriSettings loadSettings() {
-		return ms = MemoriSettings.loadMemoriSettings();
+		ms = MemoriSettings.loadMemoriSettings();
+		if(ms == null){
+			ms = new MemoriSettings();
+		}
+		return ms;
 	}
 }

@@ -1,46 +1,69 @@
 package memori;
 
+import java.util.Date;
+
 public class MemoriCommand {
 	private MemoriCommandType commandType;
 	private String[] commandArgs;
+	private Date start;
+	private Date end;
+	private int index = 0;
+	private int[] indexes;
 	
-	public static final int NAME = 0;
-	public static final int START = 1;
-	public static final int END =  2;
+	public static final int NAME_INDEX = 0;
+	public static final int DESCRIPTION_INDEX = 1;
+	public static final int NUM_STRING_FIELDS = 2;
 	
-	public MemoriCommand(String commandTypeString ,String[] commandArgs){
+	
+	public MemoriCommand(MemoriCommandType commandType,Date start,Date end,String[] commandArgs){
+		this.commandType = commandType;
+		this.start = start;
+		this.end = end;
 		this.commandArgs = commandArgs;
-		commandType = determineCommandType(commandTypeString);
 	}
 	
-	private MemoriCommandType  determineCommandType(String commandTypeString){
-		commandTypeString = commandTypeString.toUpperCase();
-		switch (commandTypeString) {
-        case "ADD":
-            return MemoriCommandType.ADD;
-        case "UPDATE":
-        	 return MemoriCommandType.UPDATE;
-        case "DELETE":
-             return MemoriCommandType.DELETE;
-        case "READ":
-        	 return MemoriCommandType.READ;
-        default:
-        	 return MemoriCommandType.INVALID;
-		}
+	public MemoriCommand(MemoriCommandType commandType,int index){
+		this.commandType = commandType;
+		this.index = index;
 	}
+	
+	
+	public MemoriCommand(MemoriCommandType commandType,Date start,Date end,String[] commandArgs,int index){
+		this.commandType = commandType;
+		this.start = start;
+		this.end = end;
+		this.commandArgs = commandArgs;
+		this.index = index;
+	}
+
 	public MemoriCommandType getType(){
 		return commandType;
 	}
 	
-	public String getStart(){
-		return commandArgs[START];
+	public Date getStart(){
+		return start;
 	}
 	
-	public String getEnd(){
-		return commandArgs[END];
+	public Date getEnd(){
+		return end;
 	}
 	
 	public String getName(){
-		return commandArgs[NAME];
+		return commandArgs[NAME_INDEX];
 	}
+	
+	public String getDescription(){
+		return commandArgs[DESCRIPTION_INDEX];
+	}
+
+	public int getIndex() {
+		// TODO Auto-generated method stub
+		return index;
+	}
+
+	public int[] getIndexes() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	
 }
