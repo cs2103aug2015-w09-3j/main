@@ -13,7 +13,7 @@ import com.google.gson.GsonBuilder;
 public class Storage {
 	private File file = new File("memori.json");
 	String fileContents ="";
-	MemoriSettings ms = MemoriSettings.loadMemoriSettings();
+	MemoriSettings ms;
 	FileHandler fh = new FileHandler();
 	
 	private void readFile() {
@@ -33,5 +33,9 @@ public class Storage {
 				.create();
 		String fileContent = gson.toJson(memoriCalendar);
 		fh.writeFile(ms.getFileName(), fileContent);
+	}
+	
+	public MemoriSettings loadSettings() {
+		return ms = MemoriSettings.loadMemoriSettings();
 	}
 }

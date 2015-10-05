@@ -11,6 +11,7 @@ public class Memori {
 	private Storage st = new Storage();
 	MemoriCalendar memoriCalendar;
 	MemoriParser  memoriParser = new MemoriParser();
+	MemoriSettings memoriSettings;
 	
 	private static final String WELCOME_MSG = "Welcome to Memori";
 	private static final String COMMAND_PROMPT ="command:";
@@ -32,6 +33,7 @@ public class Memori {
 	}
 	
 	public void setup(){
+		memoriSettings = st.loadSettings();
 		memoriCalendar = st.loadCalendar();
 		if(memoriCalendar == null){
 			memoriCalendar = new MemoriCalendar();
