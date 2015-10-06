@@ -1,7 +1,5 @@
 package memori;
 
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.Date;
 
 import com.google.gson.Gson;
