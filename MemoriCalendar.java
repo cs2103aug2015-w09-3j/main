@@ -72,7 +72,7 @@ public class MemoriCalendar {
 			if(memoriCalendar.isEmpty()){
 				return MESSAGE_EMPTYFILE;
 			}else{
-				int index = Integer.parseInt("1");
+				int index = command.getIndex();
 			
 				if(memoriCalendar.size() < index){
 					return LINE_INDEX_DOES_NOT_EXISTS;

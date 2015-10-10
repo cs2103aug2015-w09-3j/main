@@ -3,9 +3,9 @@ package memori;
 public class Memori {
 	private MemoriUI  ui = new MemoriUI();
 	private Storage st = new Storage();
-	MemoriCalendar memoriCalendar;
-	MemoriParser  memoriParser = new MemoriParser();
-	MemoriSettings memoriSettings;
+	private MemoriCalendar memoriCalendar;
+	private MemoriParser  memoriParser = new MemoriParser();
+	private MemoriSettings memoriSettings;
 	
 	private static final String WELCOME_MSG = "Welcome to Memori";
 	private static final String COMMAND_PROMPT ="command:";
