@@ -16,7 +16,14 @@ public class AddParser extends FieldsParser {
 		extractFields(cmdFields);
 		String[] stringFields = extractStrings();
 		Date[] startEnd = extractDates();
+		//*added if there is no name for the add event
+		 if(stringFields[0].equals("")||(cmdFields.length()==0)){
+			
+			return new MemoriCommand();
+		}	
 		return new MemoriCommand(cmdType,startEnd[0],startEnd[1],stringFields);
+			
 	}
+
 
 }

@@ -4,11 +4,15 @@ import java.util.Arrays;
 import java.util.Date;
 
 public abstract class FieldsParser {
-	private static final String[] FIELD_IDENTIFIERS = {"name:","start:","end:","more:"};
+	//change fields
+	private static final String[] FIELD_IDENTIFIERS = {"-n","-s","-e","-l","-d","-p"};
 	private static final int NAME_INDEX = 0;
 	private static final int START_INDEX = 1;
 	private static final int END_INDEX = 2;
-	private static final int DESCRIPTION_INDEX=3;
+	private static final int LOCATION_INDEX = 3;
+	private static final int DESCRIPTION_INDEX = 4;
+	private static final int PRIORITY_INDEX = 5;
+	
 	protected Field[] fields= new Field[FIELD_IDENTIFIERS.length];
 	public abstract MemoriCommand parse(MemoriCommandType cmdType, String fields);
 	
@@ -23,16 +27,24 @@ public abstract class FieldsParser {
 			System.out.println(f);
 		}
 	}
-	
+	//able to extract location and priority
 	protected String[] extractStrings(){
 		String[] strFields = new String[MemoriCommand.NUM_STRING_FIELDS];
+		
 		for(Field f: fields){
 			if(f.getName().equals(FIELD_IDENTIFIERS[NAME_INDEX])){
 				strFields[MemoriCommand.NAME_INDEX] = f.getContent();
 			}
+			else if(f.getName().equals(FIELD_IDENTIFIERS[LOCATION_INDEX])){
+				strFields[MemoriCommand.LOCATION_INDEX] = f.getContent();
+			}
 			else if(f.getName().equals(FIELD_IDENTIFIERS[DESCRIPTION_INDEX])){
 				strFields[MemoriCommand.DESCRIPTION_INDEX] = f.getContent();
 			}
+			else if(f.getName().equals(FIELD_IDENTIFIERS[PRIORITY_INDEX])){
+				strFields[MemoriCommand.PRIORITY_INDEX] = f.getContent();
+			}
+			
 		}
 		return strFields;
 	}
@@ -74,5 +86,5 @@ public abstract class FieldsParser {
 			fields[i].setContent(toExtract.substring(start,end).trim());
 		}
 	}
-	
+
 }

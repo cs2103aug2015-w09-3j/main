@@ -52,7 +52,7 @@ public class MemoriEvent {
 
 	
 	public void update(String name,Date start, Date end, String description){	
-		if(name != null)
+		if(name !="")
 			this.name = name;
 		if(start !=null)
 			this.start = start;

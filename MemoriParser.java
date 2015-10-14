@@ -11,12 +11,16 @@ public class MemoriParser {
 		String[] commandConfig = seperateCommand(userInput);
 		MemoriCommandType cmdType = determineCommandType(commandConfig[COMMAND_TYPE]);
 		FieldsParser fp = createFieldsParser(cmdType);
+		//jayden handles if empty input or no fields added invalid
+		if((userInput.length()==0)||(commandConfig.length==1)){
+			return new MemoriCommand();
+		}
 		return fp.parse(cmdType, commandConfig[FIELDS]);
 	}
 	
 	private FieldsParser createFieldsParser(MemoriCommandType cmdType){
 		switch(cmdType){
-		case ADD:
+		case ADD:		
 			return new AddParser();
 		case UPDATE:
 			return new UpdateParser();
@@ -25,7 +29,8 @@ public class MemoriParser {
 		case READ:
 			return new ReadParser();
 		default:
-			return null;
+			
+			return new InvalidParser();
 		}
 	}
 	

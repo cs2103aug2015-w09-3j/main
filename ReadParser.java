@@ -12,7 +12,7 @@ public class ReadParser extends FieldsParser {
 			int index = Integer.parseInt(fields);
 			return new MemoriCommand(cmdType,index);
 		}catch(NumberFormatException e){
-			return null;
+			return new MemoriCommand();
 		}
 	}
 

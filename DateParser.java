@@ -3,6 +3,7 @@ package memori;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 import java.util.Scanner;
 
 import com.joestelmach.natty.DateGroup;
@@ -41,7 +42,7 @@ public class DateParser {
 				inverted.append(rx);
 				inverted.append(splitted[0]);
 				if (splitted.length > 2) {
-					if (splitted[2].compareTo(splitted[0])< 0) {
+					if (splitted[2].compareTo(splitted[0]) < 0) {
 						inverted.append(rx);
 						inverted.append(splitted[2]);
 					} else {
