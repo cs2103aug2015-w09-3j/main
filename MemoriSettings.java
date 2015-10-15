@@ -5,16 +5,25 @@ import com.google.gson.GsonBuilder;
 
 public class MemoriSettings {
 	private String fileName = "memori.json";
+	private boolean invertMonth =  true;
 	private final static String SETTINGS_LOCATION = "settings.json";
 
 	public String getFileName() {
 		return this.fileName;
 	}
 	
+	public boolean getInvertMonth(){
+		return invertMonth;
+	}
+	
 	public void changeFilePath(String name){
 		this.fileName = name;
 		writeSettingsFile();
 		
+	}
+	
+	public void changeInvertMonth(boolean status ){
+		invertMonth = status;
 	}
 	public void writeSettingsFile(){
 		FileHandler fh = new FileHandler();
