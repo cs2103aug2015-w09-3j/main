@@ -20,6 +20,7 @@ import com.google.api.services.calendar.CalendarScopes;
 
 public class GCalConnect {
 
+	private static final String CLIENT_SECRET_JSON = "/client_secret.json";
 	private static final String APPLICATION_NAME = "Google Calendar API Java Quickstart";
 	private static final String CREDENTIALS_LOCATION = "GCalCredentials";
 
@@ -35,12 +36,8 @@ public class GCalConnect {
 	/** Global instance of the HTTP transport. */
 	private static HttpTransport HTTP_TRANSPORT;
 
-	/** Global instance of the scopes required by this quickstart. */
+	/** Allows Read and Write */
 	private static final List<String> SCOPES = Arrays.asList(CalendarScopes.CALENDAR);
-	
-
-
-
 
 	static {
 		try {
@@ -60,7 +57,7 @@ public class GCalConnect {
 	 */
 	public static Credential authorize() throws IOException {
 		// Load client secrets.
-		InputStream in = GCalConnect.class.getResourceAsStream("/client_secret.json");
+		InputStream in = GCalConnect.class.getResourceAsStream(CLIENT_SECRET_JSON);
 		GoogleClientSecrets clientSecrets = GoogleClientSecrets.load(JSON_FACTORY, new InputStreamReader(in));
 
 		// Build flow and trigger user authorization request.
@@ -69,8 +66,6 @@ public class GCalConnect {
 		Credential credential = new AuthorizationCodeInstalledApp(flow, new LocalServerReceiver()).authorize("user");
 		return credential;
 	}
-	
-	
 
 	/**
 	 * Build and return an authorized Calendar client service.
@@ -78,11 +73,17 @@ public class GCalConnect {
 	 * @return an authorized Calendar client service
 	 * @throws IOException
 	 */
-	public static com.google.api.services.calendar.Calendar getCalendarService() throws IOException {
-		
-		Credential credential = authorize();
-		return new com.google.api.services.calendar.Calendar.Builder(HTTP_TRANSPORT, JSON_FACTORY, credential)
-				.setApplicationName(APPLICATION_NAME).build();
-	}
+	public static com.google.api.services.calendar.Calendar getCalendarService() {
 
+		Credential credential;
+		try {
+			credential = authorize();
+			return new com.google.api.services.calendar.Calendar.Builder(HTTP_TRANSPORT, JSON_FACTORY, credential)
+					.setApplicationName(APPLICATION_NAME).build();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			return null;
+		}
+
+	}
 }

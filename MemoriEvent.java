@@ -8,22 +8,25 @@ import com.google.gson.GsonBuilder;
 public class MemoriEvent {
 	
 	private static final int NAMECUTOFF = 20;
+	public static final int INTERNAL_ID_WILDCARD = -1;
 	private static final String[] ATTRIBUTESNAMES = {"name","start","end","internalId","description","externalCalId",};
 	
 	private String name;
 	private String description;
+	private String location;
 	private String externalCalId;
 	private Date start;
 	private Date end;
 	private int internalId;
 	
-	public MemoriEvent(String name,Date start,Date end,int internalId,String externalCalId, String description){
+	public MemoriEvent(String name,Date start,Date end,int internalId,String externalCalId, String description,String Location){
 		this.name = name;
 		this.start = start;
 		this.end = end;
 		this.internalId = internalId;
 		this.externalCalId = externalCalId;
 		this.description = description;
+		this.location = location;
 	}
 	
 	public String getName(){
@@ -49,16 +52,24 @@ public class MemoriEvent {
 	public Date getEnd(){
 		return end;
 	}
-
+	
+	public String getLocation() {
+		return location;
+	}
+	
+	public void setExternalCalId(String id) {
+		this.externalCalId = id;
+		
+	}
 	
 	public void update(String name,Date start, Date end, String description){	
-		if(name != null)
+		if(!name.isEmpty())
 			this.name = name;
 		if(start !=null)
 			this.start = start;
 		if(end != null)
 			this.end = end;
-		if(description != null)
+		if(!name.isEmpty())
 			this.description= description;
 	}
 	
@@ -124,5 +135,8 @@ public class MemoriEvent {
 				return true;
 		 }
 	}
+
+	
+
 	
 }

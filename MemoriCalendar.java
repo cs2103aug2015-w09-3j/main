@@ -36,7 +36,7 @@ public class MemoriCalendar {
 			findMaxId();
 		maxId++;
 		MemoriEvent event = new MemoriEvent(command.getName(),command.getStart(),command.getEnd(),
-									maxId,"google",command.getDescription());
+									maxId,"google",command.getDescription(), command.getLocation());
 		
 		memoriCalendar.add(event);
 		return MESSAGE_ADD;
