@@ -5,9 +5,23 @@ import com.google.gson.GsonBuilder;
 
 public class MemoriSettings {
 	private String fileName = "memori.json";
+	private String settingsFileName = "settings.json";
 	private boolean invertMonth =  true;
 	private final static String SETTINGS_LOCATION = "settings.json";
+	private static final MemoriSettings INSTANCE = new MemoriSettings();
 
+	private MemoriSettings() {
+
+	}
+	
+	public static MemoriSettings getInstance() {
+		return INSTANCE;
+	}
+	/**
+	public void printSampleMessage(){
+    System.out.println("blank fire");
+  }
+  **/
 	public String getFileName() {
 		return this.fileName;
 	}
@@ -22,9 +36,15 @@ public class MemoriSettings {
 		
 	}
 	
+	public void createSettingsFile(String name){
+		this.settingsFileName = name;
+		writeSettingsFile();
+	}
+	
 	public void changeInvertMonth(boolean status ){
 		invertMonth = status;
 	}
+	
 	public void writeSettingsFile(){
 		FileHandler fh = new FileHandler();
 		Gson gson = new GsonBuilder().serializeNulls()
@@ -33,6 +53,7 @@ public class MemoriSettings {
 		String userSettings = gson.toJson(this);
 		fh.writeFile(SETTINGS_LOCATION, userSettings);
 	}
+	
 	public static MemoriSettings loadMemoriSettings() {
 		FileHandler fh = new FileHandler();
 		String settingsJSON= fh.readFile(SETTINGS_LOCATION);

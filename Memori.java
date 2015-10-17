@@ -5,7 +5,7 @@ public class Memori {
 	private Storage st = new Storage();
 	private MemoriCalendar memoriCalendar;
 	private MemoriParser  memoriParser = new MemoriParser();
-	private MemoriSettings memoriSettings;
+	private MemoriSettings memoriSettings = MemoriSettings.getInstance();
 	
 	private static final String WELCOME_MSG = "Welcome to Memori";
 	private static final String COMMAND_PROMPT ="command:";
@@ -27,6 +27,7 @@ public class Memori {
 	}
 	
 	public void setup(){
+		//memoriSettings.printSampleMessage();
 		memoriSettings = st.loadSettings();
 		memoriCalendar = st.loadCalendar();
 		if(memoriCalendar == null){

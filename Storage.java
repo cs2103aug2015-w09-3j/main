@@ -30,7 +30,8 @@ public class Storage {
 	public MemoriSettings loadSettings() {
 		ms = MemoriSettings.loadMemoriSettings();
 		if(ms == null){
-			ms = new MemoriSettings();
+			ms = ms.getInstance();
+			ms.createSettingsFile("settings.json");
 		}
 		return ms;
 	}
