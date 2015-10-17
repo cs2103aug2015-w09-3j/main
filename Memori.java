@@ -6,6 +6,7 @@ public class Memori {
 	private MemoriCalendar memoriCalendar;
 	private MemoriParser  memoriParser = new MemoriParser();
 	private MemoriSettings memoriSettings = MemoriSettings.getInstance();
+	private GoogleSync googleSync = new GoogleSync();
 	
 	private static final String WELCOME_MSG = "Welcome to Memori";
 	private static final String COMMAND_PROMPT ="command:";
@@ -34,6 +35,8 @@ public class Memori {
 		if(memoriCalendar == null){
 			memoriCalendar = new MemoriCalendar();
 		}
+		googleSync.pullEvents(memoriCalendar);
+		st.saveCalendar(memoriCalendar);
 		ui.displayToUser(WELCOME_MSG);
 		ui.displayToUser(memoriCalendar.display());
 	}
