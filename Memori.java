@@ -5,8 +5,9 @@ public class Memori {
 	private Storage st = new Storage();
 	private MemoriCalendar memoriCalendar;
 	private MemoriParser  memoriParser = new MemoriParser();
+	private GoogleSync googleSync = new GoogleSync();
 	private MemoriSettings memoriSettings;
-	
+		
 	private static final String WELCOME_MSG = "Welcome to Memori";
 	private static final String COMMAND_PROMPT ="command:";
 	
@@ -32,6 +33,8 @@ public class Memori {
 		if(memoriCalendar == null){
 			memoriCalendar = new MemoriCalendar();
 		}
+		googleSync.pullEvents(memoriCalendar);
+		st.saveCalendar(memoriCalendar);
 		ui.displayToUser(WELCOME_MSG);
 		ui.displayToUser(memoriCalendar.display());
 	}

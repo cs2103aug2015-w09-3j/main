@@ -2,48 +2,49 @@ package memori;
 
 import java.io.IOException;
 import java.net.UnknownHostException;
+import java.util.ArrayList;
 import java.util.List;
 
 import com.google.api.client.util.DateTime;
 import com.google.api.services.calendar.model.Event;
-import com.google.api.services.calendar.model.EventDateTime;
+import com.google.api.services.calendar.model.Events;
 
 public class GoogleCRUD {
-	public static final int ADD = 0;
-	public static final int UPDATE = 1;
-	public static final int DELETE = 2;
-	public static final int RETRIEVE = 3;
-	
+	private static final int ADD = 0;
+	private static final int UPDATE = 1;
+	private static final int RETRIEVE = 2;
+	private static final int DELETE = 3;
+
 	private static final String CALENDAR_ID = "primary";
 	private static final String START_TIME = "startTime";
-	private static final int MAX_RESULTS = 10000;
-	private static final DateTime EARLIEST_DATE = new DateTime(0);
+	private static final int MAX_RESULTS = 100000;
+	private static final DateTime EARLIEST_DATE = new DateTime(EventConverter.START_OF_TIME);
 
 	private com.google.api.services.calendar.Calendar googleCalendar;
-	
+
 	public GoogleCRUD(com.google.api.services.calendar.Calendar googleCalendar) {
 		this.googleCalendar = googleCalendar;
 	}
 
-	public boolean executeCmd(MemoriEvent cmd, int mode) {
-		switch (mode) {
+	public boolean executeCmd(MemoriEvent me, MemoriCommand cmd) {
+		switch (cmd.getType()) {
 		case ADD:
-			return addEvent(cmd);
+			return addEvent(me);
 		case UPDATE:
-			return updateEvent(cmd);
+			return updateEvent(me);
 		case DELETE:
-			return deleteEvent(cmd);
+			return deleteEvent(me);
 		default:
 			return false;
 		}
 	}
-	
-	public MemoriEvent retrieveRemote(MemoriEvent me){
+
+	public MemoriEvent retrieveRemote(MemoriEvent me) {
 		try {
 			Event event = new Event();
 			event.setId(me.getExternalCalId());
-			event = executeEvent(event,RETRIEVE);
-			if(event.getStart() == null)
+			event = executeEvent(event, RETRIEVE);
+			if (event.getStart() == null)
 				return null;
 			return EventConverter.toMemori(event);
 		} catch (UnknownHostException e) {
@@ -54,15 +55,18 @@ public class GoogleCRUD {
 			return null;
 		}
 	}
-	
-	public List<Event> retrieveAllEvents() throws IOException , UnknownHostException{
-		com.google.api.services.calendar.model.Events events = googleCalendar.events().list(CALENDAR_ID)
-				.setMaxResults(MAX_RESULTS).setTimeMin(EARLIEST_DATE).setOrderBy(START_TIME).setSingleEvents(true)
-				.execute();
-		return events.getItems();		
-}
 
+	public ArrayList<MemoriEvent> retrieveAllEvents() throws IOException, UnknownHostException {
+		Events events = googleCalendar.events().list("primary").setMaxResults(10000).setOrderBy("startTime")
+				.setSingleEvents(true).execute();
 	
+		List<Event> items = events.getItems();
+		ArrayList<MemoriEvent> remoteCopy =  new ArrayList<MemoriEvent>();
+		for(Event e: items){
+			remoteCopy.add(EventConverter.toMemori(e));
+		}
+		return remoteCopy;
+	}
 
 	private boolean addEvent(MemoriEvent memoriEvent) {
 		Event event = EventConverter.toGoogle(memoriEvent);
@@ -70,7 +74,7 @@ public class GoogleCRUD {
 		try {
 			event = executeEvent(event, ADD);
 			memoriEvent.setExternalCalId(event.getId());
-			System.out.println(event.getHtmlLink());			
+			System.out.println(event.getHtmlLink());
 		} catch (UnknownHostException e) {
 			// TODO Auto-generated catch block
 			return false;
@@ -120,7 +124,7 @@ public class GoogleCRUD {
 		}
 		return true;
 	}
-	
+
 	private Event executeEvent(Event event, int mode) throws IOException, UnknownHostException {
 		switch (mode) {
 		case ADD:

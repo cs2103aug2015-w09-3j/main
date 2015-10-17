@@ -42,8 +42,16 @@ public class EventConverter {
 			return null;
 		String name = ge.getSummary();
 		String description = ge.getDescription();
-		Date start = new Date(ge.getStart().getDateTime().getValue());
-		Date end = new Date(ge.getEnd().getDateTime().getValue());
+		DateTime startDT = ge.getStart().getDateTime();
+		DateTime endDT = ge.getEnd().getDateTime();
+		if(startDT == null){
+			startDT = ge.getStart().getDate();
+		}
+		if(endDT == null){
+			endDT = ge.getEnd().getDate();
+		}
+		Date start = new Date(startDT.getValue());
+		Date end = new Date(endDT.getValue());
 		if(start.equals(START_OF_TIME)){
 			start = null;
 		}
@@ -52,8 +60,9 @@ public class EventConverter {
 		}
 		String location = ge.getLocation();
 		int internalId = MemoriEvent.INTERNAL_ID_WILDCARD;
-		
-		return new MemoriEvent(name,start,end,internalId, description,location, location);
+		MemoriEvent me = new MemoriEvent(name,start,end,internalId, description,location, location);
+		me.setExternalCalId(ge.getId());
+		return me;
 		
 	}
 

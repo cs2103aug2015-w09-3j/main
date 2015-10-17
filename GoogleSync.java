@@ -2,18 +2,19 @@ package memori;
 
 import java.io.IOException;
 import java.net.UnknownHostException;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.Scanner;
 
-import com.google.api.client.util.DateTime;
 import com.google.api.services.calendar.model.Event;
+
+import edu.emory.mathcs.backport.java.util.Collections;
 
 public class GoogleSync {
 
 	private com.google.api.services.calendar.Calendar googleCalendar;
 	private GoogleCRUD crud;
-	private List<Event> eventList;
+	public ArrayList<MemoriEvent> remoteCopy;
 	private boolean isConnected = false;
 
 	public GoogleSync() {
@@ -24,20 +25,22 @@ public class GoogleSync {
 		crud = new GoogleCRUD(googleCalendar);
 
 		try {
-			eventList = crud.retrieveAllEvents();
+			remoteCopy = crud.retrieveAllEvents();
 			isConnected = true;
+			System.out.println("Connected to google Calendar");
 		} catch (UnknownHostException e) {
 			isConnected = false;
+			System.out.println("Not connected to google Calendar");
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		System.out.println("Connected to google Calendar");
+	
 
 	}
 
-	public String executeCommand(MemoriEvent memoriEvent, int mode) {
+	public String executeCommand(MemoriEvent memoriEvent, MemoriCommand cmd) {
 		if (isConnected) {
-			isConnected = crud.executeCmd(memoriEvent, mode);
+			isConnected = crud.executeCmd(memoriEvent,cmd);
 		}
 		return Boolean.toString(isConnected);
 	}
@@ -52,27 +55,47 @@ public class GoogleSync {
 			return null;
 		}
 	}
+	
+	public ArrayList<MemoriEvent> retrieveAll(){
+		try {
+			return crud.retrieveAllEvents();
+		} catch (UnknownHostException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return null;
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return null;
+		}
+		
+	}
 
 	public boolean IsConnected() {
 		return isConnected;
 	}
+	
+	public void pullEvents(MemoriCalendar localCopy){
+		localCopy.sort(MemoriEvent.ExternalIdComparator);
+		ArrayList<MemoriEvent> localEvents = localCopy.getEvents();
+		ArrayList<MemoriEvent> toBeAdded = new ArrayList<MemoriEvent>();
+		for(MemoriEvent e: remoteCopy){
+			if(Collections.binarySearch(localEvents, e,MemoriEvent.ExternalIdComparator) < 0){
+				toBeAdded.add(e);
+			}
+		}
+		for(MemoriEvent e: toBeAdded){
+			localCopy.addRemote(e);
+		}
+		System.out.println("Number of events Added =" + toBeAdded.size());
+	}
 
 	public static void main(String[] args) {
 		GoogleSync gs = new GoogleSync();
-		Date start = null;
-		Date end = null;
-		String[] arg = { "name", "description", "location" };
-		MemoriEvent me = new MemoriEvent(arg[0], start, end, 5,"google", arg[1], arg[2]);
-		//me.setExternalCalId("blank");
-		/*Scanner sc = new Scanner(System.in);
-		sc.next();
-		System.out.println(gs.executeCommand(me, 0));
-		System.out.println(me.getExternalCalId());
-		me.update("testupdate", null, null, null, null);
-		//System.out.println(gs.executeCommand(me, 1));
-		sc.next();
-		System.out.println(gs.executeCommand(me, 2));
-		*/
+		for(MemoriEvent e : gs.remoteCopy){
+			System.out.println(e.display());
+		}
+
 	}
 
 }

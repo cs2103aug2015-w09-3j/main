@@ -1,11 +1,12 @@
 package memori;
 
+import java.util.Comparator;
 import java.util.Date;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
-public class MemoriEvent {
+public class MemoriEvent{
 	
 	private static final int NAMECUTOFF = 20;
 	public static final int INTERNAL_ID_WILDCARD = -1;
@@ -19,7 +20,17 @@ public class MemoriEvent {
 	private Date end;
 	private int internalId;
 	
-	public MemoriEvent(String name,Date start,Date end,int internalId,String externalCalId, String description,String Location){
+	public static Comparator<MemoriEvent> ExternalIdComparator = new Comparator<MemoriEvent>(){
+		public int compare(MemoriEvent me1, MemoriEvent me2){
+			String eID1 = me1.getExternalCalId();
+			String eID2 = me2.getExternalCalId();
+			
+			return eID1.compareTo(eID2);
+		}
+	};
+
+	
+	public MemoriEvent(String name,Date start,Date end,int internalId,String externalCalId, String description,String location){
 		this.name = name;
 		this.start = start;
 		this.end = end;
@@ -59,7 +70,10 @@ public class MemoriEvent {
 	
 	public void setExternalCalId(String id) {
 		this.externalCalId = id;
-		
+	}
+	
+	public void setInternalCalId(int id) {
+		this.internalId = id;
 	}
 	
 	public void update(String name,Date start, Date end, String description){	
@@ -121,15 +135,15 @@ public class MemoriEvent {
 		 }
 		 else{
 			MemoriEvent other = (MemoriEvent) obj;
-			if(this.internalId != other.getInternalId())
-				return false;
-			else if(!this.name.equals(other.getName()))
+			if(!this.name.equals(other.getName()))
 				return false;
 			else if(!this.description.equals(other.getDescription()))
 				return false;
-			else if(!this.start.equals(other.start))
+			else if(!this.start.equals(other.getStart()))
 				return false;
-			else if(!this.end.equals(other.end))
+			else if(!this.end.equals(other.getEnd()))
+				return false;
+			else if(!this.location.equals(other.getLocation()))
 				return false;
 			else
 				return true;
@@ -137,6 +151,5 @@ public class MemoriEvent {
 	}
 
 	
-
 	
 }

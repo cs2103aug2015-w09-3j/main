@@ -1,6 +1,9 @@
 package memori;
 
 import java.util.ArrayList;
+import java.util.Comparator;
+
+import edu.emory.mathcs.backport.java.util.Collections;
 
 public class MemoriCalendar {
 	private static final String MESSAGE_ADD = "Added.\n";
@@ -16,10 +19,18 @@ public class MemoriCalendar {
 	//added location/description/priority
 	private static final String HEADER ="No: Name of Event:    Start:    End:\n";
 	
-	
 	public MemoriCalendar(){
 		memoriCalendar = new ArrayList<MemoriEvent>();
 	}
+	
+	public ArrayList<MemoriEvent> getEvents(){
+		return  memoriCalendar;
+	}
+	
+	public void sort(Comparator<MemoriEvent> comparator){
+		Collections.sort(memoriCalendar, comparator);
+	}
+	
 	private void findMaxId(){
 		for(MemoriEvent e: memoriCalendar){
 			int internalId = e.getInternalId();
@@ -38,6 +49,15 @@ public class MemoriCalendar {
 		MemoriEvent event = new MemoriEvent(command.getName(),command.getStart(),command.getEnd(),
 									maxId,"google",command.getDescription(), command.getLocation());
 		
+		memoriCalendar.add(event);
+		return MESSAGE_ADD;
+	}
+	
+	public String addRemote(MemoriEvent event){
+		if(maxIdSet == false)
+			findMaxId();
+		maxId++;
+		event.setInternalCalId(maxId);
 		memoriCalendar.add(event);
 		return MESSAGE_ADD;
 	}
