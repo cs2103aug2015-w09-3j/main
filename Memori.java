@@ -2,7 +2,7 @@ package memori;
 
 public class Memori {
 	private MemoriUI  ui = new MemoriUI();
-	private Storage st = new Storage();
+	private Storage st = Storage.getInstance();
 	private MemoriCalendar memoriCalendar;
 	private MemoriParser  memoriParser = new MemoriParser();
 	private MemoriSettings memoriSettings = MemoriSettings.getInstance();
@@ -28,6 +28,7 @@ public class Memori {
 	
 	public void setup(){
 		//memoriSettings.printSampleMessage();
+		//st.printSampleMessage();
 		memoriSettings = st.loadSettings();
 		memoriCalendar = st.loadCalendar();
 		if(memoriCalendar == null){
