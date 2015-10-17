@@ -2,12 +2,11 @@ package memori;
 
 public class Memori {
 	private MemoriUI  ui = new MemoriUI();
-	private Storage st = new Storage();
+	private Storage st = Storage.getInstance();
 	private MemoriCalendar memoriCalendar;
 	private MemoriParser  memoriParser = new MemoriParser();
-	private GoogleSync googleSync = new GoogleSync();
-	private MemoriSettings memoriSettings;
-		
+	private MemoriSettings memoriSettings = MemoriSettings.getInstance();
+	
 	private static final String WELCOME_MSG = "Welcome to Memori";
 	private static final String COMMAND_PROMPT ="command:";
 	
@@ -28,13 +27,13 @@ public class Memori {
 	}
 	
 	public void setup(){
+		//memoriSettings.printSampleMessage();
+		//st.printSampleMessage();
 		memoriSettings = st.loadSettings();
 		memoriCalendar = st.loadCalendar();
 		if(memoriCalendar == null){
 			memoriCalendar = new MemoriCalendar();
 		}
-		googleSync.pullEvents(memoriCalendar);
-		st.saveCalendar(memoriCalendar);
 		ui.displayToUser(WELCOME_MSG);
 		ui.displayToUser(memoriCalendar.display());
 	}
