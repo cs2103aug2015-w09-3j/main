@@ -5,7 +5,6 @@ import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.google.api.client.util.DateTime;
 import com.google.api.services.calendar.model.Event;
 import com.google.api.services.calendar.model.Events;
 
@@ -18,7 +17,6 @@ public class GoogleCRUD {
 	private static final String CALENDAR_ID = "primary";
 	private static final String START_TIME = "startTime";
 	private static final int MAX_RESULTS = 100000;
-	private static final DateTime EARLIEST_DATE = new DateTime(EventConverter.START_OF_TIME);
 
 	private com.google.api.services.calendar.Calendar googleCalendar;
 
@@ -57,7 +55,7 @@ public class GoogleCRUD {
 	}
 
 	public ArrayList<MemoriEvent> retrieveAllEvents() throws IOException, UnknownHostException {
-		Events events = googleCalendar.events().list("primary").setMaxResults(10000).setOrderBy("startTime")
+		Events events = googleCalendar.events().list("primary").setMaxResults(MAX_RESULTS).setOrderBy(START_TIME)
 				.setSingleEvents(true).execute();
 	
 		List<Event> items = events.getItems();
