@@ -135,7 +135,8 @@ public class MemoriCalendar {
 				}else{
 					originalEvent = memoriCalendar.get(index - 1);
 					originalEvent.update(command.getName(),
-								command.getStart(), command.getEnd(), "");
+								command.getStart(), command.getEnd(),command.getDescription(),
+								command.getLocation());
 					return String.format(MESSAGE_UPDATE, index);
 				}
 			}
