@@ -72,15 +72,12 @@ public class MemoriCommand {
 		return commandArgs[PRIORITY_INDEX];
 	}
 	public int getIndex() {
-		// TODO Auto-generated method stub
 		return index;
 	}
 
 	public int[] getIndexes() {
-		// TODO Auto-generated method stub
 		return null;
 	}
-	//added ny jayden for logic to get invalid warning
 	public String getInvalidWarning(){
 		return INVALID_WARNING; 
 	}

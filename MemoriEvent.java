@@ -1,5 +1,6 @@
 package memori;
 
+import java.text.SimpleDateFormat;
 import java.util.Comparator;
 import java.util.Date;
 
@@ -7,13 +8,14 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
 public class MemoriEvent {
-
-	private static final int NAMECUTOFF = 20;
 	public static final int INTERNAL_ID_WILDCARD = -1;
-	private static final String[] ATTRIBUTESNAMES = { "name", "start", "end", "internalId", "description",
-			"externalCalId", };
+	public static final int NAME_CUT_OFF = 30;
+	public static final String DATE_FORMAT = "dd/MM/yy hh:mm E";
+	
 	private static final String HEADER_READ = "Name of Event:%1$s\nStart:%2$s\nEnd:%3$s\n"
 			+ "Description:%4$s\nLocation:%5$s\n";
+	private static final String DISPLAY_FORMAT = "%1$s  %2$s  %3$s";
+	private static final SimpleDateFormat DATE_FORMATTER = new SimpleDateFormat(DATE_FORMAT);
 
 	private String name;
 	private String description;
@@ -84,24 +86,47 @@ public class MemoriEvent {
 	}
 
 	public String read() {
-		return String.format(HEADER_READ, name, start, end, description, location);
+		String startString;
+		String endString;
+		if (start == null) {
+			startString = "";
+		} else {
+			startString = DATE_FORMATTER.format(start);
+		}
+		if (end == null) {
+			endString = "";
+		} else {
+			endString = DATE_FORMATTER.format(end);
+		}
+		return String.format(HEADER_READ, name, startString, endString, description, location);
+	}
+
+	private String padRight(String s, int n) {
+		 return String.format("%1$-" + n + "s", s);  
 	}
 
 	public String display() {
-		StringBuilder output = new StringBuilder();
-		if (this.name.length() > NAMECUTOFF) {
-			output.append(this.name.substring(0, NAMECUTOFF - 1));
+		String startString;
+		String endString;
+
+		if (start == null) {
+			startString = padRight("", DATE_FORMAT.length());
+		} else {
+			startString = DATE_FORMATTER.format(start);
+		}
+		if (end == null) {
+			endString = "";
+		} else {
+			endString = DATE_FORMATTER.format(end);
 		}
 
-		else {
-			output.append(this.name);
-			while (output.length() < 20)
-				output.append(" ");
+		String name;
+		if (this.name.length() > NAME_CUT_OFF) {
+			name = this.name.substring(0, NAME_CUT_OFF);
+		} else {
+			name = padRight(this.name, NAME_CUT_OFF);
 		}
-		output.append(start);
-		output.append(" ");
-		output.append(end);
-		return output.toString();
+		return String.format(DISPLAY_FORMAT, name, startString, endString);
 	}
 
 	public String toJson() {
