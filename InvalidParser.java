@@ -8,6 +8,4 @@ public class InvalidParser extends FieldsParser{
 		return new MemoriCommand();
 	}
 
-	
-	
 }

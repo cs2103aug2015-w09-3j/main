@@ -1,10 +1,11 @@
-	package memori;
+package memori;
 
 import java.util.Date;
 
 public class MemoriCommand {
 	private MemoriCommandType commandType;
 	private String[] commandArgs;
+	private Boolean[] memoriFields;
 	private Date start;
 	private Date end;
 	private int index = 0;
@@ -17,39 +18,34 @@ public class MemoriCommand {
 	public static final int NUM_STRING_FIELDS = 4;
 	public static final String INVALID_WARNING = "Not a valid field or Command,please try again";
 	
-	/*MemoriCommand package for add
-	 * 
-	 */
 	public MemoriCommand(MemoriCommandType commandType,Date start,Date end,String[] commandArgs){
 		this.commandType = commandType;
 		this.start = start;
 		this.end = end;
 		this.commandArgs = commandArgs;
 	}
-	/*MemoriCommand package for delete
-	 * 
-	 */
-	public MemoriCommand(MemoriCommandType commandType,int index){
-		this.commandType = commandType;
-		this.index = index;
-	}
-	/*MemoriCommand package for update
-	 * 
-	 */
-	public MemoriCommand(MemoriCommandType commandType,Date start,Date end,String[] commandArgs,int index){
+	
+	public MemoriCommand(MemoriCommandType commandType,Date start
+			,Date end,String[] commandArgs,int index,Boolean[] memoriFields){
 		this.commandType = commandType;
 		this.start = start;
 		this.end = end;
 		this.commandArgs = commandArgs;
 		this.index = index;
+		this.memoriFields = memoriFields;
 	}
-	/*MemoriCommand package for Invalid command or fields
-	 * 
-	 */
+	public MemoriCommand(MemoriCommandType commandType,int index){
+		this.commandType = commandType;
+		this.index = index;
+	}
 	public MemoriCommand(){
-		this.commandType = commandType.INVALID;
+		this.commandType = MemoriCommandType.INVALID;
 	}
-	
+	//new change, for sort
+	public MemoriCommand(MemoriCommandType commandType,Boolean[] memoriFields){
+		this.commandType = commandType;
+		this.memoriFields = memoriFields;
+	}
 	public MemoriCommandType getType(){
 		return commandType;
 	}
@@ -69,7 +65,12 @@ public class MemoriCommand {
 	public String getDescription(){
 		return commandArgs[DESCRIPTION_INDEX];
 	}
-
+	public String getLocation(){
+		return commandArgs[LOCATION_INDEX];
+	}
+	public String getPriority(){
+		return commandArgs[PRIORITY_INDEX];
+	}
 	public int getIndex() {
 		// TODO Auto-generated method stub
 		return index;

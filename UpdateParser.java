@@ -20,7 +20,7 @@ public class UpdateParser extends FieldsParser {
 				String[] stringFields = extractStrings();
 				printFields(stringFields);
 				Date[] startEnd = extractDates();
-				return new MemoriCommand(cmdType,startEnd[0],startEnd[1],stringFields,index);
+				return new MemoriCommand(cmdType,startEnd[0],startEnd[1],stringFields,index,FilledFields);
 			}
 	
 			return new MemoriCommand();

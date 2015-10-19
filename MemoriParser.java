@@ -28,6 +28,11 @@ public class MemoriParser {
 			return new DeleteParser();
 		case READ:
 			return new ReadParser();
+		case SEARCH:
+			return new SearchParser();
+		case SORT:
+			return new SortParser();
+		
 		default:
 			
 			return new InvalidParser();
@@ -49,6 +54,10 @@ public class MemoriParser {
              return MemoriCommandType.DELETE;
         case "READ":
         	 return MemoriCommandType.READ;
+        case "SEARCH":
+        	return MemoriCommandType.SEARCH;
+        case "SORT":
+        	return MemoriCommandType.SORT;
         default:
         	 return MemoriCommandType.INVALID;
 		}

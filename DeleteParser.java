@@ -8,9 +8,9 @@ public class DeleteParser extends FieldsParser {
 	}
 
 	@Override
-	public MemoriCommand parse(MemoriCommandType cmdType, String fields) {
+	public MemoriCommand parse(MemoriCommandType cmdType, String cmdFields) {
 		try{
-			int index = Integer.parseInt(fields);
+			int index = Integer.parseInt(cmdFields);
 			return new MemoriCommand(cmdType,index);
 		}catch(NumberFormatException e){
 			
