@@ -17,11 +17,13 @@ public class MemoriSettings {
 	public static MemoriSettings getInstance() {
 		return INSTANCE;
 	}
+	
 	/**
 	public void printSampleMessage(){
     System.out.println("blank fire");
   }
   **/
+	
 	public String getFileName() {
 		return this.fileName;
 	}

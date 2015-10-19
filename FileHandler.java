@@ -8,7 +8,8 @@ import java.io.FileWriter;
 import java.io.IOException;
 
 public class FileHandler {
-	
+	private static MemoriLogging memoriLogger = null;
+
 	public String readFile(String filePath) {
 		BufferedReader br = null;
 		String output = "";
@@ -26,11 +27,13 @@ public class FileHandler {
 			}
 	
 		} catch (IOException e) {
+			memoriLogger.severeLogging(e.getMessage());
 			e.printStackTrace();
 		} finally {
 			try {
 				if (br != null)br.close();
 			} catch (IOException ex) {
+				memoriLogger.severeLogging(ex.getMessage());
 				ex.printStackTrace();
 			}
 		}
@@ -52,6 +55,7 @@ public class FileHandler {
 			bw.close();
 
 		} catch (IOException e) {
+			memoriLogger.severeLogging(e.getMessage());
 			e.printStackTrace();
 		}
 	}

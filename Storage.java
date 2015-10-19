@@ -7,6 +7,7 @@ public class Storage {
 	private static final String LOG_STORAGE_LOAD_SUCCESS = "Successfully loaded JSON file";
 	private static final String LOG_STORAGE_SAVE_SUCCESS = "Successfully saved JSON file";
 	private static final String LOG_SETTINGS_LOAD_SUCCESS = "Successfully loaded settings file";
+	private static final String SETTINGS_FILE_NAME = "settings.json";
 	private static final Storage storageInstance = new Storage();
 	String fileContents ="";
 	MemoriSettings ms;
@@ -64,7 +65,7 @@ public class Storage {
 		ms = MemoriSettings.loadMemoriSettings();
 		if(ms == null){
 			ms = ms.getInstance();
-			ms.createSettingsFile("settings.json");
+			ms.createSettingsFile(SETTINGS_FILE_NAME);
 		}
 		memoriLogger.infoLogging(LOG_SETTINGS_LOAD_SUCCESS);
 		return ms;
