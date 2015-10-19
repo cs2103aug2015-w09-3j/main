@@ -21,9 +21,11 @@ public class GoogleSync {
 			crud = new GoogleCRUD(googleCalendar);
 
 			try {
+				Long start = System.currentTimeMillis();
 				remoteCopy = crud.retrieveAllEvents();
+				Long end = System.currentTimeMillis();
 				isConnected = true;
-				System.out.println("Connected to google Calendar");
+				System.out.println("Connected to google Calendar " + (end-start) );
 			} catch (UnknownHostException e) {
 				isConnected = false;
 				System.out.println("Not connected to google Calendar");

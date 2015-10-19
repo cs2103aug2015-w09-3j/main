@@ -46,10 +46,8 @@ public class GoogleCRUD {
 				return null;
 			return EventConverter.toMemori(event);
 		} catch (UnknownHostException e) {
-			// TODO Auto-generated catch block
 			return null;
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			return null;
 		}
 	}
@@ -74,10 +72,8 @@ public class GoogleCRUD {
 			memoriEvent.setExternalCalId(event.getId());
 			System.out.println(event.getHtmlLink());
 		} catch (UnknownHostException e) {
-			// TODO Auto-generated catch block
 			return false;
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			return false;
 		}
 		return true;
@@ -98,10 +94,8 @@ public class GoogleCRUD {
 			}
 			System.out.println(event.getHtmlLink());
 		} catch (UnknownHostException e) {
-			// TODO Auto-generated catch block
 			return false;
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			return false;
 		}
 
