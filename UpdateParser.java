@@ -16,15 +16,28 @@ public class UpdateParser extends FieldsParser {
 			if(splitted.length == 2){
 				int index = Integer.parseInt(splitted[0]);
 				extractFields(splitted[1]);
+				printExtract();
 				String[] stringFields = extractStrings();
+				printFields(stringFields);
 				Date[] startEnd = extractDates();
-				System.out.println("index:  " + index);
-				return new MemoriCommand(cmdType,startEnd[0],startEnd[1],stringFields,index);
+				return new MemoriCommand(cmdType,startEnd[0],startEnd[1],stringFields,index,FilledFields);
 			}
-			return null;
+	
+			return new MemoriCommand();
 		}catch(NumberFormatException e){
-			return null;
+			
+			return new MemoriCommand();
 		}
 	}
-
+	public void printExtract(){
+		for(int i=0; i<fields.length; i++){
+			System.out.println("updateFields"+fields[i]);
+		}
+	}
+	public void printFields(String[] stringFields){
+		for(int i = 0;i < stringFields.length; i++){
+			System.out.println(stringFields[i]);
+		}
+		
+	}
 }
