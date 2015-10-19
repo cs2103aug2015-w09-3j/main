@@ -24,7 +24,7 @@ public class MemoriLogging {
 		logger = Logger.getLogger(className);
 		
 		try {		
-			fh = new FileHandler(logFileName, true);
+			fh = new FileHandler(logFileName);
 			logger.addHandler(fh);
 			
 			SimpleFormatter formatter = new SimpleFormatter(); 
