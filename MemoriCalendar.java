@@ -87,6 +87,7 @@ public class MemoriCalendar {
 			}
 		
 	}
+	
 	private String read(MemoriCommand command){
 		MemoriEvent displayText;
 			if(memoriCalendar.isEmpty()){

@@ -30,7 +30,8 @@ public class MemoriEvent{
 	};
 
 	
-	public MemoriEvent(String name,Date start,Date end,int internalId,String externalCalId, String description,String location){
+	public MemoriEvent(String name,Date start,Date end,int internalId,
+			String externalCalId, String description,String location){
 		this.name = name;
 		this.start = start;
 		this.end = end;
