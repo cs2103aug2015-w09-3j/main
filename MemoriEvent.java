@@ -147,19 +147,39 @@ public class MemoriEvent {
 			return false;
 		} else {
 			MemoriEvent other = (MemoriEvent) obj;
-			if (!this.name.equals(other.getName()))
+			if (!this.name.equals(other.getName())){
+				System.out.println("name false");
 				return false;
-			else if (!this.description.equals(other.getDescription()))
+			}	
+			else if (!Compare(this.description, other.getDescription())){
+				System.out.println(this.description);
+				System.out.println(other.description);
 				return false;
-			else if (!this.start.equals(other.getStart()))
+			}
+			else if (!Compare(this.start, other.getStart())){
+				System.out.println(this.start);
+				System.out.println(other.start);
+				System.out.println("start false");
 				return false;
-			else if (!this.end.equals(other.getEnd()))
+			}
+			else if (!Compare(this.end,other.getEnd())){
+				System.out.println("end false");
 				return false;
-			else if (!this.location.equals(other.getLocation()))
+			}
+			else if (!Compare(this.location,other.getLocation()))
 				return false;
 			else
 				return true;
 		}
+	}
+	
+	private static <T> boolean Compare(T item1, T item2){
+		if(item1 ==null && item2 == null)
+			return true;
+		else if(item1 == null && item2 != null || item2 == null && item1 !=null)
+			return false;
+		else
+			return item1.equals(item2);
 	}
 
 	public static Comparator<MemoriEvent> internalIdComparator = new Comparator<MemoriEvent>() {
