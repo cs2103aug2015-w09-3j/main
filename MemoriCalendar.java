@@ -17,15 +17,15 @@ public class MemoriCalendar {
 	private static final String START_HEADER = "Start: ";
 	private static final String END_HEADER = "End: ";
 	private static final String DISPLAY_FORMAT = "%1$s %2$s  %3$s    %4$s\n";
+	
 	private ArrayList<MemoriEvent> memoriCalendar;
 	private int maxId = 0;
 	private boolean maxIdSet = false;
-	// added location/description/priority
 
 	public MemoriCalendar() {
-		memoriCalendar = new ArrayList<MemoriEvent>();
+		this.memoriCalendar = new ArrayList<MemoriEvent>();
 	}
-
+	
 	public ArrayList<MemoriEvent> getEvents() {
 		return memoriCalendar;
 	}
@@ -43,17 +43,6 @@ public class MemoriCalendar {
 
 		}
 		maxIdSet = true;
-	}
-
-	public String add(MemoriCommand command) {
-		if (maxIdSet == false)
-			findMaxId();
-		maxId++;
-		MemoriEvent event = new MemoriEvent(command.getName(), command.getStart(), command.getEnd(), maxId, "google",
-				command.getDescription(), command.getLocation());
-
-		memoriCalendar.add(event);
-		return MESSAGE_ADD;
 	}
 
 	public String addRemote(MemoriEvent event) {
@@ -84,20 +73,33 @@ public class MemoriCalendar {
 		return String.format("%1$-" + n + "s", s);
 	}
 
-	public String execute(MemoriCommand command) {
+	public String execute(MemoriCommand command, GoogleSync googleSync) {
 		switch (command.getType()) {
 		case ADD:
-			return add(command);
+			return add(command,googleSync);
 		case UPDATE:
-			return update(command);
+			return update(command,googleSync);
 		case DELETE:
-			return delete(command);
+			return delete(command,googleSync);
 		case READ:
 			return read(command);
 		default:
 			return "invalid";
 		}
 
+	}
+	
+	public String add(MemoriCommand command, GoogleSync googleSync) {
+		if (maxIdSet == false)
+			findMaxId();
+		maxId++;
+		MemoriEvent event = new MemoriEvent(command.getName(), command.getStart(), command.getEnd(), maxId, "google",
+				command.getDescription(), command.getLocation());
+
+		memoriCalendar.add(event);
+		googleSync.executeCommand(event, command);
+		
+		return MESSAGE_ADD;
 	}
 
 	private String read(MemoriCommand command) {
@@ -116,8 +118,8 @@ public class MemoriCalendar {
 		}
 	}
 
-	private String delete(MemoriCommand command) {
-		MemoriEvent deleteText;
+	private String delete(MemoriCommand command, GoogleSync googleSync) {
+		MemoriEvent event;
 		if (memoriCalendar.isEmpty()) {
 			return MESSAGE_EMPTYFILE;
 		} else {
@@ -127,16 +129,17 @@ public class MemoriCalendar {
 			if (memoriCalendar.size() < index) {
 				return LINE_INDEX_DOES_NOT_EXISTS;
 			} else {
-				deleteText = memoriCalendar.get(index - 1);
+				event = memoriCalendar.get(index - 1);
 				memoriCalendar.remove(index - 1);
-				return String.format(MESSAGE_DELETE, deleteText);
+				googleSync.executeCommand(event, command);
+				return String.format(MESSAGE_DELETE);
 			}
 
 		}
 
 	}
 
-	private String update(MemoriCommand command) {
+	private String update(MemoriCommand command, GoogleSync googleSync) {
 		MemoriEvent originalEvent;
 		if (memoriCalendar.isEmpty()) {
 			return MESSAGE_EMPTYFILE;
@@ -149,6 +152,7 @@ public class MemoriCalendar {
 				originalEvent = memoriCalendar.get(index - 1);
 				originalEvent.update(command.getName(), command.getStart(), command.getEnd(), command.getDescription(),
 						command.getLocation());
+				googleSync.executeCommand(originalEvent, command);
 				return String.format(MESSAGE_UPDATE, index);
 			}
 		}

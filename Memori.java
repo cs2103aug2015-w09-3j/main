@@ -21,7 +21,7 @@ public class Memori {
 			ui.displayToUser(COMMAND_PROMPT);
 			String userInput = ui.takeInput();			
 			MemoriCommand command = memoriParser.parse(userInput);
-			ui.displayToUser(memoriCalendar.execute(command));
+			ui.displayToUser(memoriCalendar.execute(command, googleSync));
 			ui.displayToUser(memoriCalendar.display());
 			st.saveCalendar(memoriCalendar);
 		}

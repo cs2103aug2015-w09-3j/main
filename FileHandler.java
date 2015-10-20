@@ -14,24 +14,25 @@ public class FileHandler {
 		BufferedReader br = null;
 		String output = "";
 		try {
-	
+
 			String sCurrentLine;
 			File file = new File(filePath);
-			if(!file.exists())
+			if (!file.exists())
 				return null;
-			
+
 			br = new BufferedReader(new FileReader(filePath));
-			
+
 			while ((sCurrentLine = br.readLine()) != null) {
 				output += sCurrentLine;
 			}
-	
+
 		} catch (IOException e) {
 			memoriLogger.severeLogging(e.getMessage());
 			e.printStackTrace();
 		} finally {
 			try {
-				if (br != null)br.close();
+				if (br != null)
+					br.close();
 			} catch (IOException ex) {
 				memoriLogger.severeLogging(ex.getMessage());
 				ex.printStackTrace();
@@ -39,7 +40,7 @@ public class FileHandler {
 		}
 		return output;
 	}
-	
+
 	public void writeFile(String filePath, String content) {
 		try {
 			File file = new File(filePath);
@@ -59,11 +60,11 @@ public class FileHandler {
 			e.printStackTrace();
 		}
 	}
-	
+
 	public static void main(String[] args) {
 		FileHandler fh = new FileHandler();
 		fh.writeFile("/Users/WenTjun/workspace/Memori/testtest.txt", "aaaa");
 		System.out.println(fh.readFile("test.txt"));
 	}
-	
+
 }

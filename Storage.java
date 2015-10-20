@@ -9,23 +9,23 @@ public class Storage {
 	private static final String LOG_SETTINGS_LOAD_SUCCESS = "Successfully loaded settings file";
 	private static final String SETTINGS_FILE_NAME = "settings.json";
 	private static final Storage storageInstance = new Storage();
-	String fileContents ="";
+	String fileContents = "";
 	MemoriSettings ms;
 	FileHandler fh = new FileHandler();
 	private static MemoriLogging memoriLogger = null;
-	
+
 	private Storage() {
-		
+
 	}
-	
+
 	public static Storage getInstance() {
 		if (memoriLogger == null) {
 			storageInstance.initializeLog();
 		}
-		
+
 		return storageInstance;
 	}
-	
+
 	public boolean initializeLog() {
 		try {
 			memoriLogger = MemoriLogging.getInstance(Storage.class.getName());
@@ -35,35 +35,33 @@ public class Storage {
 			return false;
 		}
 	}
+
 	/**
-	public void printSampleMessage() {
-    System.out.println("blank fire");
-  }
-	**/
+	 * public void printSampleMessage() { System.out.println("blank fire"); }
+	 **/
 	private void readFile() {
 		fileContents = fh.readFile(ms.getFileName());
 	}
-	
-	public MemoriCalendar loadCalendar(){
+
+	public MemoriCalendar loadCalendar() {
+
 		readFile();
 		memoriLogger.infoLogging(LOG_STORAGE_LOAD_SUCCESS);
 		return new Gson().fromJson(fileContents, MemoriCalendar.class);
 	}
-	
-	public void saveCalendar(MemoriCalendar memoriCalendar){
+
+	public void saveCalendar(MemoriCalendar memoriCalendar) {
 		FileHandler fh = new FileHandler();
-	
-		Gson gson = new GsonBuilder().serializeNulls()
-		 		.setPrettyPrinting()
-				.create();
+
+		Gson gson = new GsonBuilder().serializeNulls().setPrettyPrinting().create();
 		String fileContent = gson.toJson(memoriCalendar);
 		fh.writeFile(ms.getFileName(), fileContent);
 		memoriLogger.infoLogging(LOG_STORAGE_SAVE_SUCCESS);
 	}
-	
+
 	public MemoriSettings loadSettings() {
 		ms = MemoriSettings.loadMemoriSettings();
-		if(ms == null){
+		if (ms == null) {
 			ms = ms.getInstance();
 			ms.createSettingsFile(SETTINGS_FILE_NAME);
 		}
