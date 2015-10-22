@@ -42,6 +42,20 @@ public class MemoriLogging {
 		}
 	}
 	
+	public boolean closeLog(){
+		try{
+			if(fh != null){
+				fh.close();
+				fh = null;
+			}
+			return true;
+		}catch (Exception e) {
+			severeLogging(e.getMessage());
+			e.printStackTrace();
+			return false;
+		}
+	}
+	
 	//The highest value; intended for extremely important messages (e.g. fatal program errors).
 	public boolean severeLogging(String msg){
 		if(logger != null){

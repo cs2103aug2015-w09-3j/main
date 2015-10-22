@@ -1,6 +1,8 @@
 package memori;
 
+
 public class Memori {
+	private MemoriLock memoriLock = new MemoriLock();
 	private MemoriUI  ui = new MemoriUI();
 	private Storage st = Storage.getInstance();
 	private MemoriCalendar memoriCalendar;
