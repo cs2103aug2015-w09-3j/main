@@ -14,8 +14,7 @@ public class MemoriCommand {
 	public static final int NAME_INDEX = 0;
 	public static final int LOCATION_INDEX = 1;
 	public static final int DESCRIPTION_INDEX = 2;
-	public static final int PRIORITY_INDEX = 3;
-	public static final int NUM_STRING_FIELDS = 4;
+	public static final int NUM_STRING_FIELDS = 3;
 	public static final String INVALID_WARNING = "Not a valid field or Command,please try again";
 	
 	public MemoriCommand(MemoriCommandType commandType,Date start,Date end,String[] commandArgs){
@@ -68,15 +67,15 @@ public class MemoriCommand {
 	public String getLocation(){
 		return commandArgs[LOCATION_INDEX];
 	}
-	public String getPriority(){
-		return commandArgs[PRIORITY_INDEX];
-	}
 	public int getIndex() {
 		return index;
 	}
 
 	public int[] getIndexes() {
 		return null;
+	}
+	public Boolean[] getMemoriField(){
+		return memoriFields;
 	}
 	public String getInvalidWarning(){
 		return INVALID_WARNING; 

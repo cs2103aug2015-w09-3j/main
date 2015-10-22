@@ -12,7 +12,9 @@ import com.joestelmach.natty.Parser;
 public class DateParser {
 	private static boolean invertMonth = true;
 	public static final String[] regex = { "/", "-" };
-
+	private static String STANDARD_TIME = "9:00 am";
+	private static String EXPLICIT_TIME = "EXPLICIT_DATE";
+	private static String RELATIVE_TIME = "RELATIVE_TIME";
 	public static void setInvert(boolean status) {
 		invertMonth = status;
 	}
@@ -25,7 +27,18 @@ public class DateParser {
 		List<Date> dateList = new ArrayList<Date>();
 		List<DateGroup> groups = parser.parse(dateToParse);
 		if (!groups.isEmpty()) {
+			
 			DateGroup dg = groups.get(0);
+			String SyntaxTree = dg.getSyntaxTree().toStringTree();
+			// new added
+			if((!SyntaxTree.contains(EXPLICIT_TIME))||(!SyntaxTree.contains(RELATIVE_TIME))){
+	
+				String newDate = STANDARD_TIME.concat(dateToParse);
+				groups = parser.parse(newDate);
+				dg = groups.get(0);
+	
+			}
+			
 			dateList.addAll(dg.getDates());
 			return dateList.get(0);
 		}

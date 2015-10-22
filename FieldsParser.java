@@ -5,13 +5,13 @@ import java.util.Date;
 
 public abstract class FieldsParser {
 	//** change from private to protected
-	protected static final String[] FIELD_IDENTIFIERS = {"-n","-s","-e","-l","-d","-p"};
+	protected static final String[] FIELD_IDENTIFIERS = {"-n","-s","-e","-l","-d"};
 	protected static final int NAME_INDEX = 0;
 	protected static final int START_INDEX = 1;
 	protected static final int END_INDEX = 2;
 	protected static final int LOCATION_INDEX = 3;
 	protected static final int DESCRIPTION_INDEX = 4;
-	protected static final int PRIORITY_INDEX = 5;
+	
 	
 	protected Boolean[] FilledFields = new Boolean[FIELD_IDENTIFIERS.length];
 	protected Field[] fields= new Field[FIELD_IDENTIFIERS.length];
@@ -46,10 +46,7 @@ public abstract class FieldsParser {
 				strFields[MemoriCommand.DESCRIPTION_INDEX] = f.getContent();
 				FilledFields[DESCRIPTION_INDEX] = true;
 			}
-			else if(f.getName().equals(FIELD_IDENTIFIERS[PRIORITY_INDEX])){
-				strFields[MemoriCommand.PRIORITY_INDEX] = f.getContent();
-				FilledFields[PRIORITY_INDEX] = true;
-			}
+		
 			
 		}
 		return strFields;
@@ -94,5 +91,35 @@ public abstract class FieldsParser {
 			fields[i].setContent(toExtract.substring(start,end).trim());
 		}
 	}
+	//filled up the first entered field
+	public void updateFilledFields(){
+		
+		for(int i = 0;i < fields.length;i++){
+			
+			if(fields[i].getIndexInString()!=-1){
+				if(fields[i].getName().equals(FIELD_IDENTIFIERS[NAME_INDEX])){
+					FilledFields[NAME_INDEX] = true;
+					return;
+				}
+				if(fields[i].getName().equals(FIELD_IDENTIFIERS[START_INDEX])){
+					FilledFields[START_INDEX] = true;
+					return;
+				}
+				if(fields[i].getName().equals(FIELD_IDENTIFIERS[END_INDEX])){
+					FilledFields[END_INDEX] = true;
+					return;
+				}
+				if(fields[i].getName().equals(FIELD_IDENTIFIERS[LOCATION_INDEX])){
+					FilledFields[LOCATION_INDEX] = true;
+					return;
+				}
+				else{
+					FilledFields[DESCRIPTION_INDEX] = true;
+					return;
+				}
+			}
+		}
+	}
+
 
 }

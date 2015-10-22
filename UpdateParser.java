@@ -16,9 +16,7 @@ public class UpdateParser extends FieldsParser {
 			if(splitted.length == 2){
 				int index = Integer.parseInt(splitted[0]);
 				extractFields(splitted[1]);
-				printExtract();
-				String[] stringFields = extractStrings();
-				printFields(stringFields);
+				String[] stringFields = extractStrings(); 
 				Date[] startEnd = extractDates();
 				return new MemoriCommand(cmdType,startEnd[0],startEnd[1],stringFields,index,FilledFields);
 			}

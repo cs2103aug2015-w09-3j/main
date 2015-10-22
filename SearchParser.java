@@ -11,7 +11,8 @@ public class SearchParser extends FieldsParser {
 		String[] stringFields = new String[4];
 		stringFields[0] = cmdFields;
 		return new MemoriCommand(cmdType,date,date,stringFields); 
-		
+		//must add in FieldFilles
+		//must find the first index through the toExtract method
 	}
 	
 }
