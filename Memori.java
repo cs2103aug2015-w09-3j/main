@@ -23,15 +23,14 @@ public class Memori {
 			ui.displayToUser(COMMAND_PROMPT);
 			String userInput = ui.takeInput();			
 			MemoriCommand command = memoriParser.parse(userInput);
-			ui.displayToUser(memoriCalendar.execute(command, googleSync));
+			String ack = memoriCalendar.execute(command, googleSync);
 			ui.displayToUser(memoriCalendar.display());
+			ui.displayToUser(ack);
 			st.saveCalendar(memoriCalendar);
 		}
 	}
 	
-	public void setup(){
-		//memoriSettings.printSampleMessage();
-		//st.printSampleMessage();
+	public void setup() {
 		memoriSettings = st.loadSettings();
 		memoriCalendar = st.loadCalendar();
 		if(memoriCalendar == null){

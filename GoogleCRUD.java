@@ -15,7 +15,6 @@ public class GoogleCRUD {
 	private static final int DELETE = 3;
 
 	private static final String CALENDAR_ID = "primary";
-	private static final String START_TIME = "startTime";
 	private static final int MAX_RESULTS = 100000;
 
 	private com.google.api.services.calendar.Calendar googleCalendar;
@@ -53,9 +52,7 @@ public class GoogleCRUD {
 	}
 
 	public ArrayList<MemoriEvent> retrieveAllEvents() throws IOException, UnknownHostException {
-		Events events = googleCalendar.events().list("primary").setMaxResults(MAX_RESULTS).setOrderBy(START_TIME)
-				.setSingleEvents(true).execute();
-	
+		Events events = googleCalendar.events().list(CALENDAR_ID).setMaxResults(MAX_RESULTS).execute();
 		List<Event> items = events.getItems();
 		ArrayList<MemoriEvent> remoteCopy =  new ArrayList<MemoriEvent>();
 		for(Event e: items){

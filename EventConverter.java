@@ -7,16 +7,7 @@ import com.google.api.services.calendar.model.Event;
 import com.google.api.services.calendar.model.EventDateTime;
 
 public class EventConverter {
-	
-	private static final String NAME = "NAME";
-	private static final String DESCRIPTION = "DESCRIPTION";
-	private static final String LOCATION = "LOCATION";
-	private static final String EID = "EID";
-	private static final Date START = new Date(0);
-	private static final Date END = new Date(0);
-	private static final int INTERNAL_ID = 0;
-
-	
+	private static final String UNNAMED = "Unnamed Google Event";
 	public static final Date END_OF_TIME = new Date(9999999999999L);
 	public static final Date START_OF_TIME = new Date(-9999999999999L);
 	
@@ -50,6 +41,9 @@ public class EventConverter {
 		if(ge == null)
 			return null;
 		String name = ge.getSummary();
+		if(name == null){
+			name = UNNAMED;
+		}
 		String description = ge.getDescription();
 		DateTime startDT = ge.getStart().getDateTime();
 		DateTime endDT = ge.getEnd().getDateTime();
@@ -75,20 +69,4 @@ public class EventConverter {
 		return me;
 		
 	}
-	
-	public static void main(String[] args){
-		MemoriEvent me = new MemoriEvent(NAME, START, END, INTERNAL_ID, EID, DESCRIPTION, LOCATION);
-		Event ge = new Event();
-		ge.setSummary(NAME);
-		DateTime temp = new DateTime(START);
-		ge.setStart(new EventDateTime().setDateTime(temp));
-		temp = new DateTime(END);
-		ge.setEnd(new EventDateTime().setDateTime(temp));
-		ge.setId(EID);
-		ge.setDescription(DESCRIPTION);
-		ge.setLocation(LOCATION);
-		MemoriEvent converted = EventConverter.toMemori(ge);
-		System.out.println(me.equals(converted));
-	}
-
 }
