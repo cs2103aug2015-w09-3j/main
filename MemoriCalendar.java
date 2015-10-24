@@ -20,13 +20,11 @@ public class MemoriCalendar {
 	private static final String DISPLAY_FORMAT = "%1$s %2$s  %3$s    %4$s\n";
 	
 	private ArrayList<MemoriEvent> memoriCalendar;
-	private ArrayList<MemoriEvent> searchedList;
 	private int maxId = 0;
 	private boolean maxIdSet = false;
 
 	public MemoriCalendar() {
 		this.memoriCalendar = new ArrayList<MemoriEvent>();
-		this.searchedList = new ArrayList<MemoriEvent>();
 	}
 	
 	
@@ -60,6 +58,7 @@ public class MemoriCalendar {
 	}
 	
 	private String search(MemoriCommand command, GoogleSync googleSync){
+		ArrayList<MemoriEvent> outputList = new ArrayList<MemoriEvent>();
 		String text = command.getName();
 		MemoriEvent taskLine;
 		MemoriEvent displayText;
@@ -71,31 +70,31 @@ public class MemoriCalendar {
 			if(command.getStart() != null){
 				if(command.getStart() == taskLine.getStart()){
 					displayText = memoriCalendar.get(i);
-					searchedList.add(displayText);
+					outputList.add(displayText);
 				}
 			}else{
 				if(command.getEnd() != null){
 					if(command.getEnd() == taskLine.getEnd()){
 						displayText = memoriCalendar.get(i);
-						searchedList.add(displayText);
+						outputList.add(displayText);
 					}
 				}else{
 					if((name.contains(text)) || (description.contains(text))
 							|| (location.contains(text))){
 						displayText = memoriCalendar.get(i);
-						searchedList.add(displayText);
+						outputList.add(displayText);
 					}
 				}
 			}
 			
 		}
 		
-		if(!searchedList.isEmpty()){
+		if(!outputList.isEmpty()){
 			String paddedNameHeader = padRight(NAME_HEADER, MemoriEvent.NAME_CUT_OFF);
 			String paddedStartHeader = padRight(START_HEADER, MemoriEvent.DATE_FORMAT.length());
 			String output = String.format(DISPLAY_FORMAT, INDEX_HEADER, paddedNameHeader, paddedStartHeader, END_HEADER);
 			int i = 1;
-			for (MemoriEvent e : searchedList) {
+			for (MemoriEvent e : outputList) {
 				String index = padRight(Integer.toString(i), INDEX_HEADER.length());
 				output += index + " " + e.display() + "\n";
 				i++;
