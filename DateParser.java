@@ -1,18 +1,20 @@
 package memori;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
-import java.util.Map;
 import java.util.Scanner;
 
 import com.joestelmach.natty.DateGroup;
 import com.joestelmach.natty.Parser;
 
 public class DateParser {
-	private static boolean invertMonth = true;
+	private static boolean invertMonth = MemoriSettings.getInstance().getInvertMonth();
 	public static final String[] regex = { "/", "-" };
-	private static String STANDARD_TIME = "9:00 am";
+	private static int STANDARD_HOUR = 9;
+	private static int STANDARD_MIN = 0;
+	private static int STANDARD_SEC = 0;
 	private static String EXPLICIT_TIME = "EXPLICIT_TIME";
 	private static String RELATIVE_TIME = "RELATIVE_TIME";
 	public static void setInvert(boolean status) {
@@ -29,17 +31,20 @@ public class DateParser {
 		if (!groups.isEmpty()) {
 			
 			DateGroup dg = groups.get(0);
-			String SyntaxTree = dg.getSyntaxTree().toStringTree();
-			// new added
-			if((!SyntaxTree.contains(EXPLICIT_TIME))||(!SyntaxTree.contains(RELATIVE_TIME))){
+			String syntaxTree = dg.getSyntaxTree().toStringTree();
+			System.out.println(syntaxTree);
+			dateList.addAll(dg.getDates());
+			if((!syntaxTree.contains(EXPLICIT_TIME))||(!syntaxTree.contains(RELATIVE_TIME))){
 	
-				String newDate = STANDARD_TIME.concat(dateToParse);
-				groups = parser.parse(newDate);
-				dg = groups.get(0);
-	
+				Calendar calendar =  Calendar.getInstance();
+				calendar.setTime(dateList.get(0));
+				calendar.set(Calendar.HOUR_OF_DAY, STANDARD_HOUR);
+				calendar.set(Calendar.MINUTE, STANDARD_MIN);
+				calendar.set(Calendar.SECOND, STANDARD_SEC);
+				return  calendar.getTime();
 			}
 			
-			dateList.addAll(dg.getDates());
+			
 			return dateList.get(0);
 		}
 		return null;

@@ -10,7 +10,7 @@ import com.google.gson.GsonBuilder;
 public class MemoriEvent {
 	public static final int INTERNAL_ID_WILDCARD = -1;
 	public static final int NAME_CUT_OFF = 30;
-	public static final String DATE_FORMAT = "dd MMM yy HH:mm E";
+	public static final String DATE_FORMAT = "dd MMM yyyy HH:mm E";
 	
 	private static final String HEADER_READ = "Name of Event:%1$s\nStart:%2$s\nEnd:%3$s\n"
 			+ "Description:%4$s\nLocation:%5$s\n";
@@ -193,10 +193,10 @@ public class MemoriEvent {
 
 	public static Comparator<MemoriEvent> nameComparator = new Comparator<MemoriEvent>() {
 		public int compare(MemoriEvent me1, MemoriEvent me2) {
-			String eID1 = me1.getExternalCalId();
-			String eID2 = me2.getExternalCalId();
+			String eID1 = me1.getName();
+			String eID2 = me2.getName();
 
-			return eID1.compareTo(eID2);
+			return eID1.toUpperCase().compareTo(eID2.toUpperCase());
 		}
 	};
 
