@@ -13,7 +13,7 @@ public class DateParser {
 	private static boolean invertMonth = true;
 	public static final String[] regex = { "/", "-" };
 	private static String STANDARD_TIME = "9:00 am";
-	private static String EXPLICIT_TIME = "EXPLICIT_DATE";
+	private static String EXPLICIT_TIME = "EXPLICIT_TIME";
 	private static String RELATIVE_TIME = "RELATIVE_TIME";
 	public static void setInvert(boolean status) {
 		invertMonth = status;
