@@ -10,7 +10,7 @@ import com.google.gson.GsonBuilder;
 public class MemoriEvent {
 	public static final int INTERNAL_ID_WILDCARD = -1;
 	public static final int NAME_CUT_OFF = 30;
-	public static final String DATE_FORMAT = "dd/MMM/yy HH:mm E";
+	public static final String DATE_FORMAT = "dd MMM yy HH:mm E";
 	
 	private static final String HEADER_READ = "Name of Event:%1$s\nStart:%2$s\nEnd:%3$s\n"
 			+ "Description:%4$s\nLocation:%5$s\n";
@@ -110,7 +110,7 @@ public class MemoriEvent {
 		String endString;
 
 		if (start == null) {
-			startString = padRight("", DATE_FORMAT.length());
+			startString = padRight("", DATE_FORMAT.length() +2 );
 		} else {
 			startString = DATE_FORMATTER.format(start);
 		}

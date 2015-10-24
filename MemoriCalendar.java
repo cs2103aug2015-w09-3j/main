@@ -6,7 +6,7 @@ import java.util.Comparator;
 import edu.emory.mathcs.backport.java.util.Collections;
 
 public class MemoriCalendar {
-	private static final String MESSAGE_ADD = "Added.\n";
+	private static final String MESSAGE_ADD = "Event Added.\n";
 	private static final String MESSAGE_DELETE = "Deleted.\n";
 	private static final String MESSAGE_UPDATE = "Updated: \n";
 	private static final String MESSAGE_READ = "Reading: \n";
@@ -53,18 +53,22 @@ public class MemoriCalendar {
 		memoriCalendar.add(event);
 		return MESSAGE_ADD;
 	}
-	// What about priority/location? What is the difference between internalId
-	// and externalId?
 
 	public String display() {
 		String paddedNameHeader = padRight(NAME_HEADER, MemoriEvent.NAME_CUT_OFF);
 		String paddedStartHeader = padRight(START_HEADER, MemoriEvent.DATE_FORMAT.length());
 		String output = String.format(DISPLAY_FORMAT, INDEX_HEADER, paddedNameHeader, paddedStartHeader, END_HEADER);
-		int i = 1;
-		for (MemoriEvent e : memoriCalendar) {
+		
+		for (int i = 1; i <= memoriCalendar.size() ; i++) {
 			String index = padRight(Integer.toString(i), INDEX_HEADER.length());
-			output += index + " " + e.display() + "\n";
-			i++;
+			MemoriEvent e = memoriCalendar.get(i-1);
+			
+			if(i != memoriCalendar.size()){
+				output += index + " " + e.display() + "\n";
+			}
+			else{
+				output += index + " " + e.display();
+			}
 		}
 		return output;
 	}

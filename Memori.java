@@ -10,8 +10,14 @@ public class Memori {
 	private MemoriSettings memoriSettings = MemoriSettings.getInstance();
 	private GoogleSync googleSync = new GoogleSync();
 	
-	private static final String WELCOME_MSG = "Welcome to Memori";
-	private static final String COMMAND_PROMPT ="command:";
+	private static String WELCOME_MSG = " ____    ____  ________  ____    ____   ___   _______     _____  " +
+										"\n|_   \\  /   _||_   __  ||_   \\  /   _|.'   `.|_   __ \\   |_   _|"+
+										"\n  |   \\/   |    | |_ \\_|  |   \\/   | /  .-.  \\ | |__) |    | |"+   
+										"\n  | |\\  /| |    |  _| _   | |\\  /| | | |   | | |  __ /     | |"+   
+										"\n  | |_\\/_| |_  _| |__/ | _| |_\\/_| |_\\  `-'  /_| |  \\ \\_  _| |_"+  
+										"\n|_____||_____||________||_____||_____|`.___.'|____| |___||_____| ";
+	
+	private static final String COMMAND_PROMPT ="Command:";
 	
 	public void run(){
 		setup();

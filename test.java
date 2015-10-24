@@ -100,6 +100,7 @@ public class test {
 	
 	protected static String[] extractStrings(){
 		String[] strFields = new String[6];
+		String blah = "\n|   \\/   |    | |_ \\_|  |   \\/   | /  .-.  \\ | |__) |    | |";
 		for(Field f: fields){
 			if(f.getName().equals(FIELD_IDENTIFIERS[0])){
 				strFields[MemoriCommand.NAME_INDEX] = f.getContent();
