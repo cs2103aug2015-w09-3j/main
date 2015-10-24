@@ -242,5 +242,23 @@ public class MemoriEvent {
 			}
 		}
 	};
+	
+	public static Comparator<MemoriEvent> descriptionComparator = new Comparator<MemoriEvent>(){
+		public int compare(MemoriEvent me1, MemoriEvent me2){
+			String description1 = me1.getDescription();
+			String description2 = me2.getDescription();
+			
+			return description1.compareTo(description2);
+		}
+	};
+	
+	public static Comparator<MemoriEvent> locationComparator = new Comparator<MemoriEvent>(){
+		public int compare(MemoriEvent me1, MemoriEvent me2){
+			String location1 = me1.getLocation();
+			String location2 = me2.getLocation();
+			
+			return location1.compareTo(location2);
+		}
+	};
 
 }

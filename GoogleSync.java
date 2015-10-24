@@ -68,7 +68,7 @@ public class GoogleSync {
 	}
 
 	public void pullEvents(MemoriCalendar localCopy) {
-		localCopy.sort(MemoriEvent.externalIdComparator);
+		localCopy.sortBy(MemoriEvent.externalIdComparator);
 		ArrayList<MemoriEvent> localEvents = localCopy.getEvents();
 		ArrayList<MemoriEvent> toBeAdded = new ArrayList<MemoriEvent>();
 		for (MemoriEvent e : remoteCopy) {
