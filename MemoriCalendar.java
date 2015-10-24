@@ -42,17 +42,24 @@ public class MemoriCalendar {
 
 		for (int i = 0; i < f_values.length; i++) {
 			if (f_values[i] == Boolean.TRUE) {
-				if (i == 0) {
+				switch(i){
+				case 0:
 					this.sortBy(MemoriEvent.nameComparator);
-				} else if (i == 1) {
+					break;
+				case 1:
 					this.sortBy(MemoriEvent.startDateComparator);
-				} else if (i == 2) {
+					break;
+				case 2:
 					this.sortBy(MemoriEvent.endDateComparator);
-				} else if (i == 3) {
+					break;
+				case 3:
 					this.sortBy(MemoriEvent.descriptionComparator);
-				} else {
+					break;
+				case 4:
 					this.sortBy(MemoriEvent.locationComparator);
+					break;
 				}
+				break;
 			}
 		}
 		return MESSAGE_SORT;
@@ -82,17 +89,17 @@ public class MemoriCalendar {
 					continue;
 				}
 			}
-			if(name != null && name.contains(text)){
+			if(name != null && name.toUpperCase().contains(text.toUpperCase())){
 				displayText = memoriCalendar.get(i);
 				searchedList.add(displayText);
 				continue;
 			}
-			if(description != null && description.contains(text)){
+			if(description != null && description.toUpperCase().contains(text.toUpperCase())){
 				displayText = memoriCalendar.get(i);
 				searchedList.add(displayText);
 				continue;
 			}
-			if(location != null && location.contains(text)){
+			if(location != null && location.toUpperCase().contains(text.toUpperCase())){
 				displayText = memoriCalendar.get(i);
 				searchedList.add(displayText);
 				continue;
