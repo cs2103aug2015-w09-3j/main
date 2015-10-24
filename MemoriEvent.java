@@ -190,13 +190,31 @@ public class MemoriEvent {
 			return id1 - id2;
 		}
 	};
-
+	
 	public static Comparator<MemoriEvent> nameComparator = new Comparator<MemoriEvent>() {
 		public int compare(MemoriEvent me1, MemoriEvent me2) {
-			String eID1 = me1.getExternalCalId();
-			String eID2 = me2.getExternalCalId();
-
-			return eID1.compareTo(eID2);
+			String name1 = me1.getName();
+			String name2 = me2.getName();
+			
+			return name1.compareTo(name2);
+		}
+	};
+	
+	public static Comparator<MemoriEvent> descriptionComparator = new Comparator<MemoriEvent>(){
+		public int compare(MemoriEvent me1, MemoriEvent me2){
+			String description1 = me1.getDescription();
+			String description2 = me2.getDescription();
+			
+			return description1.compareTo(description2);
+		}
+	};
+	
+	public static Comparator<MemoriEvent> locationComparator = new Comparator<MemoriEvent>(){
+		public int compare(MemoriEvent me1, MemoriEvent me2){
+			String location1 = me1.getLocation();
+			String location2 = me2.getLocation();
+			
+			return location1.compareTo(location2);
 		}
 	};
 
