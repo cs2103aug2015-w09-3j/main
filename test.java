@@ -1,85 +1,89 @@
-//test for parser
 package memori;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
+import java.util.Scanner;
 
 import com.joestelmach.natty.DateGroup;
 import com.joestelmach.natty.Parser;
 
-public class test {
-	private static String[] FIELD_IDENTIFIERS = {"-n","-s","-e","-l","-d","-p"};
+public class test{
+	protected static final String[] FIELD_IDENTIFIERS = {"-n","-s","-e","-l","-d","-p"};
+	protected static final int NAME_INDEX = 0;
+	protected static final int START_INDEX = 1;
+	protected static final int END_INDEX = 2;
+	protected static final int LOCATION_INDEX = 3;
+	protected static final int DESCRIPTION_INDEX = 4;
+	protected static final int PRIORITY_INDEX = 5;
+	
+	protected static Boolean[] FilledFields = new Boolean[FIELD_IDENTIFIERS.length];
 	protected static Field[] fields= new Field[FIELD_IDENTIFIERS.length];
-	private static int START_INDEX = 1;
-	private static int END_INDEX = 2;
-	public static void main(String[] args){
-		String toExtract = "";
-		init();
-		extractFields(toExtract);
-		String[] nameAndDescription = extractStrings();
-		printIndex(nameAndDescription);
-		printFields();
-		Date[] startEnd = extractDates();
-		printDate(startEnd);
-		printException(startEnd);
+	
+	private static boolean invertMonth = true;
+	public static final String[] regex = { "/", "-" };
+
+	public static void setInvert(boolean status) {
+		invertMonth = status;
 	}
-	public static void printFields(){
-		for(int i = 0; i < fields.length; i++){
-			System.out.println(fields[i].getName()+fields[i].getContent());
+
+	public static Date parseDate(String dateToParse) {
+		if (invertMonth) {
+			dateToParse = reverseMonth(dateToParse);
 		}
+		Parser parser = new Parser();
+		List<DateGroup> groups = parser.parse(dateToParse);
+		System.out.println(groups.size());
+		for(DateGroup group:groups) {
+		  List dates = group.getDates();
+		  String matchingValue = group.getText();
+		  String syntaxTree = group.getSyntaxTree().toStringTree();
+		  System.out.println(syntaxTree);
+		  System.out.println(dates.get(0));
+		}
+		return null;
 	}
-	public static void printException(Date[] startEnd){
-		boolean haveStart = false;
-		boolean haveEnd = false;
-		for(int i = 0; i < fields.length; i++){
-			String name = fields[i].getName();
-			if(name.equals("-s")){
-				haveStart = true;
+
+	private static String reverseMonth(String dateToParse) {
+		String[] splitted = {};
+		StringBuilder inverted = new StringBuilder();
+		for (String rx : regex) {
+			splitted = dateToParse.split(rx);
+			if (splitted.length >= 2) {
+				inverted.append(splitted[1]);
+				inverted.append(rx);
+				inverted.append(splitted[0]);
+				if (splitted.length > 2) {
+					if (splitted[2].compareTo(splitted[0]) < 0) {
+						inverted.append(rx);
+						inverted.append(splitted[2]);
+					} else {
+						inverted = new StringBuilder(dateToParse);
+
+					}
+				}
+
+				System.out.println(inverted);
+				return inverted.toString();
 			}
-			if(name.equals("-e")){
-				haveEnd = true;
-			}
+
 		}
-		if(((haveStart==true)&&startEnd[0]==null)){
-			
-		}
-	}
-	public static void printDate(Date[] startEnd){
-		for(int i = 0; i < startEnd.length; i++){
-			System.out.println(startEnd[i]);
-		}
-	}
-	protected static Date[] extractDates(){
-		Date[] startEnd = new Date[2];
-		for(Field f: fields){
-			if(f.getName().equals(FIELD_IDENTIFIERS[START_INDEX])){
-				startEnd[0] = DateParser.parseDate(f.getContent());
-			}
-			else if(f.getName().equals(FIELD_IDENTIFIERS[END_INDEX])){
-				startEnd[1] = DateParser.parseDate(f.getContent());
-			}
-			
-		}
-		if(startEnd[0]!= null && startEnd[1] != null ){
-			Arrays.sort(startEnd);
-		}
-		return  startEnd;
+
+		return dateToParse;
 	}
 	protected static void init(){
 		for(int i=0;i<fields.length;i++){
+			FilledFields[i] = false;
 			fields[i] = new Field(FIELD_IDENTIFIERS[i]);
 		}
 	}
-	protected static void printIndex(String[] s){
-		System.out.println(s.length);
-		for(int i=0;i<s.length;i++){
-			System.out.println(s[i]);
-		}		
-	}
-	protected static void extractFields(String toExtract){
+	public static void extractFields(String toExtract){
+
 		int i =0;
 		for(; i < fields.length ; i++ ){
+		
 			fields[i].setIndexInString(toExtract.indexOf(FIELD_IDENTIFIERS[i]));
 		}
 		Arrays.sort(fields);
@@ -95,20 +99,51 @@ public class test {
 				end = toExtract.length();
 			}
 			fields[i].setContent(toExtract.substring(start,end).trim());
-		}	
+		}
+	
+	}
+	public static void updateFilledFields(){
+		
+		for(int i = 0;i < fields.length;i++){
+			
+			if(fields[i].getIndexInString()!=-1){
+				if(fields[i].getName().equals(FIELD_IDENTIFIERS[NAME_INDEX])){
+					FilledFields[NAME_INDEX] = true;
+					return;
+				}
+				if(fields[i].getName().equals(FIELD_IDENTIFIERS[START_INDEX])){
+					FilledFields[START_INDEX] = true;
+					return;
+				}
+				if(fields[i].getName().equals(FIELD_IDENTIFIERS[END_INDEX])){
+					FilledFields[END_INDEX] = true;
+					return;
+				}
+				if(fields[i].getName().equals(FIELD_IDENTIFIERS[LOCATION_INDEX])){
+					FilledFields[LOCATION_INDEX] = true;
+					return;
+				}
+				else{
+					FilledFields[DESCRIPTION_INDEX] = true;
+					return;
+				}
+			}
+			
+		}
+	}
+	public static void main(String[] args) {
+		//Scanner sc = new Scanner(System.in);
+			//explicit time dont change to 9 am
+			System.out.println(parseDate("25/12/2015 12.25pm"));
+			System.out.println(parseDate("25/12/2015"));
+			System.out.println(parseDate("tomorrow"));
+			System.out.println(parseDate("tomorrow 9am"));
+			//case relative time dont change to 9 am
+			System.out.println(parseDate("3 hours from now"));
+		
+		 	
 	}
 	
-	protected static String[] extractStrings(){
-		String[] strFields = new String[6];
-		for(Field f: fields){
-			if(f.getName().equals(FIELD_IDENTIFIERS[0])){
-				strFields[MemoriCommand.NAME_INDEX] = f.getContent();
-			}
-			else if(f.getName().equals(FIELD_IDENTIFIERS[4])){
-				strFields[5] = f.getContent();
-			}
-		}
-		return strFields;
-	}
+	
 	
 }
