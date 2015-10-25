@@ -2,7 +2,6 @@ package memori;
 
 
 public class Memori {
-	private MemoriLock memoriLock = new MemoriLock();
 	private MemoriUI  ui = new MemoriUI();
 	private Storage st = Storage.getInstance();
 	private MemoriCalendar memoriCalendar;
@@ -37,6 +36,8 @@ public class Memori {
 	}
 	
 	public void setup() {
+		Thread memoriLockThread = new Thread(new MemoriLock());
+		memoriLockThread.start();
 		memoriSettings = st.loadSettings();
 		memoriCalendar = st.loadCalendar();
 		if(memoriCalendar == null){
