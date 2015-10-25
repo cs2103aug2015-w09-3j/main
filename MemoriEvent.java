@@ -1,6 +1,7 @@
 package memori;
 
 import java.text.SimpleDateFormat;
+import java.util.Arrays;
 import java.util.Comparator;
 import java.util.Date;
 
@@ -73,20 +74,22 @@ public class MemoriEvent {
 	}
 
 	public void update(String name, Date start, Date end, String description, String location, Boolean[] filledFields) {
-		if(checkconditions(name,start,end,filledFields))
 		if (filledFields[FieldsParser.NAME_INDEX]){
-			this.name = name;
-		}
-		if (filledFields[FieldsParser.START_INDEX]){
-			this.start = start;
-		}
-		if (filledFields[FieldsParser.END_INDEX]){
-			this.end = end;
-		}
-		if (filledFields[FieldsParser.DESCRIPTION_INDEX])
-			this.description = description;
-		if (filledFields[FieldsParser.LOCATION_INDEX])
-			this.location = location;
+				this.name = name;
+			}
+			if (filledFields[FieldsParser.START_INDEX]){
+				System.out.println(start);
+				this.start = start;
+			}
+			if (filledFields[FieldsParser.END_INDEX]){
+				this.end = end;
+			}
+			if (filledFields[FieldsParser.DESCRIPTION_INDEX]){
+				this.description = description;
+			}
+			if (filledFields[FieldsParser.LOCATION_INDEX]){
+				this.location = location;
+			}
 	}
 
 	public String read() {

@@ -34,7 +34,6 @@ public class DateParser {
 			
 			DateGroup dg = groups.get(0);
 			String syntaxTree = dg.getSyntaxTree().toStringTree();
-			System.out.println(syntaxTree);
 			dateList.addAll(dg.getDates());
 			if((!syntaxTree.contains(EXPLICIT_TIME))&&(!syntaxTree.contains(RELATIVE_TIME))){
 				Calendar calendar =  Calendar.getInstance();
@@ -69,8 +68,6 @@ public class DateParser {
 
 					}
 				}
-
-				System.out.println(inverted);
 				return inverted.toString();
 			}
 
