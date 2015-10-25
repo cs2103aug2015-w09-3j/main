@@ -72,16 +72,20 @@ public class MemoriEvent {
 		this.internalId = id;
 	}
 
-	public void update(String name, Date start, Date end, String description, String location) {
-		if (!name.isEmpty())
+	public void update(String name, Date start, Date end, String description, String location, Boolean[] filledFields) {
+		if(checkconditions(name,start,end,filledFields))
+		if (filledFields[FieldsParser.NAME_INDEX]){
 			this.name = name;
-		if (start != null)
+		}
+		if (filledFields[FieldsParser.START_INDEX]){
 			this.start = start;
-		if (end != null)
+		}
+		if (filledFields[FieldsParser.END_INDEX]){
 			this.end = end;
-		if (!name.isEmpty())
+		}
+		if (filledFields[FieldsParser.DESCRIPTION_INDEX])
 			this.description = description;
-		if (!location.isEmpty())
+		if (filledFields[FieldsParser.LOCATION_INDEX])
 			this.location = location;
 	}
 

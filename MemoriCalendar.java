@@ -253,7 +253,7 @@ public class MemoriCalendar {
 			} else {
 				originalEvent = memoriCalendar.get(index - 1);
 				originalEvent.update(command.getName(), command.getStart(), command.getEnd(), command.getDescription(),
-						command.getLocation());
+						command.getLocation(),command.getMemoriField());
 				googleSync.executeCommand(originalEvent, command);
 				return String.format(MESSAGE_UPDATE, index);
 			}
