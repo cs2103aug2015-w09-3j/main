@@ -25,7 +25,9 @@ public class DateParser {
 		if (invertMonth) {
 			dateToParse = reverseMonth(dateToParse);
 		}
+		ErrorSuppressor.supress();
 		Parser parser = new Parser();
+		ErrorSuppressor.unsupress();
 		List<Date> dateList = new ArrayList<Date>();
 		List<DateGroup> groups = parser.parse(dateToParse);
 		if (!groups.isEmpty()) {
@@ -34,8 +36,7 @@ public class DateParser {
 			String syntaxTree = dg.getSyntaxTree().toStringTree();
 			System.out.println(syntaxTree);
 			dateList.addAll(dg.getDates());
-			if((!syntaxTree.contains(EXPLICIT_TIME))||(!syntaxTree.contains(RELATIVE_TIME))){
-	
+			if((!syntaxTree.contains(EXPLICIT_TIME))&&(!syntaxTree.contains(RELATIVE_TIME))){
 				Calendar calendar =  Calendar.getInstance();
 				calendar.setTime(dateList.get(0));
 				calendar.set(Calendar.HOUR_OF_DAY, STANDARD_HOUR);
