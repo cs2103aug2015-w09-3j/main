@@ -1,9 +1,9 @@
 package memori;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Comparator;
 
-import edu.emory.mathcs.backport.java.util.Collections;
 
 public class MemoriCalendar {
 	private static final String MESSAGE_ADD = "Event Added.\n";
@@ -12,6 +12,7 @@ public class MemoriCalendar {
 	private static final String MESSAGE_READ = "Reading: \n";
 	private static final String MESSAGE_SORT = "Sorted.";
 	private static final String MESSAGE_UPDATE = "Updated Event %d \n";
+	private static final String MESSAGE_COMPLETE = "Tasks have been marked complete. \n";
 	private static final String LINE_INDEX_DOES_NOT_EXISTS = "Line index does not exists.\n";
 	private static final String MESSAGE_EMPTYFILE = "File is Empty.\n";
 	private static final String INDEX_HEADER = "No: ";
@@ -75,19 +76,24 @@ public class MemoriCalendar {
 			String name = taskLine.getName();
 			String description = taskLine.getDescription();
 			String location = taskLine.getLocation();
-			if (command.getStart() != null) {
-				if (command.getStart() == taskLine.getStart()) {
+			//Case 1: start in task < user input start < end in task
+			if((taskLine.getStart()).before(command.getStart())
+					&& (command.getStart()).before(taskLine.getEnd())){
 					displayText = memoriCalendar.get(i);
-					searchedList.add(displayText);
-					continue;
-				}
+					if(!searchedList.contains(displayText)){
+						searchedList.add(displayText);
+						continue;
+					}
 			}
-			if (command.getEnd() != null) {
-				if (command.getEnd() == taskLine.getEnd()) {
+			//Case 2: user input start < start in task < user input end
+			if((taskLine.getStart()).after(command.getStart())
+					&& (taskLine.getStart()).before(command.getEnd())){
 					displayText = memoriCalendar.get(i);
-					searchedList.add(displayText);
-					continue;
-				}
+					if(!searchedList.contains(displayText)){
+						searchedList.add(displayText);
+						continue;
+					}
+			
 			}
 			if(name != null && name.toUpperCase().contains(text.toUpperCase())){
 				displayText = memoriCalendar.get(i);
@@ -185,6 +191,8 @@ public class MemoriCalendar {
 			return sort(command);
 		case SEARCH:
 			return search(command);
+		case COMPLETE:
+			return complete(command, googleSync);
 		default:
 			return "invalid";
 		}
@@ -259,5 +267,26 @@ public class MemoriCalendar {
 			}
 		}
 
+	}
+	
+	public String complete(MemoriCommand command, GoogleSync googleSync){
+		MemoriEvent originalEvent;
+		int[] indexes = command.getIndexes();
+		if(memoriCalendar.isEmpty()){
+			return MESSAGE_EMPTYFILE;
+		}else{
+			for(int i = 0; i < indexes.length; i++){
+				int index = indexes[i];
+				if(memoriCalendar.size() < index){
+					return LINE_INDEX_DOES_NOT_EXISTS;
+				}else{
+					originalEvent = memoriCalendar.get(index - 1);
+					originalEvent.setComplete(true);
+					googleSync.executeCommand(originalEvent, command);
+				}
+			}
+		}
+		return MESSAGE_COMPLETE;
+		
 	}
 }

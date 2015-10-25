@@ -22,6 +22,7 @@ public class MemoriEvent {
 	private String description;
 	private String location;
 	private String externalCalId;
+	private Boolean complete;
 	private Date start;
 	private Date end;
 	private int internalId;
@@ -71,6 +72,10 @@ public class MemoriEvent {
 
 	public void setInternalCalId(int id) {
 		this.internalId = id;
+	}
+	
+	public void setComplete(Boolean complete){
+		this.complete = complete;
 	}
 
 	public void update(String name, Date start, Date end, String description, String location, Boolean[] filledFields) {

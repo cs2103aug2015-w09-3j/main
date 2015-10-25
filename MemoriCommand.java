@@ -72,7 +72,7 @@ public class MemoriCommand {
 	}
 
 	public int[] getIndexes() {
-		return null;
+		return indexes;
 	}
 	public Boolean[] getMemoriField(){
 		return memoriFields;
@@ -80,4 +80,6 @@ public class MemoriCommand {
 	public String getInvalidWarning(){
 		return INVALID_WARNING; 
 	}
+
+
 }
