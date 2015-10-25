@@ -3,6 +3,9 @@ package memori;
 import java.util.logging.Logger;
 import java.util.logging.SimpleFormatter;
 import java.io.IOException;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeFormatterBuilder;
 import java.util.logging.FileHandler;
 
 public class MemoriLogging {
@@ -16,7 +19,17 @@ public class MemoriLogging {
 	}
 	
 	public static MemoriLogging getInstance(String className) {
-		INSTANCE.initializeLog(className, LOG_FILE_NAME);
+		DateTimeFormatter formatter = new DateTimeFormatterBuilder()
+        .appendPattern("MM").appendLiteral("-")
+        .appendPattern("dd").appendLiteral("-")
+        .appendPattern("yyyy").appendLiteral("-")
+        .appendPattern("hh").appendLiteral("")
+        .appendPattern("mm").appendLiteral("")
+        .appendPattern("ss").appendLiteral("")
+        .appendPattern("a")
+        .toFormatter();
+		String timestamp = LocalDateTime.now().format(formatter);
+		INSTANCE.initializeLog(className, timestamp + LOG_FILE_NAME);
 		return INSTANCE;
 	}
 	
