@@ -36,15 +36,14 @@ public abstract class FieldsParser {
 		for(Field f: fields){
 			if(f.getName().equals(FIELD_IDENTIFIERS[NAME_INDEX])){
 				strFields[MemoriCommand.NAME_INDEX] = f.getContent();
-				FilledFields[NAME_INDEX] = true;
 			}
 			else if(f.getName().equals(FIELD_IDENTIFIERS[LOCATION_INDEX])){
 				strFields[MemoriCommand.LOCATION_INDEX] = f.getContent();
-				FilledFields[LOCATION_INDEX] = true; 
+
 			}
 			else if(f.getName().equals(FIELD_IDENTIFIERS[DESCRIPTION_INDEX])){
 				strFields[MemoriCommand.DESCRIPTION_INDEX] = f.getContent();
-				FilledFields[DESCRIPTION_INDEX] = true;
+
 			}
 		
 			
@@ -57,11 +56,11 @@ public abstract class FieldsParser {
 		for(Field f: fields){
 			if(f.getName().equals(FIELD_IDENTIFIERS[START_INDEX])){
 				startEnd[0] = DateParser.parseDate(f.getContent());
-				FilledFields[START_INDEX] = true;
+				
 			}
 			else if(f.getName().equals(FIELD_IDENTIFIERS[END_INDEX])){
 				startEnd[1] = DateParser.parseDate(f.getContent());
-				FilledFields[END_INDEX] = true;
+			
 			}
 			
 		}
@@ -92,7 +91,7 @@ public abstract class FieldsParser {
 		}
 	}
 	//filled up the first entered field
-	public void updateFilledFields(){
+	public void UpdateFilledFields(){
 		
 		for(int i = 0;i < fields.length;i++){
 			
@@ -113,7 +112,7 @@ public abstract class FieldsParser {
 					FilledFields[LOCATION_INDEX] = true;
 					return;
 				}
-				else{
+				if(fields[i].getName().equals(FIELD_IDENTIFIERS[DESCRIPTION_INDEX])){
 					FilledFields[DESCRIPTION_INDEX] = true;
 					return;
 				}
@@ -121,5 +120,5 @@ public abstract class FieldsParser {
 		}
 	}
 
-
 }
+
