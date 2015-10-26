@@ -36,6 +36,18 @@ public class MemoriEvent {
 		this.externalCalId = externalCalId;
 		this.description = description;
 		this.location = location;
+		this.complete = false;
+	}
+	//Clone
+	public MemoriEvent(MemoriEvent other) {
+		this.name = other.name;
+		this.start = other.start;
+		this.end = other.end;
+		this.internalId = other.internalId;
+		this.externalCalId = other.externalCalId;
+		this.description = other.description;
+		this.location = other.location;
+		this.complete = other.complete;
 	}
 
 	public String getName() {

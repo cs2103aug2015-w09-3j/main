@@ -29,7 +29,7 @@ public class Memori {
 			String userInput = ui.takeInput();			
 			MemoriCommand command = memoriParser.parse(userInput);
 			String ack = memoriCalendar.execute(command, googleSync);
-			ui.displayToUser(memoriCalendar.display());
+			ui.displayToUser(memoriCalendar.display(MemoriCalendar.MAIN));
 			ui.displayToUser(ack);
 			st.saveCalendar(memoriCalendar);
 		}
@@ -46,7 +46,7 @@ public class Memori {
 		googleSync.pullEvents(memoriCalendar);
 		st.saveCalendar(memoriCalendar);
 		ui.displayToUser(WELCOME_MSG);
-		ui.displayToUser(memoriCalendar.display());
+		ui.displayToUser(memoriCalendar.display(MemoriCalendar.MAIN));
 	}
 	
 	
