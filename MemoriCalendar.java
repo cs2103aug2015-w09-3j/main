@@ -123,18 +123,27 @@ public class MemoriCalendar {
 	}
 
 	private String read(MemoriCommand command) {
-		MemoriEvent displayText;
+		MemoriEvent event;
+		ArrayList<Integer> toRead = command.getIndexes();
 		if (memoriCalendar.isEmpty()) {
 			return MESSAGE_EMPTYFILE;
 		} else {
-			int index = command.getIndex();
+			for (int i = 0; i < toRead.size(); i++) {
+				int index = toRead.get(i);
+				if (memoriCalendar.size() < index) {
+					return LINE_INDEX_DOES_NOT_EXISTS;
 
-			if (memoriCalendar.size() < index) {
-				return LINE_INDEX_DOES_NOT_EXISTS;
-			} else {
-				displayText = memoriCalendar.get(index - 1);
-				return displayText.read();
+				}
 			}
+			String output = "";
+			for (int i = 0; i < toRead.size(); i++) {
+				int index = toRead.get(i);
+				event = memoriCalendar.get(index - 1);
+				output += String.format(MESSAGE_READ, index);
+				output += event.read();
+	
+			}
+			return output;
 		}
 	}
 
