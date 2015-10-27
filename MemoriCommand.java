@@ -1,5 +1,6 @@
 package memori;
 
+import java.util.ArrayList;
 import java.util.Date;
 
 public class MemoriCommand {
@@ -9,13 +10,14 @@ public class MemoriCommand {
 	private Date start;
 	private Date end;
 	private int index = 0;
-	private int[] indexes;
+	private ArrayList<Integer> indexes;
+	private String invalidMessage;
 	//jayden added more indexs
 	public static final int NAME_INDEX = 0;
 	public static final int LOCATION_INDEX = 1;
 	public static final int DESCRIPTION_INDEX = 2;
 	public static final int NUM_STRING_FIELDS = 3;
-	public static final String INVALID_WARNING = "Not a valid field or Command,please try again";
+	
 	
 	public MemoriCommand(MemoriCommandType commandType,Date start,Date end,String[] commandArgs){
 		this.commandType = commandType;
@@ -23,7 +25,9 @@ public class MemoriCommand {
 		this.end = end;
 		this.commandArgs = commandArgs;
 	}
-	
+	public MemoriCommand(MemoriCommandType cmdType){
+		commandType = cmdType;
+	}
 	public MemoriCommand(MemoriCommandType commandType,Date start
 			,Date end,String[] commandArgs,int index,Boolean[] memoriFields){
 		this.commandType = commandType;
@@ -33,12 +37,13 @@ public class MemoriCommand {
 		this.index = index;
 		this.memoriFields = memoriFields;
 	}
-	public MemoriCommand(MemoriCommandType commandType,int index){
+	public MemoriCommand(MemoriCommandType commandType,ArrayList<Integer> indexes){
 		this.commandType = commandType;
-		this.index = index;
+		this.indexes = indexes;
 	}
-	public MemoriCommand(){
+	public MemoriCommand(String invalidMessage){
 		this.commandType = MemoriCommandType.INVALID;
+		this.invalidMessage = invalidMessage;
 	}
 	//new change, for sort
 	public MemoriCommand(MemoriCommandType commandType,Boolean[] memoriFields){
@@ -77,7 +82,7 @@ public class MemoriCommand {
 	public Boolean[] getMemoriField(){
 		return memoriFields;
 	}
-	public String getInvalidWarning(){
-		return INVALID_WARNING; 
+	public String getInvalidMessage(){
+		return invalidMessage; 
 	}
 }
