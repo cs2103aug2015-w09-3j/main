@@ -99,6 +99,7 @@ public class MemoriCalendar {
 		} else {
 			ArrayList<Integer> toDelete = command.getIndexes();
 			Collections.sort(toDelete);
+			Collections.reverse(toDelete);
 			for (int i = 0; i < toDelete.size(); i++) {
 				int index = toDelete.get(i);
 				if (memoriCalendar.size() < index) {
