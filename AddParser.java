@@ -3,7 +3,7 @@ package memori;
 import java.util.Date;
 
 public class AddParser extends FieldsParser {
-
+	private String INVALID_MESSAGE = "Oops,please enter the name of the event";
 	public AddParser() {
 		// TODO Auto-generated constructor stub
 		init();
@@ -19,7 +19,7 @@ public class AddParser extends FieldsParser {
 		//*added if there is no name for the add event
 		 if(stringFields[0].equals("")||(cmdFields.length()==0)){
 			
-			return new MemoriCommand();
+			return new MemoriCommand(INVALID_MESSAGE);
 		}	
 		return new MemoriCommand(cmdType,startEnd[0],startEnd[1],stringFields);
 			

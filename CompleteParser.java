@@ -2,30 +2,26 @@ package memori;
 
 import java.util.ArrayList;
 
-public class DeleteParser extends FieldsParser {
-	private ArrayList<Integer> deleteIndex;
-	public String INVALID_MESSAGE = "Oops, index ares not available,please try again";
-	public DeleteParser() {
-		// TODO Auto-generated constructor stub
-		init();
-	}
-
+public class CompleteParser extends FieldsParser{
+	private ArrayList<Integer>completeIndex;
+	private String INVALID_MESSAGE = "Oops, indexs are not available,please try again";
 	@Override
+	
 	public MemoriCommand parse(MemoriCommandType cmdType, String cmdFields) {
 		//handle delete 1 2 3 case
-		deleteIndex = new ArrayList<Integer>();
+		completeIndex = new ArrayList<Integer>();
 		try{
 			if(!cmdFields.contains("-")){
 				String[] index = cmdFields.split(" ");
 				for(int i = 0; i<index.length;i++){
 					int toBeAdded = Integer.parseInt(index[i]);
 					//check for duplicate
-					if(!deleteIndex.contains(toBeAdded)){
-						deleteIndex.add(toBeAdded);
+					if(!completeIndex.contains(toBeAdded)){
+						completeIndex.add(toBeAdded);
 					}	
 				}
 				
-				return new MemoriCommand(cmdType,deleteIndex);
+				return new MemoriCommand(cmdType,completeIndex);
 			}
 		//handle delete 1-12 case;
 			if(cmdFields.contains("-")){
@@ -41,18 +37,18 @@ public class DeleteParser extends FieldsParser {
 						}else if(index1>index2){
 							insertIndex(index1,index2);
 						}else{
-							deleteIndex.add(index1,index2);
+							completeIndex.add(index1,index2);
 						}
 					}else{
 						int toBeAdded = Integer.parseInt(lowerUpper[0]);
-						if(!deleteIndex.contains(toBeAdded)){
-							deleteIndex.add(toBeAdded);
+						if(!completeIndex.contains(toBeAdded)){
+							completeIndex.add(toBeAdded);
 						}
 					}
 				}
 			}
-			print();
-			return new MemoriCommand(cmdType,deleteIndex);
+			
+			return new MemoriCommand(cmdType,completeIndex);
 			
 		}catch(NumberFormatException e){
 			return new MemoriCommand(INVALID_MESSAGE);
@@ -62,17 +58,15 @@ public class DeleteParser extends FieldsParser {
 		for(int i = lower; i<upper+1;i++){
 			
 			//check for duplicate
-			if(!deleteIndex.contains(i)){
-				deleteIndex.add(i);
+			if(!completeIndex.contains(i)){
+				completeIndex.add(i);
 			}	
 		}
 	}
 	public void print(){
-		for(int i = 0;i<deleteIndex.size();i++){
-			System.out.println("index"+deleteIndex.get(i));
+		for(int i = 0;i<completeIndex.size();i++){
+			System.out.println("index"+completeIndex.get(i));
 		}
 		
 	}
-
-
 }

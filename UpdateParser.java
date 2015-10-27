@@ -3,7 +3,8 @@ package memori;
 import java.util.Date;
 
 public class UpdateParser extends FieldsParser {
-
+	private String INVALID_MESSAGE = "Oops, the index you try to update is not available."
+			+ "Please try again.";
 	public UpdateParser() {
 		// TODO Auto-generated constructor stub
 		init();
@@ -22,10 +23,10 @@ public class UpdateParser extends FieldsParser {
 				return new MemoriCommand(cmdType,startEnd[0],startEnd[1],stringFields,index,FilledFields);
 			}
 	
-			return new MemoriCommand();
+			return new MemoriCommand(INVALID_MESSAGE);
 		}catch(NumberFormatException e){
 			
-			return new MemoriCommand();
+			return new MemoriCommand(INVALID_MESSAGE);
 		}
 	}
 	public void printExtract(){
