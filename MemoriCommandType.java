@@ -1,9 +1,5 @@
 package memori;
 
 public enum MemoriCommandType {
-<<<<<<< HEAD
 	ADD, UPDATE, DELETE, EXIT, INVALID, READ, SORT, SEARCH, CLEAR, REDO, UNDO, COMPLETE
-=======
-	ADD, UPDATE, DELETE, EXIT, INVALID, READ, SORT, SEARCH, COMPLETE, CLEAR, REDO, UNDO
->>>>>>> 7f6ce4b60f6acf77d285049bb53a81dbb5dbbdc6
 }

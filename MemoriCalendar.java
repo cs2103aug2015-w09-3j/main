@@ -55,7 +55,7 @@ public class MemoriCalendar {
 		case COMPLETE:
 			return complete(command, googleSync);
 		default:
-			return "invalid";
+			return "invalid\n";
 		}
 	}
 
@@ -162,16 +162,21 @@ public class MemoriCalendar {
 		String text = command.getName();
 		Date userStart = command.getStart();
 		Date userEnd = command.getEnd();
+		System.out.println("Start" + userStart);
+		System.out.println("End " + userEnd);
+		System.out.println("text " + text);
 		MemoriEvent taskLine;
+		
 		for (int i = 0; i < memoriCalendar.size(); i++) {
 			taskLine = memoriCalendar.get(i);
 			if (userStart != null && userEnd != null) {
 				searchDates(taskLine, userStart, userEnd);
-			} else {
+			} 
+			else {
 				searchOtherFields(taskLine, text);
 			}
 		}
-
+		System.out.println(searchedList.size());
 		if (!searchedList.isEmpty()) {
 			return display(SEARCH);
 		} else {
@@ -182,12 +187,12 @@ public class MemoriCalendar {
 
 	private String complete(MemoriCommand command, GoogleSync googleSync) {
 		MemoriEvent originalEvent;
-		int[] indexes = command.getIndexes();
+		ArrayList<Integer> indexes = command.getIndexes();
 		if (memoriCalendar.isEmpty()) {
 			return MESSAGE_EMPTYFILE;
 		} else {
-			for (int i = 0; i < indexes.length; i++) {
-				int index = indexes[i];
+			for (int i = 0; i < indexes.size(); i++) {
+				int index = indexes.get(i);
 				if (memoriCalendar.size() < index) {
 					return LINE_INDEX_DOES_NOT_EXISTS;
 				} else {
@@ -200,23 +205,26 @@ public class MemoriCalendar {
 		return MESSAGE_COMPLETE;
 	}
 
-	private void searchDates(MemoriEvent event, Date start, Date end) {
+	private boolean searchDates(MemoriEvent event, Date start, Date end) {
 		Date eventStart = event.getStart();
 		Date eventEnd = event.getEnd();
 		if (eventEnd != null && (start.before(eventEnd) || start.equals(eventEnd))
 				&& (end.after(eventEnd) || end.equals(eventEnd))) {
 			searchedList.add(event);
+			return true;
 		} else if (eventStart != null && (start.before(eventStart) || start.equals(eventStart))
 				&& (end.after(eventStart) || end.equals(eventStart))) {
 			searchedList.add(event);
+			return true;
 		}
+		return false;
 	}
 
 	private void searchOtherFields(MemoriEvent event, String searchTerm) {
 		String name = event.getName();
 		String description = event.getDescription();
 		String location = event.getLocation();
-
+		
 		if (name != null && name.toUpperCase().contains(searchTerm.toUpperCase())) {
 			searchedList.add(event);
 		} else if (description != null && description.toUpperCase().contains(searchTerm.toUpperCase())) {

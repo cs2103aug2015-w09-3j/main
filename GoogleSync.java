@@ -101,7 +101,7 @@ public class GoogleSync {
 	public String pushEvents(MemoriCalendar localCopy){
 		ArrayList<MemoriEvent> localEvents = localCopy.getEvents();
 		ArrayList<MemoriEvent> toBePushed = new ArrayList<MemoriEvent>();
-		MemoriCommand addCommand = new MemoriCommand(MemoriCommandType.ADD,null);
+		MemoriCommand addCommand = new MemoriCommand(MemoriCommandType.ADD);
 		for(MemoriEvent e : localEvents) {
 			if(e.getExternalCalId() == null){
 				toBePushed.add(e);

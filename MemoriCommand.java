@@ -76,7 +76,7 @@ public class MemoriCommand {
 		return index;
 	}
 
-	public int[] getIndexes() {
+	public ArrayList<Integer> getIndexes() {
 		return indexes;
 	}
 	public Boolean[] getMemoriField(){
