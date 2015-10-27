@@ -7,11 +7,11 @@ import java.util.Date;
 
 public class MemoriCalendar {
 	private static final String MESSAGE_ADD = "Event Added.\n";
-	private static final String MESSAGE_DELETE = "Deleted.\n";
+	private static final String MESSAGE_DELETE = "Event %1$d Deleted.\n";
 	private static final String MESSAGE_INVALID_KEYWORD = "Keyword not found.\n";
 	private static final String MESSAGE_READ = "Reading: \n";
 	private static final String MESSAGE_SORT = "Sorted.";
-	private static final String MESSAGE_UPDATE = "Updated Event %d \n";
+	private static final String MESSAGE_UPDATE = "Updated Event %1$d \n";
 	private static final String MESSAGE_COMPLETE = "Tasks have been marked complete. \n";
 	private static final String LINE_INDEX_DOES_NOT_EXISTS = "Line index does not exists.\n";
 	private static final String MESSAGE_EMPTYFILE = "File is Empty.\n";
@@ -97,17 +97,25 @@ public class MemoriCalendar {
 		if (memoriCalendar.isEmpty()) {
 			return MESSAGE_EMPTYFILE;
 		} else {
-			int index = command.getIndex();
-			// to implement getIndex in MemoriCommand that returns a String
+			ArrayList<Integer> toDelete = command.getIndexes();
+			Collections.sort(toDelete);
+			for (int i = 0; i < toDelete.size(); i++) {
+				int index = toDelete.get(i);
+				if (memoriCalendar.size() < index) {
+					return LINE_INDEX_DOES_NOT_EXISTS;
 
-			if (memoriCalendar.size() < index) {
-				return LINE_INDEX_DOES_NOT_EXISTS;
-			} else {
+				}
+			}
+			String output = "";
+			for (int i = 0; i < toDelete.size(); i++) {
+				int index = toDelete.get(i);
 				event = memoriCalendar.get(index - 1);
 				memoriCalendar.remove(index - 1);
 				googleSync.executeCommand(event, command);
-				return String.format(MESSAGE_DELETE);
+				output += String.format(MESSAGE_DELETE , index);
+	
 			}
+			return output;
 
 		}
 
@@ -166,13 +174,12 @@ public class MemoriCalendar {
 		System.out.println("End " + userEnd);
 		System.out.println("text " + text);
 		MemoriEvent taskLine;
-		
+
 		for (int i = 0; i < memoriCalendar.size(); i++) {
 			taskLine = memoriCalendar.get(i);
 			if (userStart != null && userEnd != null) {
 				searchDates(taskLine, userStart, userEnd);
-			} 
-			else {
+			} else {
 				searchOtherFields(taskLine, text);
 			}
 		}
@@ -224,7 +231,7 @@ public class MemoriCalendar {
 		String name = event.getName();
 		String description = event.getDescription();
 		String location = event.getLocation();
-		
+
 		if (name != null && name.toUpperCase().contains(searchTerm.toUpperCase())) {
 			searchedList.add(event);
 		} else if (description != null && description.toUpperCase().contains(searchTerm.toUpperCase())) {
