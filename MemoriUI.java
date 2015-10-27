@@ -5,12 +5,6 @@ import java.util.Scanner;
 public class MemoriUI {
 	private static final int CUT_OFF_LENGTH = 91;
 	private static final char NEW_LINE = '\n';
-	private static String WELCOME_MSG = " ____    ____  ________  ____    ____   ___   _______     _____  " +
-										"\n|_   \\  /   _||_   __  ||_   \\  /   _|.'   `.|_   __ \\   |_   _|"+
-										"\n  |   \\/   |    | |_ \\_|  |   \\/   | /  .-.  \\ | |__) |    | |"+   
-										"\n  | |\\  /| |    |  _| _   | |\\  /| | | |   | | |  __ /     | |"+   
-										"\n  | |_\\/_| |_  _| |__/ | _| |_\\/_| |_\\  `-'  /_| |  \\ \\_  _| |_"+  
-										"\n|_____||_____||________||_____||_____|`.___.'|____| |___||_____| ";
 	private Scanner sc = new Scanner(System.in);
 	
 	
@@ -26,14 +20,11 @@ public class MemoriUI {
 			}
 			output += msg.charAt(i);
 		}
-		System.out.println(output);
+		System.out.print(output);
 	}
 
 	public String takeInput() {
 		return sc.nextLine();
 	}
 	
-	public static void main(String[] args){
-		System.out.println(WELCOME_MSG);
-	}
 }

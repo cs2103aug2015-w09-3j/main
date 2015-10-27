@@ -83,10 +83,10 @@ public class MemoriCalendar {
 				return LINE_INDEX_DOES_NOT_EXISTS;
 			} else {
 				originalEvent = memoriCalendar.get(index - 1);
-				originalEvent.update(command.getName(), command.getStart(), command.getEnd(), command.getDescription(),
-						command.getLocation(), command.getMemoriField());
+				String updateStatus = originalEvent.update(command.getName(), command.getStart(), command.getEnd(),
+						command.getDescription(), command.getLocation(), command.getMemoriField());
 				googleSync.executeCommand(originalEvent, command);
-				return String.format(MESSAGE_UPDATE, index);
+				return String.format(MESSAGE_UPDATE, index) + updateStatus;
 			}
 		}
 
@@ -160,26 +160,21 @@ public class MemoriCalendar {
 	private String search(MemoriCommand command) {
 		searchedList = new ArrayList<MemoriEvent>();
 		String text = command.getName();
+		Date userStart = command.getStart();
+		Date userEnd = command.getEnd();
 		MemoriEvent taskLine;
 		for (int i = 0; i < memoriCalendar.size(); i++) {
 			taskLine = memoriCalendar.get(i);
-
-			Date userStart = command.getStart();
-			Date userEnd = command.getEnd();
-
-			if (userStart != null && userEnd != null)
+			if (userStart != null && userEnd != null) {
 				searchDates(taskLine, userStart, userEnd);
-
-			else {
-				searchOtherFields(taskLine, command.getName());
+			} else {
+				searchOtherFields(taskLine, text);
 			}
-
 		}
 
-		if (!searchedList.isEmpty()){
+		if (!searchedList.isEmpty()) {
 			return display(SEARCH);
-		} 
-		else{
+		} else {
 			return MESSAGE_INVALID_KEYWORD;
 		}
 
@@ -208,13 +203,11 @@ public class MemoriCalendar {
 	private void searchDates(MemoriEvent event, Date start, Date end) {
 		Date eventStart = event.getStart();
 		Date eventEnd = event.getEnd();
-		if (eventEnd != null &&
-				(start.before(eventEnd) || start.equals(eventEnd))&& 
-				(end.after(eventEnd) || end.equals(eventEnd))) {
+		if (eventEnd != null && (start.before(eventEnd) || start.equals(eventEnd))
+				&& (end.after(eventEnd) || end.equals(eventEnd))) {
 			searchedList.add(event);
-		} else if (eventStart != null && 
-				(start.before(eventStart) || start.equals(eventStart))&&
-				(end.after(eventStart) || end.equals(eventStart))) {
+		} else if (eventStart != null && (start.before(eventStart) || start.equals(eventStart))
+				&& (end.after(eventStart) || end.equals(eventStart))) {
 			searchedList.add(event);
 		}
 	}
@@ -268,12 +261,7 @@ public class MemoriCalendar {
 		for (int i = 1; i <= toDisplay.size(); i++) {
 			String index = padRight(Integer.toString(i), INDEX_HEADER.length());
 			MemoriEvent e = toDisplay.get(i - 1);
-
-			if (i != toDisplay.size()) {
-				output += index + " " + e.display() + "\n";
-			} else {
-				output += index + " " + e.display();
-			}
+			output += index + " " + e.display() + "\n";
 		}
 		return output;
 	}

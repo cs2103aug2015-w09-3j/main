@@ -12,17 +12,21 @@ public class MemoriEvent {
 	public static final int INTERNAL_ID_WILDCARD = -1;
 	public static final int NAME_CUT_OFF = 30;
 	public static final String DATE_FORMAT = "dd MMM yyyy HH:mm E";
-	
-	private static final String HEADER_READ = "Name of Event:%1$s\nStart:%2$s\nEnd:%3$s\n"
-			+ "Description:%4$s\nLocation:%5$s\n";
+
 	private static final String DISPLAY_FORMAT = "%1$s  %2$s  %3$s";
 	private static final SimpleDateFormat DATE_FORMATTER = new SimpleDateFormat(DATE_FORMAT);
-
+	//Acknowledgement fields
+	private static final String NAME_FIELD = "Name: %1$s\n";
+	private static final String START_FIELD = "Start: %1$s\n";
+	private static final String END_FIELD = "End: %1$s\n";
+	private static final String DESCRIPTION_FIELD = "Description: %1$s\n";
+	private static final String LOCATION_FIELD= "Location: %1$s\n";
+	
 	private String name;
 	private String description;
 	private String location;
 	private String externalCalId;
-	private Boolean complete;
+	private boolean complete;
 	private Date start;
 	private Date end;
 	private int internalId;
@@ -38,7 +42,8 @@ public class MemoriEvent {
 		this.location = location;
 		this.complete = false;
 	}
-	//Clone
+
+	// Clone
 	public MemoriEvent(MemoriEvent other) {
 		this.name = other.name;
 		this.start = other.start;
@@ -85,31 +90,39 @@ public class MemoriEvent {
 	public void setInternalCalId(int id) {
 		this.internalId = id;
 	}
-	
-	public void setComplete(Boolean complete){
+
+	public void setComplete(Boolean complete) {
 		this.complete = complete;
 	}
 
-	public void update(String name, Date start, Date end, String description, String location, Boolean[] filledFields) {
-		if (filledFields[FieldsParser.NAME_INDEX]){
-				this.name = name;
-			}
-			if (filledFields[FieldsParser.START_INDEX]){
-				System.out.println(start);
-				this.start = start;
-			}
-			if (filledFields[FieldsParser.END_INDEX]){
-				this.end = end;
-			}
-			if (filledFields[FieldsParser.DESCRIPTION_INDEX]){
-				this.description = description;
-			}
-			if (filledFields[FieldsParser.LOCATION_INDEX]){
-				this.location = location;
-			}
+	public String update(String name, Date start, Date end, String description, String location,
+			Boolean[] filledFields) {
+		String updateText = "";
+		if (filledFields[FieldsParser.NAME_INDEX]) {
+			this.name = name;
+			updateText += String.format(NAME_FIELD, name);
+		}
+		if (filledFields[FieldsParser.START_INDEX]) {
+			this.start = start;
+			updateText += String.format(START_FIELD, start.toString());
+		}
+		if (filledFields[FieldsParser.END_INDEX]) {
+			this.end = end;
+			updateText += String.format(END_FIELD, end.toString());
+		}
+		if (filledFields[FieldsParser.DESCRIPTION_INDEX]) {
+			this.description = description;
+			updateText += String.format(DESCRIPTION_FIELD, description);
+		}
+		if (filledFields[FieldsParser.LOCATION_INDEX]) {
+			this.location = location;
+			updateText += String.format(LOCATION_FIELD, location);
+		}
+		return updateText;
 	}
 
 	public String read() {
+		String output = "";
 		String startString;
 		String endString;
 		if (start == null) {
@@ -122,11 +135,16 @@ public class MemoriEvent {
 		} else {
 			endString = DATE_FORMATTER.format(end);
 		}
-		return String.format(HEADER_READ, name, startString, endString, description, location);
+		output += String.format(NAME_FIELD, name);
+		output += String.format(START_FIELD, startString);
+		output += String.format(END_FIELD, endString);
+		output += String.format(DESCRIPTION_FIELD, description);
+		output += String.format(LOCATION_FIELD, location);
+		return output;
 	}
 
 	private String padRight(String s, int n) {
-		 return String.format("%1$-" + n + "s", s);  
+		return String.format("%1$-" + n + "s", s);
 	}
 
 	public String display() {
@@ -134,7 +152,7 @@ public class MemoriEvent {
 		String endString;
 
 		if (start == null) {
-			startString = padRight("", DATE_FORMAT.length() +2 );
+			startString = padRight("", DATE_FORMAT.length() + 2);
 		} else {
 			startString = DATE_FORMATTER.format(start);
 		}
@@ -171,36 +189,32 @@ public class MemoriEvent {
 			return false;
 		} else {
 			MemoriEvent other = (MemoriEvent) obj;
-			if (!this.name.equals(other.getName())){
+			if (!this.name.equals(other.getName())) {
 				System.out.println("name false");
 				return false;
-			}	
-			else if (!Compare(this.description, other.getDescription())){
+			} else if (!Compare(this.description, other.getDescription())) {
 				System.out.println(this.description);
 				System.out.println(other.description);
 				return false;
-			}
-			else if (!Compare(this.start, other.getStart())){
+			} else if (!Compare(this.start, other.getStart())) {
 				System.out.println(this.start);
 				System.out.println(other.start);
 				System.out.println("start false");
 				return false;
-			}
-			else if (!Compare(this.end,other.getEnd())){
+			} else if (!Compare(this.end, other.getEnd())) {
 				System.out.println("end false");
 				return false;
-			}
-			else if (!Compare(this.location,other.getLocation()))
+			} else if (!Compare(this.location, other.getLocation()))
 				return false;
 			else
 				return true;
 		}
 	}
-	
-	private static <T> boolean Compare(T item1, T item2){
-		if(item1 ==null && item2 == null)
+
+	private static <T> boolean Compare(T item1, T item2) {
+		if (item1 == null && item2 == null)
 			return true;
-		else if(item1 == null && item2 != null || item2 == null && item1 !=null)
+		else if (item1 == null && item2 != null || item2 == null && item1 != null)
 			return false;
 		else
 			return item1.equals(item2);
@@ -217,10 +231,18 @@ public class MemoriEvent {
 
 	public static Comparator<MemoriEvent> nameComparator = new Comparator<MemoriEvent>() {
 		public int compare(MemoriEvent me1, MemoriEvent me2) {
-			String eID1 = me1.getName();
-			String eID2 = me2.getName();
+			String name1 = me1.getName().toUpperCase();
+			String name2 = me2.getName().toUpperCase();
 
-			return eID1.toUpperCase().compareTo(eID2.toUpperCase());
+			if(name1 != null && name2 != null){
+				return name1.compareTo(name2);
+			} else if (name1 != null && name2 == null) {
+				return 1;
+			} else if (name2 != null && name1 == null) {
+				return -1;
+			} else {
+				return 0;
+			}
 		}
 	};
 
@@ -229,7 +251,15 @@ public class MemoriEvent {
 			String eID1 = me1.getExternalCalId();
 			String eID2 = me2.getExternalCalId();
 
-			return eID1.compareTo(eID2);
+			if(eID1 != null && eID2 != null){
+				return eID1.compareTo(eID2);
+			} else if (eID1 != null && eID2 == null) {
+				return 1;
+			} else if (eID2 != null && eID1 == null) {
+				return -1;
+			} else {
+				return 0;
+			}
 		}
 	};
 
@@ -266,22 +296,38 @@ public class MemoriEvent {
 			}
 		}
 	};
-	
-	public static Comparator<MemoriEvent> descriptionComparator = new Comparator<MemoriEvent>(){
-		public int compare(MemoriEvent me1, MemoriEvent me2){
+
+	public static Comparator<MemoriEvent> descriptionComparator = new Comparator<MemoriEvent>() {
+		public int compare(MemoriEvent me1, MemoriEvent me2) {
 			String description1 = me1.getDescription();
 			String description2 = me2.getDescription();
-			
-			return description1.compareTo(description2);
+
+			if(description1 != null && description2 != null){
+				return description1.compareTo(description2);
+			} else if (description1 != null && description2 == null) {
+				return 1;
+			} else if (description2 != null && description1 == null) {
+				return -1;
+			} else {
+				return 0;
+			}
 		}
 	};
-	
-	public static Comparator<MemoriEvent> locationComparator = new Comparator<MemoriEvent>(){
-		public int compare(MemoriEvent me1, MemoriEvent me2){
+
+	public static Comparator<MemoriEvent> locationComparator = new Comparator<MemoriEvent>() {
+		public int compare(MemoriEvent me1, MemoriEvent me2) {
 			String location1 = me1.getLocation();
 			String location2 = me2.getLocation();
-			
-			return location1.compareTo(location2);
+
+			if(location1 != null && location2 != null){
+				return location1.compareTo(location2);
+			} else if (location1 != null && location2 == null) {
+				return 1;
+			} else if (location2 != null && location1 == null) {
+				return -1;
+			} else {
+				return 0;
+			}
 		}
 	};
 

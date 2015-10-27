@@ -14,7 +14,7 @@ public class Memori {
 										"\n  |   \\/   |    | |_ \\_|  |   \\/   | /  .-.  \\ | |__) |    | |"+   
 										"\n  | |\\  /| |    |  _| _   | |\\  /| | | |   | | |  __ /     | |"+   
 										"\n  | |_\\/_| |_  _| |__/ | _| |_\\/_| |_\\  `-'  /_| |  \\ \\_  _| |_"+  
-										"\n|_____||_____||________||_____||_____|`.___.'|____| |___||_____| \n";
+										"\n|_____||_____||________||_____||_____|`.___.'|____| |___||_____| \n\n";
 	
 	private static final String COMMAND_PROMPT ="Command:";
 	
@@ -43,7 +43,8 @@ public class Memori {
 		if(memoriCalendar == null){
 			memoriCalendar = new MemoriCalendar();
 		}
-		googleSync.pullEvents(memoriCalendar);
+		ui.displayToUser(googleSync.pullEvents(memoriCalendar));
+		ui.displayToUser(googleSync.pushEvents(memoriCalendar));
 		st.saveCalendar(memoriCalendar);
 		ui.displayToUser(WELCOME_MSG);
 		ui.displayToUser(memoriCalendar.display(MemoriCalendar.MAIN));
