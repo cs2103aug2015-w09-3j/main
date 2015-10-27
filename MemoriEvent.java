@@ -22,6 +22,7 @@ public class MemoriEvent {
 	private String description;
 	private String location;
 	private String externalCalId;
+	private Boolean complete;
 	private Date start;
 	private Date end;
 	private int internalId;
@@ -35,6 +36,18 @@ public class MemoriEvent {
 		this.externalCalId = externalCalId;
 		this.description = description;
 		this.location = location;
+		this.complete = false;
+	}
+	//Clone
+	public MemoriEvent(MemoriEvent other) {
+		this.name = other.name;
+		this.start = other.start;
+		this.end = other.end;
+		this.internalId = other.internalId;
+		this.externalCalId = other.externalCalId;
+		this.description = other.description;
+		this.location = other.location;
+		this.complete = other.complete;
 	}
 
 	public String getName() {
@@ -71,6 +84,10 @@ public class MemoriEvent {
 
 	public void setInternalCalId(int id) {
 		this.internalId = id;
+	}
+	
+	public void setComplete(Boolean complete){
+		this.complete = complete;
 	}
 
 	public void update(String name, Date start, Date end, String description, String location, Boolean[] filledFields) {

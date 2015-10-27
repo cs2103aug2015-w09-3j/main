@@ -69,8 +69,10 @@ public class GoogleCRUD {
 			memoriEvent.setExternalCalId(event.getId());
 			System.out.println(event.getHtmlLink());
 		} catch (UnknownHostException e) {
+			System.out.println("Host execute fail");
 			return false;
 		} catch (IOException e) {
+			System.out.println("IO execute fail");
 			return false;
 		}
 		return true;

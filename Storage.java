@@ -62,7 +62,7 @@ public class Storage {
 	public MemoriSettings loadSettings() {
 		ms = MemoriSettings.loadMemoriSettings();
 		if (ms == null) {
-			ms = ms.getInstance();
+			ms = MemoriSettings.getInstance();
 			ms.createSettingsFile(SETTINGS_FILE_NAME);
 		}
 		memoriLogger.infoLogging(LOG_SETTINGS_LOAD_SUCCESS);

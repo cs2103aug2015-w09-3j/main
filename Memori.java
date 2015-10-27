@@ -2,7 +2,6 @@ package memori;
 
 
 public class Memori {
-	private MemoriLock memoriLock = new MemoriLock();
 	private MemoriUI  ui = new MemoriUI();
 	private Storage st = Storage.getInstance();
 	private MemoriCalendar memoriCalendar;
@@ -30,13 +29,15 @@ public class Memori {
 			String userInput = ui.takeInput();			
 			MemoriCommand command = memoriParser.parse(userInput);
 			String ack = memoriCalendar.execute(command, googleSync);
-			ui.displayToUser(memoriCalendar.display());
+			ui.displayToUser(memoriCalendar.display(MemoriCalendar.MAIN));
 			ui.displayToUser(ack);
 			st.saveCalendar(memoriCalendar);
 		}
 	}
 	
 	public void setup() {
+		Thread memoriLockThread = new Thread(new MemoriLock());
+		memoriLockThread.start();
 		memoriSettings = st.loadSettings();
 		memoriCalendar = st.loadCalendar();
 		if(memoriCalendar == null){
@@ -45,7 +46,7 @@ public class Memori {
 		googleSync.pullEvents(memoriCalendar);
 		st.saveCalendar(memoriCalendar);
 		ui.displayToUser(WELCOME_MSG);
-		ui.displayToUser(memoriCalendar.display());
+		ui.displayToUser(memoriCalendar.display(MemoriCalendar.MAIN));
 	}
 	
 	
