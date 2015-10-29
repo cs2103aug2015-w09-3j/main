@@ -39,6 +39,7 @@ public class MemoriCalendar {
 	}
 
 	public String execute(MemoriCommand command, GoogleSync googleSync) {
+	
 		switch (command.getType()) {
 		case ADD:
 			return add(command, googleSync);

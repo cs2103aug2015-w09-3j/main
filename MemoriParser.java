@@ -11,13 +11,26 @@ public class MemoriParser {
 		String[] commandConfig = seperateCommand(userInput);
 		MemoriCommandType cmdType = determineCommandType(commandConfig[COMMAND_TYPE]);
 		FieldsParser fp = createFieldsParser(cmdType);
-		if((userInput.length()==0)||(commandConfig.length==1)){
+		return executeParse(userInput, commandConfig, cmdType, fp);	
+	}
+
+	private MemoriCommand executeParse(String userInput,
+			String[] commandConfig, MemoriCommandType cmdType, FieldsParser fp) {
+		if((userInput.length()==0)){
 			return new MemoriCommand(INVALID_MESSAGE);
 		}
-		return fp.parse(cmdType, commandConfig[FIELDS]);
+		else if((cmdType==MemoriCommandType.EXIT)||(cmdType==MemoriCommandType.UNDO)
+				||cmdType==MemoriCommandType.REDO){
+			return fp.parse(cmdType,"system");
+		}else if(commandConfig.length == 1){
+			return new MemoriCommand(INVALID_MESSAGE);
+		}else{
+			return fp.parse(cmdType, commandConfig[FIELDS]);
+		}
 	}
 	
 	private FieldsParser createFieldsParser(MemoriCommandType cmdType){
+	
 		switch(cmdType){
 		case ADD:		
 			return new AddParser();
@@ -40,7 +53,6 @@ public class MemoriParser {
 		case EXIT:
 			return new SystemParser();
 		default:
-			
 			return new InvalidParser();
 		}
 	}
@@ -64,6 +76,14 @@ public class MemoriParser {
         	return MemoriCommandType.SEARCH;
         case "SORT":
         	return MemoriCommandType.SORT;
+        case "COMPLETE":
+        	return MemoriCommandType.COMPLETE;
+        case "UNDO":
+        	return MemoriCommandType.UNDO;
+        case "EXIT":
+        	return MemoriCommandType.EXIT;
+        case "REDO":	
+        	return MemoriCommandType.REDO;
         default:
         	 return MemoriCommandType.INVALID;
 		}
