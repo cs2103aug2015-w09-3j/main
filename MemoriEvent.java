@@ -120,6 +120,16 @@ public class MemoriEvent {
 		}
 		return updateText;
 	}
+	
+	public void replace(MemoriEvent other) {
+		this.name = other.name;
+		this.description = other.description;
+		this.start = other.start;
+		this.end = other.end;
+		this.location = other.location;
+		
+	}
+
 
 	public String read() {
 		String output = "";

@@ -26,7 +26,9 @@ public class Memori {
 	public void executeCommands(){
 		while(true){
 			ui.displayToUser(COMMAND_PROMPT);
-			String userInput = ui.takeInput();			
+			String userInput = ui.takeInput();		
+			if(userInput.equals("exit"))
+				System.exit(0);
 			MemoriCommand command = memoriParser.parse(userInput);
 			String ack = memoriCalendar.execute(command, googleSync);
 			ui.displayToUser(memoriCalendar.display(MemoriCalendar.MAIN));
@@ -43,8 +45,7 @@ public class Memori {
 		if(memoriCalendar == null){
 			memoriCalendar = new MemoriCalendar();
 		}
-		ui.displayToUser(googleSync.pullEvents(memoriCalendar));
-		ui.displayToUser(googleSync.pushEvents(memoriCalendar));
+		googleSync.SetUp(ui, memoriCalendar);
 		st.saveCalendar(memoriCalendar);
 		ui.displayToUser(WELCOME_MSG);
 		ui.displayToUser(memoriCalendar.display(MemoriCalendar.MAIN));
