@@ -11,6 +11,7 @@ public class SortParser extends FieldsParser{
 	public MemoriCommand parse(MemoriCommandType cmdType, String cmdFields) {
 		extractFields(cmdFields);
 		UpdateFilledFields();
+		printField();
 		return new MemoriCommand(cmdType,FilledFields);
 	}
 	

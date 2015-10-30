@@ -20,7 +20,14 @@ public class UpdateParser extends FieldsParser {
 				String[] stringFields = extractStrings(); 
 				Date[] startEnd = extractDates();
 				UpdateFilledFields();
-				printFields(stringFields);
+				//printFilledFields();
+				if((FilledFields[START_INDEX]==true)&&(startEnd[0]==null)){
+					return new MemoriCommand(INVALID_MESSAGE);
+				}
+				if((FilledFields[END_INDEX]==true)&&(startEnd[1]==null)){
+					return new MemoriCommand(INVALID_MESSAGE);
+				}
+				//System.out.println(startEnd[0]);
 				return new MemoriCommand(cmdType,startEnd[0],startEnd[1],stringFields,index,FilledFields);
 			}
 	
@@ -30,9 +37,9 @@ public class UpdateParser extends FieldsParser {
 			return new MemoriCommand(INVALID_MESSAGE);
 		}
 	}
-	public void printExtract(){
-		for(int i=0; i<fields.length; i++){
-			System.out.println(fields[i].getName());
+	public void printFilledFields(){
+		for(int i=0; i<FilledFields.length; i++){
+			System.out.println(FilledFields[i]);
 		}
 	}
 	public void printFields(String[] stringFields){

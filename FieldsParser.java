@@ -97,24 +97,19 @@ public abstract class FieldsParser {
 			
 			if(fields[i].getIndexInString()!=-1){
 				if(fields[i].getName().equals(FIELD_IDENTIFIERS[NAME_INDEX])){
-					FilledFields[NAME_INDEX] = true;
-					return;
+					FilledFields[NAME_INDEX]=true;
 				}
 				if(fields[i].getName().equals(FIELD_IDENTIFIERS[START_INDEX])){
-					FilledFields[START_INDEX] = true;
-					return;
+					FilledFields[START_INDEX]=true;
 				}
 				if(fields[i].getName().equals(FIELD_IDENTIFIERS[END_INDEX])){
 					FilledFields[END_INDEX] = true;
-					return;
 				}
 				if(fields[i].getName().equals(FIELD_IDENTIFIERS[LOCATION_INDEX])){
 					FilledFields[LOCATION_INDEX] = true;
-					return;
 				}
 				if(fields[i].getName().equals(FIELD_IDENTIFIERS[DESCRIPTION_INDEX])){
 					FilledFields[DESCRIPTION_INDEX] = true;
-					return;
 				}
 			}
 		}
