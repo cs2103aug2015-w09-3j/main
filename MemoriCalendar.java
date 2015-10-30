@@ -118,12 +118,14 @@ public class MemoriCalendar {
 								&& (eventCheck.getDescription() == searchedEvent.getDescription())
 								&& (eventCheck.getLocation() == searchedEvent.getLocation())){
 							
-							if(command.getEnd() == null && command.getStart() != null){
+							if(command.getEnd() == null && command.getStart() != null
+									&& eventCheck.getEnd() != null){
 								if((command.getStart()).after(eventCheck.getEnd())){
 									return MESSAGE_INVALID_INPUT_START;
 								}
 							}
-							if(command.getStart() == null && command.getEnd() != null){
+							if(command.getStart() == null && command.getEnd() != null
+									&& eventCheck.getStart() != null){
 								if((command.getEnd()).before(eventCheck.getStart())){
 									return MESSAGE_INVALID_INPUT_END;
 								}
@@ -136,12 +138,14 @@ public class MemoriCalendar {
 					}
 				}else{	
 					originalEvent = memoriCalendar.get(index - 1);
-					if(command.getEnd() == null && command.getStart() != null){
+					if(command.getEnd() == null && command.getStart() != null
+							&& originalEvent.getEnd() != null){
 						if((command.getStart()).after(originalEvent.getEnd())){
 							return MESSAGE_INVALID_INPUT_START;
 						}
 					}
-					if(command.getStart() == null && command.getEnd() != null){
+					if(command.getStart() == null && command.getEnd() != null
+							&& originalEvent.getStart() != null){
 						if((command.getEnd()).before(originalEvent.getStart())){
 							return MESSAGE_INVALID_INPUT_END;
 						}
