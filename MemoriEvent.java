@@ -13,14 +13,15 @@ public class MemoriEvent {
 	public static final int NAME_CUT_OFF = 30;
 	public static final String DATE_FORMAT = "dd MMM yyyy HH:mm E";
 
-	private static final String DISPLAY_FORMAT = "%1$s  %2$s  %3$s";
+	private static final String DISPLAY_FORMAT = "%1$s  %2$s  %3$s	%4$s";
 	private static final SimpleDateFormat DATE_FORMATTER = new SimpleDateFormat(DATE_FORMAT);
 	//Acknowledgement fields
 	private static final String NAME_FIELD = "Name: %1$s\n";
 	private static final String START_FIELD = "Start: %1$s\n";
 	private static final String END_FIELD = "End: %1$s\n";
 	private static final String DESCRIPTION_FIELD = "Description: %1$s\n";
-	private static final String LOCATION_FIELD= "Location: %1$s\n";
+	private static final String LOCATION_FIELD = "Location: %1$s\n";
+	private static final String COMPLETE_FIELD = "Complete: %1$s\n";
 	
 	private String name;
 	private String description;
@@ -150,6 +151,7 @@ public class MemoriEvent {
 		output += String.format(END_FIELD, endString);
 		output += String.format(DESCRIPTION_FIELD, description);
 		output += String.format(LOCATION_FIELD, location);
+		output += String.format(COMPLETE_FIELD, complete);
 		return output;
 	}
 
@@ -167,7 +169,8 @@ public class MemoriEvent {
 			startString = DATE_FORMATTER.format(start);
 		}
 		if (end == null) {
-			endString = "";
+			//endString = "";
+			endString = padRight("", DATE_FORMAT.length() + 2);
 		} else {
 			endString = DATE_FORMATTER.format(end);
 		}
@@ -178,7 +181,9 @@ public class MemoriEvent {
 		} else {
 			name = padRight(this.name, NAME_CUT_OFF);
 		}
-		return String.format(DISPLAY_FORMAT, name, startString, endString);
+	
+		String completeStr = String.valueOf(this.complete);
+		return String.format(DISPLAY_FORMAT, name, startString, endString, completeStr);
 	}
 
 	public String toJson() {
