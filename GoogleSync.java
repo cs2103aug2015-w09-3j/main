@@ -36,9 +36,6 @@ public class GoogleSync {
 			try {
 				remoteCopy = crud.retrieveAllEvents();
 				isConnected = true;
-				ui.displayToUser(pullEvents(calendar));
-				ui.displayToUser(pushEvents(calendar));
-				checkForConflicts(calendar, ui);
 			} catch (UnknownHostException e) {
 				isConnected = false;
 				ui.displayToUser(PULL_ERROR);

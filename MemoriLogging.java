@@ -13,6 +13,7 @@ public class MemoriLogging {
 	private static Logger logger = null;
 	private static MemoriLogging INSTANCE = new MemoriLogging();
 	public static final String LOG_FILE_NAME = "log.txt";
+	public static final String LOG_DIRECTORY = "log/";
 	
 	private MemoriLogging() {
 		
@@ -37,7 +38,7 @@ public class MemoriLogging {
 		logger = Logger.getLogger(className);
 		
 		try {		
-			fh = new FileHandler(logFileName);
+			fh = new FileHandler(LOG_DIRECTORY + logFileName);
 			logger.addHandler(fh);
 			
 			SimpleFormatter formatter = new SimpleFormatter(); 
