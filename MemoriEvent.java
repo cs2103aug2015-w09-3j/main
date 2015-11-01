@@ -13,7 +13,7 @@ public class MemoriEvent {
 	public static final int NAME_CUT_OFF = 30;
 	public static final String DATE_FORMAT = "dd MMM yyyy HH:mm E";
 
-	private static final String DISPLAY_FORMAT = "%1$s  %2$s  %3$s	%4$s";
+	private static final String DISPLAY_FORMAT = "%1$s  %2$s  %3$s  %4$s";
 	private static final SimpleDateFormat DATE_FORMATTER = new SimpleDateFormat(DATE_FORMAT);
 	//Acknowledgement fields
 	private static final String NAME_FIELD = "Name: %1$s\n";
@@ -27,10 +27,11 @@ public class MemoriEvent {
 	private String description;
 	private String location;
 	private String externalCalId;
-	private boolean complete;
 	private Date start;
 	private Date end;
+	private Date updateTime;
 	private int internalId;
+	private boolean complete;
 
 	public MemoriEvent(String name, Date start, Date end, int internalId, String externalCalId, String description,
 			String location) {
@@ -42,20 +43,9 @@ public class MemoriEvent {
 		this.description = description;
 		this.location = location;
 		this.complete = false;
+		this.updateTime = new Date(System.currentTimeMillis());
 	}
-
-	// Clone
-	public MemoriEvent(MemoriEvent other) {
-		this.name = other.name;
-		this.start = other.start;
-		this.end = other.end;
-		this.internalId = other.internalId;
-		this.externalCalId = other.externalCalId;
-		this.description = other.description;
-		this.location = other.location;
-		this.complete = other.complete;
-	}
-
+	
 	public String getName() {
 		return name;
 	}
@@ -83,6 +73,10 @@ public class MemoriEvent {
 	public String getLocation() {
 		return location;
 	}
+	
+	public Date getUpdate() {
+		return updateTime;
+	}
 
 	public void setExternalCalId(String id) {
 		this.externalCalId = id;
@@ -94,6 +88,10 @@ public class MemoriEvent {
 
 	public void setComplete(Boolean complete) {
 		this.complete = complete;
+	}
+	
+	public void setUpdate(Date newUpdateTime) {
+		this.updateTime = newUpdateTime;
 	}
 
 	public String update(String name, Date start, Date end, String description, String location,
@@ -119,6 +117,7 @@ public class MemoriEvent {
 			this.location = location;
 			updateText += String.format(LOCATION_FIELD, location);
 		}
+		this.updateTime = new Date(System.currentTimeMillis());
 		return updateText;
 	}
 	
@@ -128,7 +127,7 @@ public class MemoriEvent {
 		this.start = other.start;
 		this.end = other.end;
 		this.location = other.location;
-		
+		this.updateTime = other.updateTime;
 	}
 
 
@@ -205,19 +204,12 @@ public class MemoriEvent {
 		} else {
 			MemoriEvent other = (MemoriEvent) obj;
 			if (!this.name.equals(other.getName())) {
-				System.out.println("name false");
 				return false;
 			} else if (!Compare(this.description, other.getDescription())) {
-				System.out.println(this.description);
-				System.out.println(other.description);
 				return false;
 			} else if (!Compare(this.start, other.getStart())) {
-				System.out.println(this.start);
-				System.out.println(other.start);
-				System.out.println("start false");
 				return false;
 			} else if (!Compare(this.end, other.getEnd())) {
-				System.out.println("end false");
 				return false;
 			} else if (!Compare(this.location, other.getLocation()))
 				return false;

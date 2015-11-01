@@ -59,16 +59,16 @@ public class GoogleSync {
 		for (int i = 0; i < localEvents.size(); i++) {
 			MemoriEvent currentLocal = localEvents.get(i);
 			int result = Collections.binarySearch(remoteCopy, currentLocal, MemoriEvent.externalIdComparator);
-			// external id equals
 			if (result >= 0) {
 				MemoriEvent currentRemote = remoteCopy.get(result);
 				if (!currentLocal.equals(currentRemote)) {
-					solveDifferences(ui, toGoogle, currentLocal, currentRemote);
+					solveDifferences(currentLocal, currentRemote, toGoogle);
 				}
 			} else {
-				solveDelete(ui, localEvents, toGoogle, toDelete, i, currentLocal);
+				toDelete.add(i);
 			}
 		}
+		
 		Collections.reverse(toDelete);
 		for (int i = 0; i < toDelete.size(); i++) {
 			int index = toDelete.get(i);
@@ -82,48 +82,16 @@ public class GoogleSync {
 
 	}
 
-	private void solveDifferences(MemoriUI ui, ArrayList<SyncObject> toGoogle, MemoriEvent currentLocal,
-			MemoriEvent currentRemote) {
-		int preference = retrievePreference(ui, String.format(NOT_FOUND, currentLocal.read()));
-		if (preference == 1) {
+	private void solveDifferences(MemoriEvent currentLocal, MemoriEvent currentRemote, ArrayList<SyncObject> toGoogle) {
+		if(currentRemote.getUpdate().after(currentLocal.getUpdate())){
 			currentLocal.replace(currentRemote);
-		} else if (preference == 2) {
-			SyncObject toAdd = new SyncObject(new MemoriCommand(MemoriCommandType.UPDATE), currentLocal);
-			toGoogle.add(toAdd);
+		}else{
+			MemoriCommand updateCmd = new MemoriCommand(MemoriCommandType.UPDATE);
+			SyncObject toUpdate = new SyncObject(updateCmd, currentLocal);
+			toGoogle.add(toUpdate);
 		}
 	}
-
-	private void solveDelete(MemoriUI ui, ArrayList<MemoriEvent> localEvents, ArrayList<SyncObject> toGoogle,
-			ArrayList<Integer> toDelete, int i, MemoriEvent currentLocal) {
-		int preference = retrievePreference(ui, String.format(NOT_FOUND, currentLocal.read()));
-		if (preference == 1) {
-			toDelete.add(i);
-		} else if (preference == 2) {
-			SyncObject toAdd = new SyncObject(new MemoriCommand(MemoriCommandType.ADD), currentLocal);
-			toGoogle.add(toAdd);
-		}
-	}
-
-	private int retrievePreference(MemoriUI ui, String toShow) {
-		int preference = 0;
-		ui.displayToUser(toShow);
-		while (true) {
-			String preferenceStr = ui.takeInput().trim();
-			preference = Integer.parseInt(preferenceStr);
-			try {
-				if (preference == 1 || preference == 2) {
-					return preference;
-				} else {
-					ui.displayToUser(INVALID_PREFERENCE);
-					ui.displayToUser(toShow);
-				}
-			} catch (NumberFormatException e) {
-				ui.displayToUser(INVALID_PREFERENCE);
-				ui.displayToUser(toShow);
-			}
-		}
-	}
-
+	
 	public void executeCommand(MemoriEvent memoriEvent, MemoriCommand cmd) {
 		SyncObject newEntry = new SyncObject(cmd, memoriEvent);
 		thingsToSync.offer(newEntry);

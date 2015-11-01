@@ -25,9 +25,9 @@ public class MemoriCalendar {
 	private static final String NAME_HEADER = "Name of Event:";
 	private static final String START_HEADER = "Start: ";
 	private static final String END_HEADER = "End: ";
-	private static final String COMPLETE_HEADER = "Complete: ";
+	private static final String COMPLETE_HEADER = "Complete:";
 	//private static final String DISPLAY_FORMAT = "%1$s %2$s  %3$s    %4$s\n";
-	private static final String DISPLAY_FORMAT = "%1$s %2$s  %3$s    %4$s	%5$s\n";
+	private static final String DISPLAY_FORMAT = "%1$s %2$s  %3$s    %4$s %5$s\n";
 
 	// Display Modes
 	public static final int MAIN = 0;

@@ -39,7 +39,7 @@ public class Memori {
 	
 	public void setup() {
 		Thread memoriLockThread = new Thread(new MemoriLock());
-		memoriLockThread.start();
+		//memoriLockThread.start();
 		memoriSettings = st.loadSettings();
 		memoriCalendar = st.loadCalendar();
 		if(memoriCalendar == null){
