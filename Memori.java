@@ -42,10 +42,10 @@ public class Memori {
 		//memoriLockThread.start();
 		memoriSettings = st.loadSettings();
 		memoriCalendar = st.loadCalendar();
-		memoriCalendar.initialize();
 		if(memoriCalendar == null){
 			memoriCalendar = new MemoriCalendar();
 		}
+		memoriCalendar.initialize();
 		googleSync.SetUp(ui, memoriCalendar);
 		st.saveCalendar(memoriCalendar);
 		ui.displayToUser(WELCOME_MSG);

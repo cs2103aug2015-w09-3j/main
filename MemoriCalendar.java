@@ -279,17 +279,6 @@ public class MemoriCalendar {
 			searchedList.add(event);
 			return true;
 		}
-			
-		/*
-		if ((start.before(eventEnd) || start.equals(eventEnd))
-				&& (end.after(eventEnd) || end.equals(eventEnd))) {
-			searchedList.add(event);
-			return true;
-		} else if ((start.before(eventStart) || start.equals(eventStart))
-				&& (end.after(eventStart) || end.equals(eventStart))) {
-			searchedList.add(event);
-			return true;
-		}*/
 		return false;
 	}
 
