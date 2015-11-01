@@ -17,7 +17,6 @@ public class SearchParser extends FieldsParser {
 		String[] StringFields = extractStrings();
 		Date[] startEnd = extractDates();
 		UpdateFilledFields();
-		printFilledFields();
 		//when there is an end date but no start date or vise versa
 		//return invalid memory command
 		if((FilledFields[START_INDEX]==true)&&(FilledFields[END_INDEX]==true)){
