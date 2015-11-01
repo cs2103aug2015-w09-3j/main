@@ -36,6 +36,9 @@ public class GoogleSync {
 			try {
 				remoteCopy = crud.retrieveAllEvents();
 				isConnected = true;
+				ui.displayToUser(pullEvents(calendar));
+				ui.displayToUser(pushEvents(calendar));
+				checkForConflicts(calendar);
 			} catch (UnknownHostException e) {
 				isConnected = false;
 				ui.displayToUser(PULL_ERROR);
@@ -47,7 +50,7 @@ public class GoogleSync {
 
 	}
 
-	private void checkForConflicts(MemoriCalendar calendar, MemoriUI ui) {
+	private void checkForConflicts(MemoriCalendar calendar) {
 		ArrayList<MemoriEvent> localEvents = calendar.getEvents();
 		ArrayList<SyncObject> toGoogle = new ArrayList<SyncObject>();
 		ArrayList<Integer> toDelete = new ArrayList<Integer>();
