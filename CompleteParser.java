@@ -38,9 +38,7 @@ public class CompleteParser extends FieldsParser {
 						completeIndex.add(toBeAdded);
 					}
 				}
-			}
-
-			print();
+			}		
 			return new MemoriCommand(cmdType, completeIndex);
 
 		} catch (NumberFormatException e) {
@@ -56,13 +54,5 @@ public class CompleteParser extends FieldsParser {
 				completeIndex.add(i);
 			}
 		}
-	}
-
-	public void print() {
-		System.out.println("printing Complete index");
-		for (int i = 0; i < completeIndex.size(); i++) {
-			System.out.println("index" + completeIndex.get(i));
-		}
-
 	}
 }

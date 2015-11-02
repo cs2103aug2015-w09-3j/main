@@ -273,9 +273,6 @@ public class MemoriCalendar {
 		String text = command.getName();
 		Date userStart = command.getStart();
 		Date userEnd = command.getEnd();
-		System.out.println("Start" + userStart);
-		System.out.println("End " + userEnd);
-		System.out.println("text " + text);
 		MemoriEvent taskLine;
 
 		for (int i = 0; i < memoriCalendar.size(); i++) {
@@ -286,7 +283,6 @@ public class MemoriCalendar {
 				searchOtherFields(taskLine, text);
 			}
 		}
-		System.out.println(searchedList.size());
 		if (!searchedList.isEmpty()) {
 			return display(SEARCH);
 		} else {

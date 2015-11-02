@@ -40,8 +40,6 @@ public class ReadParser extends FieldsParser {
 					}
 				}
 			}
-
-			print();
 			return new MemoriCommand(cmdType, readIndex);
 
 		} catch (NumberFormatException e) {
@@ -57,12 +55,5 @@ public class ReadParser extends FieldsParser {
 				readIndex.add(i);
 			}
 		}
-	}
-
-	public void print() {
-		for (int i = 0; i < readIndex.size(); i++) {
-			System.out.println("index" + readIndex.get(i));
-		}
-
 	}
 }

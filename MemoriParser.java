@@ -89,11 +89,4 @@ public class MemoriParser {
         	 return MemoriCommandType.INVALID;
 		}
 	}
-		
-	
-	public static void main(String[] args){
-		MemoriParser parser = new  MemoriParser();
-		String userinput = "name:abc start:tomorrow end:yesterday";
-	}
-	
 }

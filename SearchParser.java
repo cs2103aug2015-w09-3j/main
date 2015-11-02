@@ -17,9 +17,6 @@ public class SearchParser extends FieldsParser {
 		String[] StringFields = extractStrings();
 		Date[] startEnd = extractDates();
 		UpdateFilledFields();
-		printFilledFields();
-		//when there is an end date but no start date or vise versa
-		//return invalid memory command
 		if((FilledFields[START_INDEX]==true)&&(FilledFields[END_INDEX]==true)){
 			if((startEnd[0]!=null)&&(startEnd[1]!=null)){
 				return new MemoriCommand(cmdType,startEnd[0],startEnd[1],StringFields);
@@ -31,11 +28,6 @@ public class SearchParser extends FieldsParser {
 		}else{
 			return new MemoriCommand(INVALID_MESSAGE);
 	
-		}
-	}
-	public void printFilledFields(){
-		for(int i =0; i<FilledFields.length;i++){
-			System.out.println(FilledFields[i]);
 		}
 	}
 }
