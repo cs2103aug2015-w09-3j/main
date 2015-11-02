@@ -3,7 +3,7 @@ package memori;
 import java.util.Date;
 
 public class UpdateParser extends FieldsParser {
-	private String INVALID_MESSAGE = "Oops, the index you try to update is not available."
+	private String INVALID_MESSAGE = "Oops, the index you try to update is not available."+"\n"
 			+ "Please try again.";
 	public UpdateParser() {
 		// TODO Auto-generated constructor stub
