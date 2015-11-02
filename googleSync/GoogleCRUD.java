@@ -1,4 +1,4 @@
-package memori;
+package memori.googleSync;
 
 import java.io.IOException;
 import java.net.UnknownHostException;
@@ -7,6 +7,9 @@ import java.util.List;
 
 import com.google.api.services.calendar.model.Event;
 import com.google.api.services.calendar.model.Events;
+
+import memori.logic.MemoriEvent;
+import memori.parsers.MemoriCommand;
 
 public class GoogleCRUD {
 	private static final int ADD = 0;

@@ -1,4 +1,4 @@
-package memori;
+package memori.parsers;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -7,6 +7,9 @@ import java.util.List;
 
 import com.joestelmach.natty.DateGroup;
 import com.joestelmach.natty.Parser;
+
+import memori.ErrorSuppressor;
+import memori.Storage.MemoriSettings;
 
 public class DateParser {
 	private static boolean invertMonth = MemoriSettings.getInstance().getInvertMonth();

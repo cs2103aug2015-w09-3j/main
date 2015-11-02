@@ -1,7 +1,9 @@
-package memori;
+package memori.Storage;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+
+import memori.logic.MemoriCalendar;
 
 public class Storage {
 	private static final String LOG_STORAGE_LOAD_SUCCESS = "Successfully loaded JSON file";

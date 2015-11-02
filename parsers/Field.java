@@ -1,4 +1,4 @@
-package memori;
+package memori.parsers;
 
 public class Field implements Comparable<Field>{
 	private String name;

@@ -1,10 +1,14 @@
-package memori;
+package memori.logic;
 
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
+
+import memori.googleSync.EventConverter;
+import memori.googleSync.GoogleSync;
+import memori.parsers.MemoriCommand;
 
 public class MemoriCalendar {
 	private static final String MESSAGE_ADD = "Event Added.\n";

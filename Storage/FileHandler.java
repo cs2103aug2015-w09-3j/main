@@ -1,4 +1,4 @@
-package memori;
+package memori.Storage;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;

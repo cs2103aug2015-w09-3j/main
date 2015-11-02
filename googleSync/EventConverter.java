@@ -1,4 +1,4 @@
-package memori;
+package memori.googleSync;
 
 import java.util.Calendar;
 import java.util.Date;
@@ -6,6 +6,8 @@ import java.util.Date;
 import com.google.api.client.util.DateTime;
 import com.google.api.services.calendar.model.Event;
 import com.google.api.services.calendar.model.EventDateTime;
+
+import memori.logic.MemoriEvent;
 
 public class EventConverter {
 	private static final String UNNAMED = "Unnamed Google Event";

@@ -1,4 +1,4 @@
-package memori;
+package memori.parsers;
 
 public class MemoriParser {
 	

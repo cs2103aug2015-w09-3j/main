@@ -1,4 +1,4 @@
-package memori;
+package memori.googleSync;
 
 import java.io.IOException;
 import java.io.InputStream;

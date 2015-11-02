@@ -1,4 +1,4 @@
-package memori;
+package memori.googleSync;
 
 import java.io.IOException;
 import java.net.UnknownHostException;
@@ -6,6 +6,13 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.Queue;
+
+import memori.ErrorSuppressor;
+import memori.logic.MemoriCalendar;
+import memori.logic.MemoriEvent;
+import memori.parsers.MemoriCommand;
+import memori.parsers.MemoriCommandType;
+import memori.ui.MemoriUI;
 
 public class GoogleSync {
 

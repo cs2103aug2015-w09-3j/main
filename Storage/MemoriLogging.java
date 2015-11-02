@@ -1,4 +1,4 @@
-package memori;
+package memori.Storage;
 
 import java.util.logging.Logger;
 import java.util.logging.SimpleFormatter;

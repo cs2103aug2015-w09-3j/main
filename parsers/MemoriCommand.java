@@ -1,4 +1,4 @@
-package memori;
+package memori.parsers;
 
 import java.util.ArrayList;
 import java.util.Date;

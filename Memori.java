@@ -1,5 +1,15 @@
 package memori;
 
+import memori.Storage.MemoriSettings;
+import memori.Storage.Storage;
+import memori.googleSync.GoogleSync;
+import memori.logic.MemoriCalendar;
+import memori.logic.MemoriLock;
+import memori.parsers.MemoriCommand;
+import memori.parsers.MemoriCommandType;
+import memori.parsers.MemoriParser;
+import memori.ui.MemoriUI;
+
 public class Memori {
 	private MemoriUI ui = new MemoriUI();
 	private Storage st = Storage.getInstance();

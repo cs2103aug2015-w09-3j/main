@@ -1,4 +1,4 @@
-package memori;
+package memori.parsers;
 
 import java.util.Arrays;
 import java.util.Date;
@@ -6,11 +6,11 @@ import java.util.Date;
 public abstract class FieldsParser {
 	//** change from private to protected
 	protected static final String[] FIELD_IDENTIFIERS = {"-n","-s","-e","-l","-d"};
-	protected static final int NAME_INDEX = 0;
-	protected static final int START_INDEX = 1;
-	protected static final int END_INDEX = 2;
-	protected static final int LOCATION_INDEX = 3;
-	protected static final int DESCRIPTION_INDEX = 4;
+	public static final int NAME_INDEX = 0;
+	public static final int START_INDEX = 1;
+	public static final int END_INDEX = 2;
+	public static final int LOCATION_INDEX = 3;
+	public static final int DESCRIPTION_INDEX = 4;
 	
 	
 	protected Boolean[] FilledFields = new Boolean[FIELD_IDENTIFIERS.length];

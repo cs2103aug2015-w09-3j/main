@@ -1,19 +1,20 @@
-package memori;
+package memori.parsers;
 
 import java.util.ArrayList;
+import java.util.Scanner;
 
-public class ReadParser extends FieldsParser {
-	private String INVALID_MESSAGE = "Oops,  index of the line you want to read is not found."
-			+ "Please try again"+"\n";
-	private ArrayList<Integer> readIndex;
+public class DeleteParser extends FieldsParser {
+	private ArrayList<Integer> deleteIndex;
+	public String INVALID_MESSAGE = "Oops, index ares not available,please try again";
 
-	public ReadParser() {
+	public DeleteParser() {
 		// TODO Auto-generated constructor stub
+		init();
 	}
 
 	@Override
 	public MemoriCommand parse(MemoriCommandType cmdType, String cmdFields) {
-		readIndex = new ArrayList<Integer>();
+		deleteIndex = new ArrayList<Integer>();
 		try {
 
 			while (cmdFields.contains("-")) {
@@ -50,7 +51,8 @@ public class ReadParser extends FieldsParser {
 				}
 			}
 			insertSingleDeleteIndex(cmdFields);
-			return new MemoriCommand(cmdType,readIndex);
+			print();
+			return new MemoriCommand(cmdType,deleteIndex);
 		} catch (NumberFormatException e) {
 			return new MemoriCommand(INVALID_MESSAGE);
 		}
@@ -87,14 +89,14 @@ public class ReadParser extends FieldsParser {
 			insertRangeArr(index1, index2);
 		}else if(index2>1){
 			insertRangeArr(index2,index1);
-		}else if((index1==index2)&&(!readIndex.contains(index1))){
-			readIndex.add(index1);
+		}else if((index1==index2)&&(!deleteIndex.contains(index1))){
+			deleteIndex.add(index1);
 		}
 	}
 	private void insertRangeArr(int index1, int index2) {
 		for(int i = index2;i < index1+1 ;i++){
-			if(!readIndex.contains(i)){
-				readIndex.add(i);
+			if(!deleteIndex.contains(i)){
+				deleteIndex.add(i);
 			}
 		}
 	}
@@ -103,15 +105,16 @@ public class ReadParser extends FieldsParser {
 		for(int i = 0;i<indexes.length;i++){
 			if((!indexes[i].equals(" "))&&(!indexes[i].equals(""))){
 				int indexToAdd = Integer.parseInt(indexes[i].replaceAll(" ",""));
-				if(!readIndex.contains(indexToAdd)){
-					readIndex.add(indexToAdd);
+				if(!deleteIndex.contains(indexToAdd)){
+					deleteIndex.add(indexToAdd);
 				}
 			}
 		}
 	}
 	public void print(){
-		for(int i=0;i<readIndex.size();i++){
-			System.out.println("deleteIndex"+readIndex.get(i));
+		for(int i=0;i<deleteIndex.size();i++){
+			System.out.println("deleteIndex"+deleteIndex.get(i));
 		}
 	}
+
 }

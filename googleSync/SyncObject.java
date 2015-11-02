@@ -1,4 +1,7 @@
-package memori;
+package memori.googleSync;
+
+import memori.logic.MemoriEvent;
+import memori.parsers.MemoriCommand;
 
 public class SyncObject {
 	private MemoriCommand cmd;

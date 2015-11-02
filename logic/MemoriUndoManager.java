@@ -1,4 +1,4 @@
-package memori;
+package memori.logic;
 
 import java.util.Stack;
 

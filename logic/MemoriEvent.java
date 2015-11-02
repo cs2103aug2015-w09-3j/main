@@ -1,4 +1,4 @@
-package memori;
+package memori.logic;
 
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
@@ -7,6 +7,8 @@ import java.util.Date;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+
+import memori.parsers.FieldsParser;
 
 public class MemoriEvent {
 	public static final int INTERNAL_ID_WILDCARD = -1;
