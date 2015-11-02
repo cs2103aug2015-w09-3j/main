@@ -3,8 +3,8 @@ package memori;
 import java.util.Date;
 
 public class AddParser extends FieldsParser {
-	private String INVALID_NAME_MESSAGE = "Oops,please enter the name of the event";
-	private String INVALID_DATE_MESSAGE = "Oops,invalid date format,please try again";
+	private String INVALID_NAME_MESSAGE = "Oops,please enter the name of the event"+"\n";
+	private String INVALID_DATE_MESSAGE = "Oops,invalid date format.Please try again"+"\n";
 	public AddParser() {
 		// TODO Auto-generated constructor stub
 		init();

@@ -7,7 +7,7 @@ public class MemoriParser {
 	private static final int FIELDS = 1;
 	private String[] commandConfig = new String[2];
 	private String SystemField = "system";
-	public String INVALID_MESSAGE = "No fields is added, please enter one or more fields";	
+	public String INVALID_MESSAGE = "No fields is added, please enter one or more fields"+"\n";	
 	public MemoriCommand parse(String userInput) {
 		String[] commandConfig = seperateCommand(userInput);
 		MemoriCommandType cmdType = determineCommandType(commandConfig[COMMAND_TYPE]);

@@ -299,15 +299,15 @@ public class MemoriCalendar {
 	private String complete(MemoriCommand command, GoogleSync googleSync) {
 		MemoriEvent originalEvent;
 		ArrayList<Integer> indexes = command.getIndexes();
-		if (memoriCalendar.isEmpty()) {
+		if (searchedList.isEmpty()) {
 			return MESSAGE_EMPTYFILE;
 		} else {
 			for (int i = 0; i < indexes.size(); i++) {
 				int index = indexes.get(i);
-				if (memoriCalendar.size() < index) {
+				if (searchedList.size() < index) {
 					return LINE_INDEX_DOES_NOT_EXISTS;
 				} else {
-					originalEvent = memoriCalendar.get(index - 1);
+					originalEvent = searchedList.get(index - 1);
 					originalEvent.setComplete(true);
 					googleSync.executeCommand(originalEvent, command);
 				}

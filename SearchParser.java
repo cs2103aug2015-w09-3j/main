@@ -4,8 +4,8 @@ import java.util.Date;
 
 public class SearchParser extends FieldsParser {
 	private String INVALID_MESSAGE = "Oops, the date format you try to enter is not available."
-			+ "Please try again.";
-	
+			+ "Please try again."+"\n";
+	private boolean legitField = false;
 	public SearchParser() {
 		// TODO Auto-generated constructor stub
 		init();
@@ -17,6 +17,10 @@ public class SearchParser extends FieldsParser {
 		String[] StringFields = extractStrings();
 		Date[] startEnd = extractDates();
 		UpdateFilledFields();
+		updateLegitField();
+		if(legitField == false){
+			return new MemoriCommand(INVALID_MESSAGE);
+		}
 		if((FilledFields[START_INDEX]==true)&&(FilledFields[END_INDEX]==true)){
 			if((startEnd[0]!=null)&&(startEnd[1]!=null)){
 				return new MemoriCommand(cmdType,startEnd[0],startEnd[1],StringFields);
@@ -27,7 +31,16 @@ public class SearchParser extends FieldsParser {
 				return new MemoriCommand(cmdType,startEnd[0],startEnd[1],StringFields);
 		}else{
 			return new MemoriCommand(INVALID_MESSAGE);
-	
 		}
 	}
+	public void updateLegitField(){
+		for(int i = 0;i < FilledFields.length; i++){
+			if(FilledFields[i]==true){
+				legitField = true; 
+			}
+		}
+		
+	}
+
+
 }
