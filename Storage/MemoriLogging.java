@@ -1,8 +1,12 @@
-package memori;
+package memori.Storage;
 
 import java.util.logging.Logger;
 import java.util.logging.SimpleFormatter;
+import java.io.File;
 import java.io.IOException;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeFormatterBuilder;
 import java.util.logging.FileHandler;
 
 public class MemoriLogging {
@@ -10,21 +14,58 @@ public class MemoriLogging {
 	private static Logger logger = null;
 	private static MemoriLogging INSTANCE = new MemoriLogging();
 	public static final String LOG_FILE_NAME = "log.txt";
+	public static final String LOG_DIRECTORY = "log/";
+	public static final String LOG_DIRECTORY_NAME = "log";
+
 	
 	private MemoriLogging() {
 		
 	}
 	
 	public static MemoriLogging getInstance(String className) {
-		INSTANCE.initializeLog(className, LOG_FILE_NAME);
+		DateTimeFormatter formatter = new DateTimeFormatterBuilder()
+        .appendPattern("MM").appendLiteral("-")
+        .appendPattern("dd").appendLiteral("-")
+        .appendPattern("yyyy").appendLiteral("-")
+        .appendPattern("hh").appendLiteral("")
+        .appendPattern("mm").appendLiteral("")
+        .appendPattern("ss").appendLiteral("")
+        .appendPattern("a")
+        .toFormatter();
+		String timestamp = LocalDateTime.now().format(formatter);
+		INSTANCE.initializeLog(className, timestamp + LOG_FILE_NAME);
 		return INSTANCE;
+	}
+	
+	private void createLogFolder() { 
+		File logDirectory = new File(LOG_DIRECTORY_NAME);
+
+		//if the directory does not exist, create it
+		if (!logDirectory.exists()) {
+		    System.out.println("creating directory: " + LOG_DIRECTORY_NAME);
+		    boolean result = false;
+	
+		    try{
+		        logDirectory.mkdir();
+		        result = true;
+		    } 
+		    catch(SecurityException e){
+		    	severeLogging(e.getMessage());
+		      e.printStackTrace();
+		    }
+		    
+		    if(result) {    
+		        System.out.println("Log directory created");  
+		    }
+		}
 	}
 	
 	private boolean initializeLog(String className, String logFileName) {
 		logger = Logger.getLogger(className);
+		createLogFolder();
 		
 		try {		
-			fh = new FileHandler(logFileName);
+			fh = new FileHandler(LOG_DIRECTORY + logFileName);
 			logger.addHandler(fh);
 			
 			SimpleFormatter formatter = new SimpleFormatter(); 

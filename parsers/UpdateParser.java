@@ -1,9 +1,10 @@
-package memori;
+package memori.parsers;
 
 import java.util.Date;
 
 public class UpdateParser extends FieldsParser {
-
+	private String INVALID_MESSAGE = "Oops, the index you try to update is not available."+"\n"
+			+ "Please try again.";
 	public UpdateParser() {
 		// TODO Auto-generated constructor stub
 		init();
@@ -18,27 +19,20 @@ public class UpdateParser extends FieldsParser {
 				extractFields(splitted[1]);
 				String[] stringFields = extractStrings(); 
 				Date[] startEnd = extractDates();
-				UpdateFilledFields();
-				printFields();
-				printExtract();
+				if((FilledFields[START_INDEX]==true)&&(startEnd[0]==null)){
+					return new MemoriCommand(INVALID_MESSAGE);
+				}
+				if((FilledFields[END_INDEX]==true)&&(startEnd[1]==null)){
+					return new MemoriCommand(INVALID_MESSAGE);
+				}
 				return new MemoriCommand(cmdType,startEnd[0],startEnd[1],stringFields,index,FilledFields);
 			}
 	
-			return new MemoriCommand();
+			return new MemoriCommand(INVALID_MESSAGE);
 		}catch(NumberFormatException e){
 			
-			return new MemoriCommand();
+			return new MemoriCommand(INVALID_MESSAGE);
 		}
 	}
-	public void printExtract(){
-		for(int i=0; i<fields.length; i++){
-			System.out.println(fields[i].getName());
-		}
-	}
-	public void printFields(){
-		for(int i = 0;i < FilledFields.length; i++){
-			System.out.println(FilledFields[i]);
-		}
-		
-	}
+
 }

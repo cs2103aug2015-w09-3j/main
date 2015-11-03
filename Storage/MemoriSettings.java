@@ -1,4 +1,4 @@
-package memori;
+package memori.Storage;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;

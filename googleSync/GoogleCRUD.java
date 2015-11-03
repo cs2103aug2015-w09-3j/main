@@ -1,4 +1,4 @@
-package memori;
+package memori.googleSync;
 
 import java.io.IOException;
 import java.net.UnknownHostException;
@@ -8,6 +8,9 @@ import java.util.List;
 import com.google.api.services.calendar.model.Event;
 import com.google.api.services.calendar.model.Events;
 
+import memori.logic.MemoriEvent;
+import memori.parsers.MemoriCommand;
+
 public class GoogleCRUD {
 	private static final int ADD = 0;
 	private static final int UPDATE = 1;
@@ -15,7 +18,6 @@ public class GoogleCRUD {
 	private static final int DELETE = 3;
 
 	private static final String CALENDAR_ID = "primary";
-	private static final String START_TIME = "startTime";
 	private static final int MAX_RESULTS = 100000;
 
 	private com.google.api.services.calendar.Calendar googleCalendar;
@@ -53,9 +55,7 @@ public class GoogleCRUD {
 	}
 
 	public ArrayList<MemoriEvent> retrieveAllEvents() throws IOException, UnknownHostException {
-		Events events = googleCalendar.events().list("primary").setMaxResults(MAX_RESULTS).setOrderBy(START_TIME)
-				.setSingleEvents(true).execute();
-	
+		Events events = googleCalendar.events().list(CALENDAR_ID).setMaxResults(MAX_RESULTS).execute();
 		List<Event> items = events.getItems();
 		ArrayList<MemoriEvent> remoteCopy =  new ArrayList<MemoriEvent>();
 		for(Event e: items){
@@ -72,8 +72,10 @@ public class GoogleCRUD {
 			memoriEvent.setExternalCalId(event.getId());
 			System.out.println(event.getHtmlLink());
 		} catch (UnknownHostException e) {
+			System.out.println("Host execute fail");
 			return false;
 		} catch (IOException e) {
+			System.out.println("IO execute fail");
 			return false;
 		}
 		return true;
@@ -108,10 +110,8 @@ public class GoogleCRUD {
 		try {
 			event = executeEvent(event, DELETE);
 		} catch (UnknownHostException e) {
-			// TODO Auto-generated catch block
 			return false;
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			return false;
 		}
 		return true;

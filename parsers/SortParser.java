@@ -1,9 +1,10 @@
-package memori;
+package memori.parsers;
 
 import java.util.Date;
 
 public class SortParser extends FieldsParser{
-	
+	public boolean legitField = false;
+	private String INVALID_MESSAGE = "Oops,invalid sort format.Please try again."+"\n";
 	public SortParser(){
 		init();
 	}
@@ -11,18 +12,18 @@ public class SortParser extends FieldsParser{
 	public MemoriCommand parse(MemoriCommandType cmdType, String cmdFields) {
 		extractFields(cmdFields);
 		UpdateFilledFields();
-		printField();
+		updateLegitField();
+		if(legitField == false){
+			return new MemoriCommand(INVALID_MESSAGE);
+		}
 		return new MemoriCommand(cmdType,FilledFields);
 	}
-	
-	//determine the field that the user would like to sort
-	public void printField(){
-
+	public void updateLegitField(){
 		for(int i = 0;i < FilledFields.length; i++){
-			System.out.println(FilledFields[i]);
+			if(FilledFields[i]==true){
+				legitField = true; 
+			}
 		}
 		
-	
 	}
-
 }

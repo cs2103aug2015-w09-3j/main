@@ -1,4 +1,4 @@
-package memori;
+package memori.parsers;
 
 import java.util.Arrays;
 import java.util.Date;
@@ -6,11 +6,11 @@ import java.util.Date;
 public abstract class FieldsParser {
 	//** change from private to protected
 	protected static final String[] FIELD_IDENTIFIERS = {"-n","-s","-e","-l","-d"};
-	protected static final int NAME_INDEX = 0;
-	protected static final int START_INDEX = 1;
-	protected static final int END_INDEX = 2;
-	protected static final int LOCATION_INDEX = 3;
-	protected static final int DESCRIPTION_INDEX = 4;
+	public static final int NAME_INDEX = 0;
+	public static final int START_INDEX = 1;
+	public static final int END_INDEX = 2;
+	public static final int LOCATION_INDEX = 3;
+	public static final int DESCRIPTION_INDEX = 4;
 	
 	
 	protected Boolean[] FilledFields = new Boolean[FIELD_IDENTIFIERS.length];
@@ -97,24 +97,19 @@ public abstract class FieldsParser {
 			
 			if(fields[i].getIndexInString()!=-1){
 				if(fields[i].getName().equals(FIELD_IDENTIFIERS[NAME_INDEX])){
-					FilledFields[NAME_INDEX] = true;
-					return;
+					FilledFields[NAME_INDEX]=true;
 				}
 				if(fields[i].getName().equals(FIELD_IDENTIFIERS[START_INDEX])){
-					FilledFields[START_INDEX] = true;
-					return;
+					FilledFields[START_INDEX]=true;
 				}
 				if(fields[i].getName().equals(FIELD_IDENTIFIERS[END_INDEX])){
 					FilledFields[END_INDEX] = true;
-					return;
 				}
 				if(fields[i].getName().equals(FIELD_IDENTIFIERS[LOCATION_INDEX])){
 					FilledFields[LOCATION_INDEX] = true;
-					return;
 				}
 				if(fields[i].getName().equals(FIELD_IDENTIFIERS[DESCRIPTION_INDEX])){
 					FilledFields[DESCRIPTION_INDEX] = true;
-					return;
 				}
 			}
 		}

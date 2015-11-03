@@ -1,7 +1,9 @@
-package memori;
+package memori.Storage;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+
+import memori.logic.MemoriCalendar;
 
 public class Storage {
 	private static final String LOG_STORAGE_LOAD_SUCCESS = "Successfully loaded JSON file";
@@ -62,7 +64,7 @@ public class Storage {
 	public MemoriSettings loadSettings() {
 		ms = MemoriSettings.loadMemoriSettings();
 		if (ms == null) {
-			ms = ms.getInstance();
+			ms = MemoriSettings.getInstance();
 			ms.createSettingsFile(SETTINGS_FILE_NAME);
 		}
 		memoriLogger.infoLogging(LOG_SETTINGS_LOAD_SUCCESS);
