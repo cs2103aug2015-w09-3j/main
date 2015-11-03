@@ -2,7 +2,7 @@ package memori;
 
 import memori.Storage.MemoriSettings;
 import memori.Storage.Storage;
-import memori.googleSync.GoogleSync;
+import memori.googleSync.MemoriSync;
 import memori.logic.MemoriCalendar;
 import memori.logic.MemoriLock;
 import memori.parsers.MemoriCommand;
@@ -16,7 +16,7 @@ public class Memori {
 	private MemoriCalendar memoriCalendar;
 	private MemoriParser memoriParser = new MemoriParser();
 	private MemoriSettings memoriSettings = MemoriSettings.getInstance();
-	private GoogleSync googleSync = new GoogleSync();
+	private MemoriSync googleSync = new MemoriSync();
 
 	private static String WELCOME_MSG = " ____    ____  ________  ____    ____   ___   _______     _____  "
 			+ "\n|_   \\  /   _||_   __  ||_   \\  /   _|.'   `.|_   __ \\   |_   _|"

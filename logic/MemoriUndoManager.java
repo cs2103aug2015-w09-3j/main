@@ -30,4 +30,5 @@ public class MemoriUndoManager {
 		redoStack = new Stack<MemoriCalendar>();
 	}
 
+
 }

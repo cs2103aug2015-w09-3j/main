@@ -7,7 +7,7 @@ import java.util.Comparator;
 import java.util.Date;
 
 import memori.googleSync.EventConverter;
-import memori.googleSync.GoogleSync;
+import memori.googleSync.MemoriSync;
 import memori.parsers.MemoriCommand;
 
 public class MemoriCalendar {
@@ -64,6 +64,18 @@ public class MemoriCalendar {
 		
 	}
 	
+	public MemoriCalendar copy(){
+		MemoriCalendar theCopy = new MemoriCalendar();
+		theCopy.maxId = this.maxId;
+		theCopy.maxIdSet = this.maxIdSet;
+		theCopy.searchStart = (Date)this.searchStart.clone();
+		theCopy.searchEnd = (Date)this.searchEnd.clone();
+		theCopy.searchText = this.searchText;
+		for(int i=0;i< this.memoriCalendar.size();i++){
+			theCopy.memoriCalendar.add(this.memoriCalendar.get(i));
+		}
+		return theCopy;
+	}
 	public void initialize(){
 		Calendar calendar = Calendar.getInstance();
 		calendar.set(Calendar.HOUR_OF_DAY, FIRST_HOUR);
@@ -86,7 +98,7 @@ public class MemoriCalendar {
 		return SEARCH_CONDITION_CHANGED;
 	}
 	
-	public String execute(MemoriCommand command, GoogleSync googleSync) {
+	public String execute(MemoriCommand command, MemoriSync googleSync) {
 
 		switch (command.getType()) {
 		case ADD:
@@ -108,7 +120,7 @@ public class MemoriCalendar {
 		}
 	}
 
-	public String add(MemoriCommand command, GoogleSync googleSync) {
+	public String add(MemoriCommand command, MemoriSync googleSync) {
 		if (maxIdSet == false)
 			findMaxId();
 		maxId++;
@@ -121,7 +133,7 @@ public class MemoriCalendar {
 		return MESSAGE_ADD;
 	}
 
-	private String update(MemoriCommand command, GoogleSync googleSync) {
+	private String update(MemoriCommand command, MemoriSync googleSync) {
 		MemoriEvent originalEvent;
 		MemoriEvent eventCheck;
 		MemoriEvent searchedEvent;
@@ -163,7 +175,7 @@ public class MemoriCalendar {
 		}
 	}
 
-	private String delete(MemoriCommand command, GoogleSync googleSync) {
+	private String delete(MemoriCommand command, MemoriSync googleSync) {
 		MemoriEvent event;
 		MemoriEvent eventCheck;
 		if (memoriCalendar.isEmpty()) {
@@ -254,6 +266,7 @@ public class MemoriCalendar {
 		for (int i = 0; i < memoriCalendar.size(); i++) {
 			taskLine = memoriCalendar.get(i);
 			if (searchStart != null && searchEnd != null) {
+				
 				searchDates(taskLine, searchStart, searchEnd);
 			} else {
 				searchOtherFields(taskLine, searchText);
@@ -277,9 +290,9 @@ public class MemoriCalendar {
 			eventEnd = EventConverter.END_OF_TIME;
 		}
 		 
-		if((start.before(eventStart) && end.after(eventStart)) ||
-			(start.before(eventEnd) &&  end.after(eventEnd))||
-			eventStart.before(start) && eventEnd .after(eventStart)){
+		if(((start.before(eventStart) || start.equals(eventStart)) && (end.after(eventStart) || end.equals(eventStart))) ||
+			((start.before(eventEnd) || start.equals(eventEnd))    && (end.after(eventEnd))|| end.equals(eventEnd))||
+			((eventStart.before(start) || eventStart.equals(start)) && (eventEnd.after(start) ||  eventEnd.equals(start)))){
 			searchedList.add(event);
 			return true;
 		}
@@ -300,7 +313,7 @@ public class MemoriCalendar {
 		}
 	}
 
-	private String complete(MemoriCommand command, GoogleSync googleSync) {
+	private String complete(MemoriCommand command, MemoriSync googleSync) {
 		MemoriEvent originalEvent;
 		ArrayList<Integer> indexes = command.getIndexes();
 		if (searchedList.isEmpty()) {
@@ -334,7 +347,7 @@ public class MemoriCalendar {
 		}
 		maxIdSet = true;
 	}
-
+	
 	public String addRemote(MemoriEvent event) {
 		if (maxIdSet == false)
 			findMaxId();

@@ -14,22 +14,20 @@ import memori.parsers.MemoriCommand;
 import memori.parsers.MemoriCommandType;
 import memori.ui.MemoriUI;
 
-public class GoogleSync {
+public class MemoriSync {
 
 	private static final String PULL_MESSAGE = "Number of events added =%1$s\n";
 	private static final String PUSH_MESSAGE = "Number of events synced =%1$s\n";
 	private static final String PUSH_ERROR = "Unable to sync local eventsto Google Calendar right now\n";
 	private static final String PULL_ERROR = "Unable to pull your events from google\n";
-	private static final String INVALID_PREFERENCE = "Invalid entry. Please enter 1 or 2\n";
-	private static final String NOT_FOUND = "Details:%1$sThis event is no longer in your Google Calendar\n"
-			+ "Enter 1 to delete from Memori\n" + "Enter 2 to add to Google\nCommand:";
+
 	private com.google.api.services.calendar.Calendar googleCalendar;
 	private GoogleCRUD crud;
 	private ArrayList<MemoriEvent> remoteCopy;
 	private boolean isConnected;
 	private Queue<SyncObject> thingsToSync;
 
-	public GoogleSync() {
+	public MemoriSync() {
 
 		ErrorSuppressor.supress();
 		googleCalendar = GCalConnect.getCalendarService();
