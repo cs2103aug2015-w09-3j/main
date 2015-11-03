@@ -65,7 +65,9 @@ public class MemoriCommand {
 	public String getName(){
 		return commandArgs[NAME_INDEX];
 	}
-	
+	public String[] getCommandArgs(){
+		return commandArgs;
+	}
 	public String getDescription(){
 		return commandArgs[DESCRIPTION_INDEX];
 	}

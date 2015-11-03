@@ -3,7 +3,7 @@
 import java.util.Date;
 
 public class SearchParser extends FieldsParser {
-	private String INVALID_MESSAGE = "Oops, the date format you try to enter is not available."
+	private String INVALID_MESSAGE = "Oops, the format you try to enter is not available."
 			+ "Please try again."+"\n";
 	private boolean legitField = false;
 	public SearchParser() {
@@ -15,7 +15,7 @@ public class SearchParser extends FieldsParser {
 		
 		extractFields(cmdFields);
 		String[] StringFields = extractStrings();
-		Date[] startEnd = extractDates();
+		Date[] startEnd = extractSearchDates();
 		UpdateFilledFields();
 		updateLegitField();
 		if(legitField == false){
@@ -41,6 +41,4 @@ public class SearchParser extends FieldsParser {
 		}
 		
 	}
-
-
 }

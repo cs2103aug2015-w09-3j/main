@@ -51,7 +51,6 @@ public class DeleteParser extends FieldsParser {
 				}
 			}
 			insertSingleDeleteIndex(cmdFields);
-			print();
 			return new MemoriCommand(cmdType,deleteIndex);
 		} catch (NumberFormatException e) {
 			return new MemoriCommand(INVALID_MESSAGE);
@@ -111,10 +110,4 @@ public class DeleteParser extends FieldsParser {
 			}
 		}
 	}
-	public void print(){
-		for(int i=0;i<deleteIndex.size();i++){
-			System.out.println("deleteIndex"+deleteIndex.get(i));
-		}
-	}
-
 }
