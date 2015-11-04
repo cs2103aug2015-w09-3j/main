@@ -1,3 +1,4 @@
+//@@author A0108454H
 package memori.parsers;
 
 public enum MemoriCommandType {

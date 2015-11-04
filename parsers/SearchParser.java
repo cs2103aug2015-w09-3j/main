@@ -1,4 +1,5 @@
- package memori.parsers;
+//@@author A0108454H
+package memori.parsers;
 
 import java.util.Date;
 

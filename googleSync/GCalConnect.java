@@ -1,3 +1,5 @@
+//@@author A0098038W 
+//(given by Google Calendar API)
 package memori.googleSync;
 
 import java.io.IOException;

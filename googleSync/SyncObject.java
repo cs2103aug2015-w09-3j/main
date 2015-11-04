@@ -1,3 +1,4 @@
+//@@author A0098038W
 package memori.googleSync;
 
 import memori.logic.MemoriEvent;
