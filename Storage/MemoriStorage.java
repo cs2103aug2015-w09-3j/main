@@ -1,27 +1,30 @@
 //@@author A0121262X
 package memori.Storage;
 
+import java.io.IOException;
+
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
 import memori.logic.MemoriCalendar;
 
-public class Storage {
+public class MemoriStorage {
 	private static final String LOG_STORAGE_LOAD_SUCCESS = "Successfully loaded JSON file";
 	private static final String LOG_STORAGE_SAVE_SUCCESS = "Successfully saved JSON file";
 	private static final String LOG_SETTINGS_LOAD_SUCCESS = "Successfully loaded settings file";
 	private static final String SETTINGS_FILE_NAME = "settings.json";
-	private static final Storage storageInstance = new Storage();
+	private static final String STORAGE_FILE_NAME = "memori.json";
+	private static final MemoriStorage storageInstance = new MemoriStorage();
 	String fileContents = "";
 	MemoriSettings ms;
 	FileHandler fh = new FileHandler();
 	private static MemoriLogging memoriLogger = null;
 
-	private Storage() {
+	private MemoriStorage() {
 
 	}
 
-	public static Storage getInstance() {
+	public static MemoriStorage getInstance() {
 		if (memoriLogger == null) {
 			storageInstance.initializeLog();
 		}
@@ -31,7 +34,7 @@ public class Storage {
 
 	public boolean initializeLog() {
 		try {
-			memoriLogger = MemoriLogging.getInstance(Storage.class.getName());
+			memoriLogger = MemoriLogging.getInstance(MemoriStorage.class.getName());
 			return true;
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -55,10 +58,12 @@ public class Storage {
 
 	public void saveCalendar(MemoriCalendar memoriCalendar) {
 		FileHandler fh = new FileHandler();
-
 		Gson gson = new GsonBuilder().serializeNulls().setPrettyPrinting().create();
 		String fileContent = gson.toJson(memoriCalendar);
-		fh.writeFile(ms.getFileName(), fileContent);
+		if (!fh.writeFile(ms.getFileName(), fileContent)) {
+			ms.setFileName(STORAGE_FILE_NAME);
+			ms.writeSettingsFile();
+		}
 		memoriLogger.infoLogging(LOG_STORAGE_SAVE_SUCCESS);
 	}
 

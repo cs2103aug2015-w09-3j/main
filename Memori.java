@@ -2,7 +2,7 @@
 package memori;
 
 import memori.Storage.MemoriSettings;
-import memori.Storage.Storage;
+import memori.Storage.MemoriStorage;
 import memori.googleSync.MemoriSync;
 import memori.logic.MemoriCalendar;
 import memori.logic.MemoriLock;
@@ -13,7 +13,7 @@ import memori.ui.MemoriUI;
 
 public class Memori {
 	private MemoriUI ui = new MemoriUI();
-	private Storage st = Storage.getInstance();
+	private MemoriStorage st = MemoriStorage.getInstance();
 	private MemoriCalendar memoriCalendar;
 	private MemoriParser memoriParser = new MemoriParser();
 	private MemoriSettings memoriSettings = MemoriSettings.getInstance();

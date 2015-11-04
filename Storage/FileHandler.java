@@ -9,7 +9,12 @@ import java.io.FileWriter;
 import java.io.IOException;
 
 public class FileHandler {
-	private static MemoriLogging memoriLogger = null;
+	private static MemoriLogging memoriLogger = MemoriLogging.getInstance(FileHandler.class.getName());
+	private static final FileHandler fileHandlerInstance = new FileHandler();
+	
+	public static FileHandler getInstance() {
+		return fileHandlerInstance;
+	}
 
 	public String readFile(String filePath) {
 		BufferedReader br = null;
@@ -42,7 +47,7 @@ public class FileHandler {
 		return output;
 	}
 
-	public void writeFile(String filePath, String content) {
+	public boolean writeFile(String filePath, String content) {
 		try {
 			File file = new File(filePath);
 
@@ -55,10 +60,10 @@ public class FileHandler {
 			BufferedWriter bw = new BufferedWriter(fw);
 			bw.write(content);
 			bw.close();
-
+			return true;
 		} catch (IOException e) {
 			memoriLogger.severeLogging(e.getMessage());
-			e.printStackTrace();
+			return false;
 		}
 	}
 
