@@ -2,7 +2,6 @@
 package memori.logic;
 
 import java.text.SimpleDateFormat;
-import java.util.Arrays;
 import java.util.Comparator;
 import java.util.Date;
 
@@ -171,7 +170,6 @@ public class MemoriEvent {
 			startString = DATE_FORMATTER.format(start);
 		}
 		if (end == null) {
-			//endString = "";
 			endString = padRight("", DATE_FORMAT.length() + 2);
 		} else {
 			endString = DATE_FORMATTER.format(end);

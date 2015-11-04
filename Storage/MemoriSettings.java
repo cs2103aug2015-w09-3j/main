@@ -19,12 +19,7 @@ public class MemoriSettings {
 	public static MemoriSettings getInstance() {
 		return INSTANCE;
 	}
-	
-	/**
-	public void printSampleMessage(){
-    System.out.println("blank fire");
-  }
-  **/
+
 	
 	public String getFileName() {
 		return this.fileName;
@@ -60,7 +55,7 @@ public class MemoriSettings {
 		if (!fh.writeFile(SETTINGS_LOCATION, userSettings)) {
 			fileName = DEFAULT_FILE_NAME;
 			writeSettingsFile();
-			System.out.println("rewriting to default location");
+			//System.out.println("rewriting to default location");
 		}
 	}
 	

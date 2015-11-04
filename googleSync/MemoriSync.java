@@ -9,6 +9,8 @@ import java.util.LinkedList;
 import java.util.Queue;
 
 import memori.ErrorSuppressor;
+import memori.Storage.FileHandler;
+import memori.Storage.MemoriStorage;
 import memori.logic.MemoriCalendar;
 import memori.logic.MemoriEvent;
 import memori.parsers.MemoriCommand;
@@ -17,29 +19,49 @@ import memori.ui.MemoriUI;
 
 public class MemoriSync {
 
-	private static final String PULL_MESSAGE = "Number of events added =%1$s\n";
-	private static final String PUSH_MESSAGE = "Number of events synced =%1$s\n";
-	private static final String PUSH_ERROR = "Unable to sync local eventsto Google Calendar right now\n";
+	private static final String PULL_MESSAGE = "Number of events added locally =%1$s\n";
+	private static final String PUSH_MESSAGE = "Number of events synced to google =%1$s\n";
+	private static final String PUSH_ERROR = "Unable to sync local events to Google Calendar right now\n";
 	private static final String PULL_ERROR = "Unable to pull your events from google\n";
+	
 
 	private com.google.api.services.calendar.Calendar googleCalendar;
 	private GoogleCRUD crud;
 	private ArrayList<MemoriEvent> remoteCopy;
+	private ArrayList<MemoriEvent> doNotDelete;
 	private boolean isConnected;
 	private Queue<SyncObject> thingsToSync;
+	
+	private MemoriStorage st;
 
 	public MemoriSync() {
 
 		ErrorSuppressor.supress();
 		googleCalendar = GCalConnect.getCalendarService();
 		ErrorSuppressor.unsupress();
-		thingsToSync = new LinkedList<SyncObject>();
+		st = MemoriStorage.getInstance();
+		SyncObjectQueue wrapper = st.loadQueue();
+		if(wrapper == null){
+			thingsToSync = new LinkedList<SyncObject>();
+		}else{
+			thingsToSync = wrapper.theQueue;
+		}
+		Queue<SyncObject> tempQueue =  new LinkedList<SyncObject>();
+		while(!thingsToSync.isEmpty()){
+			SyncObject current  = thingsToSync.poll();
+			if(current.getCommand().getType() == MemoriCommandType.DELETE){
+				tempQueue.offer(current);
+			}
+		}
+		doNotDelete = new ArrayList<MemoriEvent>();
+		thingsToSync  = tempQueue;
 	}
 
 	public void SetUp(MemoriUI ui, MemoriCalendar calendar) {
 		if (googleCalendar != null) {
 			crud = new GoogleCRUD(googleCalendar);
 			try {
+				processQueue();
 				remoteCopy = crud.retrieveAllEvents();
 				isConnected = true;
 				ui.displayToUser(pullEvents(calendar));
@@ -62,6 +84,7 @@ public class MemoriSync {
 		ArrayList<Integer> toDelete = new ArrayList<Integer>();
 		Collections.sort(remoteCopy, MemoriEvent.externalIdComparator);
 
+		//If google Calendar deleted the event or there are differences between gcal/ local use latest update time
 		for (int i = 0; i < localEvents.size(); i++) {
 			MemoriEvent currentLocal = localEvents.get(i);
 			int result = Collections.binarySearch(remoteCopy, currentLocal, MemoriEvent.externalIdComparator);
@@ -70,7 +93,7 @@ public class MemoriSync {
 				if (!currentLocal.equals(currentRemote)) {
 					solveDifferences(currentLocal, currentRemote, toGoogle);
 				}
-			} else {
+			} else if(!doNotDelete.contains(currentLocal)){
 				toDelete.add(i);
 			}
 		}
@@ -83,7 +106,7 @@ public class MemoriSync {
 		for (int i = 0; i < toGoogle.size(); i++) {
 			MemoriEvent e = toGoogle.get(i).getEvent();
 			MemoriCommand cmd = toGoogle.get(i).getCommand();
-			executeCommand(e, cmd);
+			addNewCommand(e, cmd);
 		}
 
 	}
@@ -98,10 +121,14 @@ public class MemoriSync {
 		}
 	}
 	
-	public void executeCommand(MemoriEvent memoriEvent, MemoriCommand cmd) {
+	public void addNewCommand(MemoriEvent memoriEvent, MemoriCommand cmd) {
 		SyncObject newEntry = new SyncObject(cmd, memoriEvent);
 		thingsToSync.offer(newEntry);
 		isConnected = true;
+		processQueue();
+	}
+
+	private void processQueue() {
 		while (isConnected) {
 			SyncObject headOfQueue = thingsToSync.peek();
 			if (headOfQueue != null) {
@@ -113,6 +140,9 @@ public class MemoriSync {
 				break;
 			}
 		}
+		SyncObjectQueue wrapper = new SyncObjectQueue();
+		wrapper.theQueue = thingsToSync;
+		st.saveQueue(wrapper);
 	}
 
 	public MemoriEvent retrieveRemote(MemoriEvent local) {
@@ -166,7 +196,8 @@ public class MemoriSync {
 			}
 		}
 		for (MemoriEvent e : toBePushed) {
-			executeCommand(e, addCommand);
+			addNewCommand(e, addCommand);
+			doNotDelete.add(e);
 		}
 		if (thingsToSync.isEmpty())
 			return String.format(PUSH_MESSAGE, toBePushed.size());

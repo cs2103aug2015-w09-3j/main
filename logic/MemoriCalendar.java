@@ -15,8 +15,8 @@ public class MemoriCalendar {
 	private static final String MESSAGE_ADD = "Event Added.\n";
 	private static final String MESSAGE_DELETE = "Event %1$d Deleted.\n";
 	private static final String MESSAGE_NO_RESULTS = "No results found\n";
-	private static final String MESSAGE_READ = "Reading: \n";
-	private static final String MESSAGE_SORT = "Sorted.";
+	private static final String MESSAGE_READ = "Reading:\n";
+	private static final String MESSAGE_SORT = "Sorted.\n";
 	private static final String MESSAGE_UPDATE = "Updated Event %1$d \n";
 	private static final String MESSAGE_INVALID_INPUT_NAME = "Invalid input. Name should not be empty. \n";
 	private static final String MESSAGE_INVALID_INPUT_START = "Invalid input. New start date should not be later"
@@ -129,7 +129,7 @@ public class MemoriCalendar {
 				command.getDescription(), command.getLocation());
 
 		memoriCalendar.add(event);
-		googleSync.executeCommand(event, command);
+		googleSync.addNewCommand(event, command);
 
 		return MESSAGE_ADD;
 	}
@@ -169,7 +169,7 @@ public class MemoriCalendar {
 						return checkStatus;
 					updateStatus = searchedEvent.update(command.getName(), command.getStart(), command.getEnd(),
 							command.getDescription(), command.getLocation(), command.getMemoriField());
-					googleSync.executeCommand(searchedEvent, command);
+					googleSync.addNewCommand(searchedEvent, command);
 				}
 				return String.format(MESSAGE_UPDATE, index) + updateStatus;
 			}
@@ -198,7 +198,7 @@ public class MemoriCalendar {
 					event = searchedList.get(index - 1);
 					int mainIndex = mainIndexMapper(event);
 					memoriCalendar.remove(mainIndex);
-					googleSync.executeCommand(event, command);
+					googleSync.addNewCommand(event, command);
 				}
 				output += String.format(MESSAGE_DELETE, index);
 
@@ -327,7 +327,7 @@ public class MemoriCalendar {
 				} else {
 					originalEvent = searchedList.get(index - 1);
 					originalEvent.setComplete(true);
-					googleSync.executeCommand(originalEvent, command);
+					googleSync.addNewCommand(originalEvent, command);
 				}
 			}
 		}

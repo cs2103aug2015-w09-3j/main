@@ -1,7 +1,6 @@
 //@@author A0108454H
 package memori.parsers;
 
-import java.util.Date;
 
 public class SortParser extends FieldsParser{
 	public boolean legitField = false;
