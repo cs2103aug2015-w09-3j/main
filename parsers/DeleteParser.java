@@ -2,14 +2,12 @@
 package memori.parsers;
 
 import java.util.ArrayList;
-import java.util.Scanner;
 
 public class DeleteParser extends FieldsParser {
 	private ArrayList<Integer> deleteIndex;
 	public String INVALID_MESSAGE = "Oops, index ares not available,please try again";
 
 	public DeleteParser() {
-		// TODO Auto-generated constructor stub
 		init();
 	}
 
@@ -52,7 +50,7 @@ public class DeleteParser extends FieldsParser {
 				}
 			}
 			insertSingleDeleteIndex(cmdFields);
-			print();
+			//print();
 			return new MemoriCommand(cmdType,deleteIndex);
 		} catch (NumberFormatException e) {
 			return new MemoriCommand(INVALID_MESSAGE);
