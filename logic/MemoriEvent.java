@@ -12,8 +12,8 @@ import memori.parsers.FieldsParser;
 
 public class MemoriEvent {
 	public static final int INTERNAL_ID_WILDCARD = -1;
-	public static final int NAME_CUT_OFF = 30;
-	public static final String DATE_FORMAT = "dd MMM yyyy HH:mm E";
+	public static final int NAME_CUT_OFF = 20;
+	public static final String DATE_FORMAT = "dd/MM/yy HH:mm E";
 
 	private static final String DISPLAY_FORMAT = "%1$s  %2$s  %3$s  %4$s";
 	private static final SimpleDateFormat DATE_FORMATTER = new SimpleDateFormat(DATE_FORMAT);
@@ -23,7 +23,7 @@ public class MemoriEvent {
 	private static final String END_FIELD = "End: %1$s\n";
 	private static final String DESCRIPTION_FIELD = "Description: %1$s\n";
 	private static final String LOCATION_FIELD = "Location: %1$s\n";
-	private static final String COMPLETE_FIELD = "Complete: %1$s\n";
+	private static final String COMPLETE_FIELD = "Completed: %1$s\n";
 	
 	private String name;
 	private String description;
@@ -159,10 +159,11 @@ public class MemoriEvent {
 	private String padRight(String s, int n) {
 		return String.format("%1$-" + n + "s", s);
 	}
-
+	
 	public String display() {
 		String startString;
 		String endString;
+		String completeOutputStr;
 
 		if (start == null) {
 			startString = padRight("", DATE_FORMAT.length() + 2);
@@ -183,7 +184,12 @@ public class MemoriEvent {
 		}
 	
 		String completeStr = String.valueOf(this.complete);
-		return String.format(DISPLAY_FORMAT, name, startString, endString, completeStr);
+		if(this.complete == true){
+			completeOutputStr = String.format("%5s", "Y");
+		}else{
+			completeOutputStr = String.format("%5s", "N");
+		}
+		return String.format(DISPLAY_FORMAT, name, startString, endString, completeOutputStr);
 	}
 
 	public String toJson() {

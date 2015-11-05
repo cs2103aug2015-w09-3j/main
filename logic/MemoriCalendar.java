@@ -13,7 +13,7 @@ import memori.parsers.MemoriCommand;
 
 public class MemoriCalendar {
 	private static final String MESSAGE_ADD = "Event Added.\n";
-	private static final String MESSAGE_DELETE = "Event %1$d Deleted.\n";
+	private static final String MESSAGE_DELETE = "Event Deleted.\n";
 	private static final String MESSAGE_NO_RESULTS = "No results found\n";
 	private static final String MESSAGE_READ = "Reading:\n";
 	private static final String MESSAGE_SORT = "Sorted.\n";
@@ -31,7 +31,7 @@ public class MemoriCalendar {
 	private static final String NAME_HEADER = "Name of Event:";
 	private static final String START_HEADER = "Start: ";
 	private static final String END_HEADER = "End: ";
-	private static final String COMPLETE_HEADER = "Complete:";
+	private static final String COMPLETE_HEADER = "Completed:";
 	private static final String DISPLAY_FORMAT = "%1$s %2$s  %3$s  %4$s %5$s\n";
 	private static final String SEARCH_CONDITION_CHANGED= "Your search conditions has been changed\n";
 	private static final String CURRENT_SEARCH_CONDITIONS = "Current search conditions:\n";
@@ -135,8 +135,6 @@ public class MemoriCalendar {
 	}
 
 	private String update(MemoriCommand command, MemoriSync googleSync) {
-		MemoriEvent originalEvent;
-		MemoriEvent eventCheck;
 		MemoriEvent searchedEvent;
 		String updateStatus = "";
 		if (memoriCalendar.isEmpty()) {
@@ -178,7 +176,6 @@ public class MemoriCalendar {
 
 	private String delete(MemoriCommand command, MemoriSync googleSync) {
 		MemoriEvent event;
-		MemoriEvent eventCheck;
 		if (memoriCalendar.isEmpty()) {
 			return MESSAGE_EMPTYFILE;
 		} else {
@@ -191,7 +188,7 @@ public class MemoriCalendar {
 					return LINE_INDEX_DOES_NOT_EXISTS;
 				}
 			}
-			String output = "";
+			
 			for (int i = 0; i < toDelete.size(); i++) {
 				int index = toDelete.get(i);
 				if (!searchedList.isEmpty()) {
@@ -200,10 +197,8 @@ public class MemoriCalendar {
 					memoriCalendar.remove(mainIndex);
 					googleSync.addNewCommand(event, command);
 				}
-				output += String.format(MESSAGE_DELETE, index);
-
 			}
-			return output;
+			return MESSAGE_DELETE;
 		}
 
 	}
@@ -360,8 +355,8 @@ public class MemoriCalendar {
 
 	public String display() {
 		String paddedNameHeader = padRight(NAME_HEADER, MemoriEvent.NAME_CUT_OFF);
-		String paddedStartHeader = padRight(START_HEADER, MemoriEvent.DATE_FORMAT.length());
-		String paddedEndHeader = padRight(END_HEADER, MemoriEvent.DATE_FORMAT.length() + 2);
+		String paddedStartHeader = padRight(START_HEADER, MemoriEvent.DATE_FORMAT.length() + 2);
+		String paddedEndHeader = padRight(END_HEADER, MemoriEvent.DATE_FORMAT.length() + 3);
 		String output = CURRENT_SEARCH_CONDITIONS;
 		String searchStatus = search();
 		if(searchStart!= null && searchEnd != null){
