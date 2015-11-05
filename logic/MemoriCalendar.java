@@ -219,10 +219,12 @@ public class MemoriCalendar {
 			String output = "";
 			for (int i = 0; i < toRead.size(); i++) {
 				int index = toRead.get(i);
-				event = memoriCalendar.get(index - 1);
-				output += String.format(MESSAGE_READ, index);
-				output += event.read();
-
+				//event = memoriCalendar.get(index - 1);
+				if(!searchedList.isEmpty()){
+					event = searchedList.get(index -1);
+					output += String.format(MESSAGE_READ, index);
+					output += event.read();
+				}
 			}
 			return output;
 		}
