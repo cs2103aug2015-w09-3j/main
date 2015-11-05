@@ -17,6 +17,22 @@ public class UpdateParserTest {
 		MemoriCommand result = up.parse(update, "-s");
 		assertTrue(compareTo(result, Expected));
 	}
+	@Test
+	public final void update2() {
+		MemoriCommandType update = MemoriCommandType.UPDATE;
+		MemoriCommand Expected = new MemoriCommand("");
+		UpdateParser up = new UpdateParser();
+		MemoriCommand result = up.parse(update, "1");
+		assertTrue(compareTo(result, Expected));
+	}
+	@Test
+	public final void update3() {
+		MemoriCommandType update = MemoriCommandType.UPDATE;
+		MemoriCommand Expected = new MemoriCommand("");
+		UpdateParser up = new UpdateParser();
+		MemoriCommand result = up.parse(update, "-n jayden -s tmr -e tmr");
+		assertTrue(compareTo(result, Expected));
+	}
 	public boolean compareTo(MemoriCommand results, MemoriCommand expected) {
 		
 		String[] resultsArgs = results.getCommandArgs();
@@ -32,7 +48,6 @@ public class UpdateParserTest {
 			}
 
 		}
-		
 		return true;
 	}
 }
