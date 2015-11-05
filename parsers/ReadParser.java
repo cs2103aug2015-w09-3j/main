@@ -4,8 +4,8 @@ package memori.parsers;
 import java.util.ArrayList;
 
 public class ReadParser extends FieldsParser {
-	private String INVALID_MESSAGE = "Oops,  index of the line you want to read is not found."
-			+ "Please try again"+"\n";
+	private String INVALID_MESSAGE = "Oops,index of the line you want to read is not found."
+			+ "Please try again."+"\n";
 	private ArrayList<Integer> readIndex;
 
 	public ReadParser() {
@@ -44,13 +44,13 @@ public class ReadParser extends FieldsParser {
 					}
 					String range = cmdFields.substring(previousSpaceIndex,
 							nextSpaceIndex);
-					insertRangeDeleteIndex(range);
+					insertRangeReadIndex(range);
 					cmdFields = cmdFields.substring(0, previousSpaceIndex)
 							+ cmdFields.substring(nextSpaceIndex,
 									cmdFields.length());
 				}
 			}
-			insertSingleDeleteIndex(cmdFields);
+			insertSingleReadIndex(cmdFields);
 			return new MemoriCommand(cmdType,readIndex);
 		} catch (NumberFormatException e) {
 			return new MemoriCommand(INVALID_MESSAGE);
@@ -76,7 +76,7 @@ public class ReadParser extends FieldsParser {
 		}
 		return i;
 	}
-	public void insertRangeDeleteIndex(String range){
+	public void insertRangeReadIndex(String range){
 		range.replaceAll(" ","");
 		String[] split = range.split("-");
 		if(split.length>2){
@@ -99,7 +99,7 @@ public class ReadParser extends FieldsParser {
 			}
 		}
 	}
-	public  void insertSingleDeleteIndex(String cmdFields){
+	public  void insertSingleReadIndex(String cmdFields){
 		String[] indexes = cmdFields.split(" ");
 		for(int i = 0;i<indexes.length;i++){
 			if((!indexes[i].equals(" "))&&(!indexes[i].equals(""))){
@@ -110,9 +110,5 @@ public class ReadParser extends FieldsParser {
 			}
 		}
 	}
-	public void print(){
-		for(int i=0;i<readIndex.size();i++){
-			System.out.println("deleteIndex"+readIndex.get(i));
-		}
-	}
+
 }

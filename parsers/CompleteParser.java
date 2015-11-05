@@ -5,7 +5,8 @@ import java.util.ArrayList;
 
 public class CompleteParser extends FieldsParser {
 	private ArrayList<Integer> completeIndex;
-	private String INVALID_MESSAGE = "Oops, indexs you want to label is not found.Please try again"+"\n";
+	private String INVALID_MESSAGE = "Oops,indexs you want to label is not found."
+			+ "Please try again"+"\n";
 
 	public CompleteParser() {
 		init();
@@ -42,13 +43,13 @@ public class CompleteParser extends FieldsParser {
 					}
 					String range = cmdFields.substring(previousSpaceIndex,
 							nextSpaceIndex);
-					insertRangeDeleteIndex(range);
+					insertRangeCompleteIndex(range);
 					cmdFields = cmdFields.substring(0, previousSpaceIndex)
 							+ cmdFields.substring(nextSpaceIndex,
 									cmdFields.length());
 				}
 			}
-			insertSingleDeleteIndex(cmdFields);
+			insertSingleCompleteIndex(cmdFields);
 			return new MemoriCommand(cmdType,completeIndex);
 		} catch (NumberFormatException e) {
 			return new MemoriCommand(INVALID_MESSAGE);
@@ -74,7 +75,7 @@ public class CompleteParser extends FieldsParser {
 		}
 		return i;
 	}
-	public void insertRangeDeleteIndex(String range){
+	public void insertRangeCompleteIndex(String range){
 		range.replaceAll(" ","");
 		String[] split = range.split("-");
 		if(split.length>2){
@@ -97,7 +98,7 @@ public class CompleteParser extends FieldsParser {
 			}
 		}
 	}
-	public  void insertSingleDeleteIndex(String cmdFields){
+	public  void insertSingleCompleteIndex(String cmdFields){
 		String[] indexes = cmdFields.split(" ");
 		for(int i = 0;i<indexes.length;i++){
 			if((!indexes[i].equals(" "))&&(!indexes[i].equals(""))){
@@ -108,9 +109,5 @@ public class CompleteParser extends FieldsParser {
 			}
 		}
 	}
-	public void print(){
-		for(int i=0;i<completeIndex.size();i++){
-			System.out.println("deleteIndex"+completeIndex.get(i));
-		}
-	}
+
 }

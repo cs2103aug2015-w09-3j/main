@@ -18,6 +18,12 @@ public class DateParser {
 	private static int STANDARD_HOUR = 9;
 	private static int STANDARD_MIN = 0;
 	private static int STANDARD_SEC = 0;
+	private static int START_HOUR = 0;
+	private static int START_MIN = 0;
+	private static int START_SEC = 0;
+	private static int END_HOUR = 23;
+	private static int END_MIN = 59;
+	private static int END_SEC = 59;
 	private static String EXPLICIT_TIME = "EXPLICIT_TIME";
 	private static String RELATIVE_TIME = "RELATIVE_TIME";
 
@@ -31,9 +37,9 @@ public class DateParser {
 		}
 		ErrorSuppressor.supress();
 		Parser parser = new Parser();
-		ErrorSuppressor.unsupress();
 		List<Date> dateList = new ArrayList<Date>();
 		List<DateGroup> groups = parser.parse(dateToParse);
+		ErrorSuppressor.unsupress();
 		if (!groups.isEmpty()) {
 
 			DateGroup dg = groups.get(0);
@@ -52,7 +58,52 @@ public class DateParser {
 		}
 		return null;
 	}
+	
+	public static Date[] parseSearchDate(String[] searchDate){
+		Date[] searchDates = new Date[2];
+		String dateToParse;
+		for(int i = 0;i < searchDate.length; i++){
+			if (invertMonth) {
+				 dateToParse = reverseMonth(searchDate[i]);
+			}else{
+				dateToParse = searchDate[i];
+			}
+			ErrorSuppressor.supress();
+			Parser parser = new Parser();
+			
+			List<Date> dateList = new ArrayList<Date>();
+			List<DateGroup> groups = parser.parse(dateToParse);
+			ErrorSuppressor.unsupress();
+			if (!groups.isEmpty()) {
 
+				DateGroup dg = groups.get(0);
+				String syntaxTree = dg.getSyntaxTree().toStringTree();
+				dateList.addAll(dg.getDates());
+				if ((!syntaxTree.contains(EXPLICIT_TIME)) && (!syntaxTree.contains(RELATIVE_TIME))) {
+					if(i==0){
+						Calendar calendar = Calendar.getInstance();
+						calendar.setTime(dateList.get(0));
+						calendar.set(Calendar.HOUR_OF_DAY, START_HOUR);
+						calendar.set(Calendar.MINUTE, START_MIN);
+						calendar.set(Calendar.SECOND, START_SEC);
+						searchDates[i] = calendar.getTime();
+					}else{
+						Calendar calendar = Calendar.getInstance();
+						calendar.setTime(dateList.get(0));
+						calendar.set(Calendar.HOUR_OF_DAY, END_HOUR);
+						calendar.set(Calendar.MINUTE, END_MIN);
+						calendar.set(Calendar.SECOND, END_SEC);
+						searchDates[i] = calendar.getTime();
+					}
+				}else{
+					searchDates[i] = dateList.get(0);
+				}	
+			}else{
+				searchDates[i] = null;
+			}	
+		}
+		return searchDates;
+	}
 	private static String reverseMonth(String dateToParse) {
 		String[] splitted = {};
 		StringBuilder inverted = new StringBuilder();
@@ -82,4 +133,5 @@ public class DateParser {
 
 		return dateToParse;
 	}
+	
 }

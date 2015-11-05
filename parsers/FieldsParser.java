@@ -24,12 +24,6 @@ public abstract class FieldsParser {
 			fields[i] = new Field(FIELD_IDENTIFIERS[i]);
 		}
 	}
-	
-	public void showFields(){
-		for(Field f: fields){
-			System.out.println(f);
-		}
-	}
 	//able to extract location and priority
 	protected String[] extractStrings(){
 		String[] strFields = new String[MemoriCommand.NUM_STRING_FIELDS];
@@ -69,6 +63,22 @@ public abstract class FieldsParser {
 			Arrays.sort(startEnd);
 		}
 		return  startEnd;
+	}
+	protected Date[] extractSearchDates(){
+		
+		String[] startEnd = new String[2];
+		
+		for(Field f: fields){
+			if(f.getName().equals(FIELD_IDENTIFIERS[START_INDEX])){
+				startEnd[0] = f.getContent();
+			}
+			else if(f.getName().equals(FIELD_IDENTIFIERS[END_INDEX])){
+				startEnd[1] = f.getContent();
+			}
+			
+		}
+	
+		return DateParser.parseSearchDate(startEnd);
 	}
 	
 	protected void extractFields(String toExtract){

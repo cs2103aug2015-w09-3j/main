@@ -41,6 +41,7 @@ public class Memori {
 				System.exit(0);
 			MemoriCommand command = memoriParser.parse(userInput);
 			String ack = memoriCalendar.execute(command, googleSync);
+			ui.clearConsole();
 			ui.displayToUser(memoriCalendar.display());
 			ui.displayToUser(ack);
 			st.saveCalendar(memoriCalendar);
@@ -77,7 +78,7 @@ public class Memori {
 				return false;
 		}
 	}
-
+	
 	public static void main(String[] args) {
 		Memori memori = new Memori();
 		memori.run();
