@@ -3,8 +3,8 @@ package memori.parsers;
 import java.util.ArrayList;
 
 public class ReadParser extends FieldsParser {
-	private String INVALID_MESSAGE = "Oops,  index of the line you want to read is not found."
-			+ "Please try again"+"\n";
+	private String INVALID_MESSAGE = "Oops,index of the line you want to read is not found."
+			+ "Please try again."+"\n";
 	private ArrayList<Integer> readIndex;
 
 	public ReadParser() {

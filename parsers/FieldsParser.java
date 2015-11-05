@@ -23,12 +23,6 @@ public abstract class FieldsParser {
 			fields[i] = new Field(FIELD_IDENTIFIERS[i]);
 		}
 	}
-	
-	public void showFields(){
-		for(Field f: fields){
-			System.out.println(f);
-		}
-	}
 	//able to extract location and priority
 	protected String[] extractStrings(){
 		String[] strFields = new String[MemoriCommand.NUM_STRING_FIELDS];

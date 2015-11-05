@@ -22,7 +22,7 @@ public class DateParser {
 	private static int START_SEC = 0;
 	private static int END_HOUR = 23;
 	private static int END_MIN = 59;
-	private static int END_SEC = 0;
+	private static int END_SEC = 59;
 	private static String EXPLICIT_TIME = "EXPLICIT_TIME";
 	private static String RELATIVE_TIME = "RELATIVE_TIME";
 
@@ -36,9 +36,9 @@ public class DateParser {
 		}
 		ErrorSuppressor.supress();
 		Parser parser = new Parser();
-		ErrorSuppressor.unsupress();
 		List<Date> dateList = new ArrayList<Date>();
 		List<DateGroup> groups = parser.parse(dateToParse);
+		ErrorSuppressor.unsupress();
 		if (!groups.isEmpty()) {
 
 			DateGroup dg = groups.get(0);
@@ -69,9 +69,10 @@ public class DateParser {
 			}
 			ErrorSuppressor.supress();
 			Parser parser = new Parser();
-			ErrorSuppressor.unsupress();
+			
 			List<Date> dateList = new ArrayList<Date>();
 			List<DateGroup> groups = parser.parse(dateToParse);
+			ErrorSuppressor.unsupress();
 			if (!groups.isEmpty()) {
 
 				DateGroup dg = groups.get(0);
@@ -93,9 +94,9 @@ public class DateParser {
 						calendar.set(Calendar.SECOND, END_SEC);
 						searchDates[i] = calendar.getTime();
 					}
-				}
-
-				 searchDates[i] = dateList.get(0);
+				}else{
+					searchDates[i] = dateList.get(0);
+				}	
 			}else{
 				searchDates[i] = null;
 			}	
@@ -131,4 +132,5 @@ public class DateParser {
 
 		return dateToParse;
 	}
+	
 }

@@ -4,7 +4,8 @@ import java.util.ArrayList;
 
 public class CompleteParser extends FieldsParser {
 	private ArrayList<Integer> completeIndex;
-	private String INVALID_MESSAGE = "Oops, indexs you want to label is not found.Please try again"+"\n";
+	private String INVALID_MESSAGE = "Oops,indexs you want to label is not found."
+			+ "Please try again"+"\n";
 
 	public CompleteParser() {
 		init();
