@@ -9,7 +9,6 @@ public class CompleteParser extends FieldsParser {
 	public String INVALID_MESSAGE = "Oops, index ares not available,please try again"+"\n";
     public String RANGE_SPLITTER = "-";
 	public CompleteParser() {
-		// TODO Auto-generated constructor stub
 		init();
 	}
 
