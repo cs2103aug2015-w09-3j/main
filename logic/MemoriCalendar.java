@@ -186,7 +186,7 @@ public class MemoriCalendar {
 			Collections.reverse(toDelete);
 			for (int i = 0; i < toDelete.size(); i++) {
 				int index = toDelete.get(i);
-				if (memoriCalendar.size() < index || index <0 ) {
+				if (searchedList.size() < index || index <0 ) {
 					return LINE_INDEX_DOES_NOT_EXISTS;
 				}
 			}

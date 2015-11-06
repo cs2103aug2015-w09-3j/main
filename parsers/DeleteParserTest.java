@@ -85,9 +85,9 @@ public class DeleteParserTest {
 	@Test
 	public final void testDeleteWithRange2() {
 		MemoriCommandType cmdType = MemoriCommandType.DELETE;
-		String deleteToTest = "   32     -      1   ";
+		String deleteToTest = "   32     -      50  ";
 		deleteExpectedIndex = new ArrayList<Integer>();
-		addIndex(1,32);
+		addIndex(32,50);
 	
 		Collections.sort(deleteExpectedIndex);
 		DeleteParser dp = new DeleteParser();
@@ -99,10 +99,9 @@ public class DeleteParserTest {
 	@Test
 	public final void testDeleteWithRange3() {
 		MemoriCommandType cmdType = MemoriCommandType.DELETE;
-		String deleteToTest = "40     50          ";
+		String deleteToTest = "40 ";
 		deleteExpectedIndex = new ArrayList<Integer>();
 		deleteExpectedIndex.add(40);
-		deleteExpectedIndex.add(50);
 	
 		Collections.sort(deleteExpectedIndex);
 		DeleteParser dp = new DeleteParser();
