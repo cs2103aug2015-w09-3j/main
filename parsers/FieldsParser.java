@@ -124,6 +124,12 @@ public abstract class FieldsParser {
 			}
 		}
 	}
-
+	//for testing
+	public Boolean[] returnFilledFields(){
+		return FilledFields;
+	}
+	public Field[] fields(){
+		return fields;
+	}
 }
 
