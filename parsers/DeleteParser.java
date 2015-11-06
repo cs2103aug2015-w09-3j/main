@@ -1,12 +1,12 @@
 package memori.parsers;
 
 import java.util.ArrayList;
-import java.util.Scanner;
+
 
 public class DeleteParser extends FieldsParser {
 	private ArrayList<Integer> deleteIndex;
-	public String INVALID_MESSAGE = "Oops, index ares not available,please try again";
-
+	public String INVALID_MESSAGE = "Oops, index ares not available,please try again"+"\n";
+    public String RANGE_SPLITTER = "-";
 	public DeleteParser() {
 		// TODO Auto-generated constructor stub
 		init();
@@ -15,99 +15,73 @@ public class DeleteParser extends FieldsParser {
 	@Override
 	public MemoriCommand parse(MemoriCommandType cmdType, String cmdFields) {
 		deleteIndex = new ArrayList<Integer>();
-		try {
-
-			while (cmdFields.contains("-")) {
-				int nextSpaceIndex = -1;
-				int previousSpaceIndex = 0;
-				int dashIndex = cmdFields.indexOf("-") + 1;
-				if (dashIndex == cmdFields.length()){
-
-					return new MemoriCommand(INVALID_MESSAGE);
-				} else {
-					for (int j = dashIndex - 2; j > 0; j--) {
-						if (!Character.toString(cmdFields.charAt(j))
-								.equals(" ")) {
-							previousSpaceIndex = findPreviousSpace(cmdFields, j);
-							break;
-						}
-					}
-					for (int i = dashIndex; i < cmdFields.length(); i++) {
-						if (!Character.toString(cmdFields.charAt(i))
-								.equals(" ")) {
-							nextSpaceIndex = findNextSpace(cmdFields, i);
-							break;
-						}
-					}
-					if ((nextSpaceIndex == -1) || (previousSpaceIndex == -1)) {
-						return new MemoriCommand(INVALID_MESSAGE);
-					}
-					String range = cmdFields.substring(previousSpaceIndex,
-							nextSpaceIndex);
-					insertRangeDeleteIndex(range);
-					cmdFields = cmdFields.substring(0, previousSpaceIndex)
-							+ cmdFields.substring(nextSpaceIndex,
-									cmdFields.length());
-				}
+		try{
+			if(!cmdFields.contains(RANGE_SPLITTER)){
+				splitIndividualIndex(cmdFields);
+				return new MemoriCommand(cmdType,deleteIndex);
+			}else{
+				addRange(cmdFields);
+				return new MemoriCommand(cmdType,deleteIndex);
 			}
-			insertSingleDeleteIndex(cmdFields);
-			return new MemoriCommand(cmdType,deleteIndex);
-		} catch (NumberFormatException e) {
+			
+		}catch(NumberFormatException e){
+			return new MemoriCommand(INVALID_MESSAGE);
+		}catch(wrongIndexFormat e){
 			return new MemoriCommand(INVALID_MESSAGE);
 		}
-
-	}
-
-	public static int findPreviousSpace(String cmdFields,int notSpace){
-		int i;
-		for(i=notSpace;i<0;i--){
-			if(Character.toString(cmdFields.charAt(i)).equals(" ")){
-				return i;
-			}
-		}
-		return i;
-	}
-	public static int findNextSpace(String cmdFields,int notSpace){
-		int i;
-		for(i=notSpace;i<cmdFields.length();i++){
-			if(Character.toString(cmdFields.charAt(i)).equals(" ")){
-				return i;
-			}
-		}
-		return i;
-	}
-	public void insertRangeDeleteIndex(String range){
-		range.replaceAll(" ","");
-		String[] split = range.split("-");
-		if(split.length>2){
-			throw new NumberFormatException();
-		}
-		int index1 = Integer.parseInt(split[0].replaceAll(" ",""));
-		int index2 = Integer.parseInt(split[1].replaceAll(" ",""));
-		if(index1>index2){
-			insertRangeArr(index1, index2);
-		}else if(index2>1){
-			insertRangeArr(index2,index1);
-		}else if((index1==index2)&&(!deleteIndex.contains(index1))){
-			deleteIndex.add(index1);
-		}
-	}
-	private void insertRangeArr(int index1, int index2) {
-		for(int i = index2;i < index1+1 ;i++){
-			if(!deleteIndex.contains(i)){
-				deleteIndex.add(i);
-			}
-		}
-	}
-	public  void insertSingleDeleteIndex(String cmdFields){
-		String[] indexes = cmdFields.split(" ");
-		for(int i = 0;i<indexes.length;i++){
-			if((!indexes[i].equals(" "))&&(!indexes[i].equals(""))){
-				int indexToAdd = Integer.parseInt(indexes[i].replaceAll(" ",""));
-				if(!deleteIndex.contains(indexToAdd)){
-					deleteIndex.add(indexToAdd);
+	}	
+	public void splitIndividualIndex(String cmdFields){
+		
+		for(int index = 0; index <cmdFields.length();index++){
+			if(cmdFields.charAt(index)!=' '){
+				int nextSpace = findNextSpace(index,cmdFields);
+				int indexToDelete = Integer.parseInt(cmdFields.substring(index,nextSpace).replaceAll(" ",""));
+				if(!deleteIndex.contains(indexToDelete)){
+					deleteIndex.add(indexToDelete);
 				}
+				index = nextSpace;
 			}
 		}
 	}
+	public int findNextSpace(int index,String cmdFields){
+		for(;index<cmdFields.length();index++){
+			if(cmdFields.charAt(index)==' '){
+				return index;
+			}
+		}
+		return index;
+	}
+	public void addRange(String cmdFields) throws wrongIndexFormat{
+		int rangeIndex1;
+		int rangeIndex2;
+		int ExpectedNoOfNumbers = 2;
+		String[] split = cmdFields.split(RANGE_SPLITTER);
+		if((cmdFields.length() - cmdFields.replaceAll(RANGE_SPLITTER,"").length())>1){
+			throw new wrongIndexFormat();
+		}else if(split.length!=ExpectedNoOfNumbers){
+			throw new wrongIndexFormat();
+		}else{
+			rangeIndex1 = Integer.parseInt(split[0].trim());
+			rangeIndex2 = Integer.parseInt(split[1].trim());
+			addToDeleteIndex(rangeIndex1,rangeIndex2);
+		}
+	}
+
+	public void addToDeleteIndex(int rangeIndex1,int rangeIndex2){
+		int upper;
+		int lower;
+		if(rangeIndex1 > rangeIndex2){
+			upper = rangeIndex1;
+			lower = rangeIndex2;
+			
+		}else{
+			upper = rangeIndex2;
+			lower = rangeIndex1;
+		
+		}
+		for(;lower<upper+1;lower++){
+			deleteIndex.add(lower);
+		}
+	}
+	
 }
