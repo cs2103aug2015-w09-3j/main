@@ -6,9 +6,12 @@ public class MemoriParser {
 	// commandConfig Array indexes
 	private static final int COMMAND_TYPE = 0;
 	private static final int FIELDS = 1;
+
 	private String[] commandConfig = new String[2];
 	private String SystemField = "system";
 	public String INVALID_MESSAGE = "No fields is added, please enter one or more fields"+"\n";	
+	
+	//The main parse method
 	public MemoriCommand parse(String userInput) {
 		String[] commandConfig = seperateCommand(userInput);
 		MemoriCommandType cmdType = determineCommandType(commandConfig[COMMAND_TYPE]);
@@ -47,6 +50,7 @@ public class MemoriParser {
 		case SORT:
 			return new SortParser();
 		case COMPLETE:
+		case OPEN:
 			return new CompleteParser();
 		case UNDO:
 			return new SystemParser();
@@ -80,6 +84,8 @@ public class MemoriParser {
         	return MemoriCommandType.SORT;
         case "COMPLETE":
         	return MemoriCommandType.COMPLETE;
+        case "OPEN":
+        	return MemoriCommandType.OPEN;
         case "UNDO":
         	return MemoriCommandType.UNDO;
         case "EXIT":

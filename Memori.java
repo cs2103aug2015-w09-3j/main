@@ -65,21 +65,6 @@ public class Memori {
 		ui.displayToUser(memoriCalendar.display());
 	}
 
-	private boolean isCalendarCommand(MemoriCommand cmd) {
-		MemoriCommandType type = cmd.getType();
-		switch (type) {
-			case ADD:
-			case UPDATE:
-			case DELETE:
-			case SEARCH:
-			case SORT:
-			case COMPLETE:
-			case READ:
-				return true;
-			default:
-				return false;
-		}
-	}
 	
 	public static void main(String[] args) {
 		Memori memori = new Memori();

@@ -10,14 +10,17 @@ import java.util.Date;
 import memori.googleSync.EventConverter;
 import memori.googleSync.MemoriSync;
 import memori.parsers.MemoriCommand;
+import memori.parsers.MemoriCommandType;
 
 public class MemoriCalendar {
+	// Ack Messages
 	private static final String MESSAGE_ADD = "Event Added.\n";
 	private static final String MESSAGE_DELETE = "Event Deleted.\n";
 	private static final String MESSAGE_NO_RESULTS = "No results found\n";
 	private static final String MESSAGE_READ = "Reading:\n";
 	private static final String MESSAGE_SORT = "Sorted.\n";
 	private static final String MESSAGE_UPDATE = "Updated Event %1$d \n";
+	private static final String MESSAGE_INVALID_INDEX = "Line index does not exists.\n";
 	private static final String MESSAGE_INVALID_INPUT_NAME = "Invalid input. Name should not be empty. \n";
 	private static final String MESSAGE_INVALID_INPUT_START = "Invalid input. New start date should not be later"
 			+ " than original end date. \n";
@@ -25,24 +28,30 @@ public class MemoriCalendar {
 			+ " than original start date. \n";
 	private static final String MESSAGE_INVALID_INPUT_GENERAL = "Invalid input. \n";
 	private static final String MESSAGE_COMPLETE = "Tasks have been marked complete. \n";
-	private static final String LINE_INDEX_DOES_NOT_EXISTS = "Line index does not exists.\n";
+	private static final String MESSAGE_OPEN = "Tasks have been reopened\n";
 	private static final String MESSAGE_EMPTYFILE = "File is Empty.\n";
+	private static final String MESSAGE_CHANGE_SEARCH= "Your search conditions has been changed\n";
+
+	//Display headers
 	private static final String INDEX_HEADER = "No: ";
 	private static final String NAME_HEADER = "Name of Event:";
 	private static final String START_HEADER = "Start: ";
 	private static final String END_HEADER = "End: ";
 	private static final String COMPLETE_HEADER = "Completed:";
 	private static final String DISPLAY_FORMAT = "%1$s %2$s  %3$s  %4$s %5$s\n";
-	private static final String SEARCH_CONDITION_CHANGED= "Your search conditions has been changed\n";
 	private static final String CURRENT_SEARCH_CONDITIONS = "Current search conditions:\n";
 	private static final String SEARCH_KEYWORD = "Keyword:%1$s\n";
 	// Display Modes
 	public static final int MAIN = 0;
 	public static final int SEARCH = 1;
 
-	// Search mode
+	// Search modes
 	public static final int DATE = 0;
 	public static final int NAME = 0;
+	
+	//Complete modes
+	private static final int COMPLETE = 0;
+	private static final int OPEN = 0;
 
 	// start of day
 	private static final int FIRST_HOUR = 0;
@@ -96,7 +105,7 @@ public class MemoriCalendar {
 		searchText = command.getName();
 		searchStart = command.getStart();
 		searchEnd = command.getEnd();
-		return SEARCH_CONDITION_CHANGED;
+		return MESSAGE_CHANGE_SEARCH;
 	}
 	
 	public String execute(MemoriCommand command, MemoriSync googleSync) {
@@ -115,11 +124,14 @@ public class MemoriCalendar {
 		case SEARCH:
 			return setSearch(command);
 		case COMPLETE:
-			return complete(command, googleSync);
+		case OPEN:
+			return toggleComplete(command);
 		default:
 			return command.getInvalidMessage();
 		}
 	}
+
+
 
 	public String add(MemoriCommand command, MemoriSync googleSync) {
 		if (maxIdSet == false)
@@ -143,7 +155,7 @@ public class MemoriCalendar {
 			int index = command.getIndex();
 
 			if (memoriCalendar.size() < index || index < 0) {
-				return LINE_INDEX_DOES_NOT_EXISTS;
+				return MESSAGE_INVALID_INDEX;
 			} else {
 				if (command.getName() == null) {
 					return MESSAGE_INVALID_INPUT_NAME;
@@ -159,7 +171,7 @@ public class MemoriCalendar {
 
 				if (!searchedList.isEmpty()) {
 					if (searchedList.size() < index) {
-						return LINE_INDEX_DOES_NOT_EXISTS;
+						return MESSAGE_INVALID_INDEX;
 					}
 					searchedEvent = searchedList.get(index - 1);
 					String checkStatus = checkUpdateConditions(command, searchedEvent);
@@ -185,7 +197,7 @@ public class MemoriCalendar {
 			for (int i = 0; i < toDelete.size(); i++) {
 				int index = toDelete.get(i);
 				if (searchedList.size() < index || index <0 ) {
-					return LINE_INDEX_DOES_NOT_EXISTS;
+					return MESSAGE_INVALID_INDEX;
 				}
 			}
 			
@@ -212,7 +224,7 @@ public class MemoriCalendar {
 			for (int i = 0; i < toRead.size(); i++) {
 				int index = toRead.get(i);
 				if (memoriCalendar.size() < index) {
-					return LINE_INDEX_DOES_NOT_EXISTS;
+					return MESSAGE_INVALID_INDEX;
 
 				}
 			}
@@ -311,7 +323,8 @@ public class MemoriCalendar {
 		}
 	}
 
-	private String complete(MemoriCommand command, MemoriSync googleSync) {
+	private String toggleComplete(MemoriCommand command) {
+		
 		MemoriEvent originalEvent;
 		ArrayList<Integer> indexes = command.getIndexes();
 		if (searchedList.isEmpty()) {
@@ -320,16 +333,28 @@ public class MemoriCalendar {
 			for (int i = 0; i < indexes.size(); i++) {
 				int index = indexes.get(i);
 				if (searchedList.size() < index) {
-					return LINE_INDEX_DOES_NOT_EXISTS;
-				} else {
+					return MESSAGE_INVALID_INDEX;
+				} 
+			}
+			for (int i = 0; i < indexes.size(); i++) {
+				int index = indexes.get(i);
 					originalEvent = searchedList.get(index - 1);
-					originalEvent.setComplete(true);
-					googleSync.addNewCommand(originalEvent, command);
+					if(command.getType() == MemoriCommandType.COMPLETE){
+						originalEvent.setComplete(true);
+					}
+					else{
+						originalEvent.setComplete(false);
+					}
 				}
 			}
+		if(command.getType() == MemoriCommandType.COMPLETE){
+			return MESSAGE_COMPLETE;
 		}
-		return MESSAGE_COMPLETE;
+		else{
+			return MESSAGE_OPEN;
+		}
 	}
+	
 
 	public void sortBy(Comparator<MemoriEvent> comparator) {
 		Collections.sort(memoriCalendar, comparator);
