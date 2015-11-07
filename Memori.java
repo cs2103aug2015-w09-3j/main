@@ -37,9 +37,8 @@ public class Memori {
 		while (true) {
 			ui.displayToUser(COMMAND_PROMPT);
 			String userInput = ui.takeInput();
-			if (userInput.equals("exit"))
-				System.exit(0);
 			MemoriCommand command = memoriParser.parse(userInput);
+			checkExit(command.getType());
 			String ack = memoriCalendar.execute(command, googleSync);
 			ui.clearConsole();
 			ui.displayToUser(WELCOME_MSG);
@@ -49,17 +48,22 @@ public class Memori {
 		}
 	}
 
+	private void checkExit(MemoriCommandType type) {
+		if (type == MemoriCommandType.EXIT)
+			System.exit(0);
+	}
+
 	public void setup() {
 		Thread memoriLockThread = new Thread(new MemoriLock());
-		// memoriLockThread.start();
+		memoriLockThread.start();
 		memoriSettings = st.loadSettings();
 		memoriCalendar = st.loadCalendar();
 		if (memoriCalendar == null) {
 			memoriCalendar = new MemoriCalendar();
 		}
-		memoriCalendar.initialize();
 		ui.clearConsole();
-		googleSync.SetUp(ui, memoriCalendar);
+		googleSync.initialize(ui, memoriCalendar);
+		memoriCalendar.initialize();
 		st.saveCalendar(memoriCalendar);
 		ui.displayToUser(WELCOME_MSG);
 		ui.displayToUser(memoriCalendar.display());

@@ -48,6 +48,10 @@ public class MemoriEvent {
 		this.updateTime = new Date(System.currentTimeMillis());
 	}
 	
+	public MemoriEvent() {
+		this.updateTime = new Date(System.currentTimeMillis());
+	}
+
 	public String getName() {
 		return name;
 	}
@@ -80,6 +84,9 @@ public class MemoriEvent {
 		return updateTime;
 	}
 
+	public boolean getComplete() {
+		return complete;
+	}
 	public void setExternalCalId(String id) {
 		this.externalCalId = id;
 	}
