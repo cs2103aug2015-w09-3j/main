@@ -30,8 +30,12 @@ public class MemoriCalendar {
 	private static final String MESSAGE_COMPLETE = "Tasks have been marked complete. \n";
 	private static final String MESSAGE_OPEN = "Tasks have been reopened\n";
 	private static final String MESSAGE_EMPTYFILE = "File is Empty.\n";
-	private static final String MESSAGE_CHANGE_SEARCH= "Your search conditions has been changed\n";
-
+	private static final String MESSAGE_CHANGE_SEARCH= "Your search conditions has been changed.\n";
+	private static final String MESSAGE_UNDO = "Your changes have been undone.\n";
+	private static final String MESSAGE_REDO ="Your changes have been redone.\n";
+	private static final String MESSAGE_UNDO_INVALID = "You cannot undo anymore.\n";
+	private static final String MESSAGE_REDO_INVALID = "You cannot redo anymore.\n";
+	
 	//Display headers
 	private static final String INDEX_HEADER = "No: ";
 	private static final String NAME_HEADER = "Name of Event:";
@@ -41,18 +45,11 @@ public class MemoriCalendar {
 	private static final String DISPLAY_FORMAT = "%1$s %2$s  %3$s  %4$s %5$s\n";
 	private static final String CURRENT_SEARCH_CONDITIONS = "Current search conditions:\n";
 	private static final String SEARCH_KEYWORD = "Keyword:%1$s\n";
+	
 	// Display Modes
 	public static final int MAIN = 0;
 	public static final int SEARCH = 1;
-
-	// Search modes
-	public static final int DATE = 0;
-	public static final int NAME = 0;
 	
-	//Complete modes
-	private static final int COMPLETE = 0;
-	private static final int OPEN = 0;
-
 	// start of day
 	private static final int FIRST_HOUR = 0;
 	private static final int FIRST_MIN = 0;
@@ -63,6 +60,7 @@ public class MemoriCalendar {
 
 	private ArrayList<MemoriEvent> memoriCalendar;
 	private ArrayList<MemoriEvent> searchedList;
+	private MemoriUndoManager undoManager;
 	private int maxId = 0;
 	private boolean maxIdSet = false;
 	private Date searchStart;
@@ -71,7 +69,6 @@ public class MemoriCalendar {
 
 	public MemoriCalendar() {
 		this.memoriCalendar = new ArrayList<MemoriEvent>();
-		
 	}
 	
 	public MemoriCalendar copy(){
@@ -86,6 +83,7 @@ public class MemoriCalendar {
 		}
 		return theCopy;
 	}
+	
 	public void initialize(){
 		Calendar calendar = Calendar.getInstance();
 		calendar.set(Calendar.HOUR_OF_DAY, FIRST_HOUR);
@@ -96,11 +94,18 @@ public class MemoriCalendar {
 		calendar.set(Calendar.MINUTE, LAST_MIN);
 		calendar.set(Calendar.SECOND, LAST_SEC);
 		searchEnd = calendar.getTime();
+		undoManager = new MemoriUndoManager();
+		//undoManager.addToUndo(memoriCalendar);
 	}
 
 	public ArrayList<MemoriEvent> getEvents() {
 		return memoriCalendar;
 	}
+	
+	public ArrayList<MemoriEvent> getSearch() {
+		return searchedList;
+	}
+	
 	private String setSearch(MemoriCommand command){
 		searchText = command.getName();
 		searchStart = command.getStart();
@@ -109,29 +114,54 @@ public class MemoriCalendar {
 	}
 	
 	public String execute(MemoriCommand command, MemoriSync googleSync) {
-
+		String ack = "";
 		switch (command.getType()) {
 		case ADD:
-			return add(command, googleSync);
+			ack = add(command, googleSync);
+			break;
 		case UPDATE:
-			return update(command, googleSync);
+			ack = update(command, googleSync);
+			break;
 		case DELETE:
-			return delete(command, googleSync);
+			ack = delete(command, googleSync);
+			break;
 		case READ:
-			return read(command);
+			ack = read(command);
+			break;
 		case SORT:
-			return sort(command);
+			ack = sort(command);
+			break;
 		case SEARCH:
-			return setSearch(command);
+			ack = setSearch(command);
+			break;
 		case COMPLETE:
 		case OPEN:
-			return toggleComplete(command);
+			ack = toggleComplete(command);
+			break;
+		case UNDO:
+			ack = undo(googleSync);
+			break;
 		default:
-			return command.getInvalidMessage();
+			ack = command.getInvalidMessage();
 		}
+
+		
+		return ack;
 	}
 
 
+	private String undo(MemoriSync googleSync) {
+		
+		ArrayList<MemoriEvent> previousState = undoManager.undo();
+		if(previousState != null){
+			googleSync.undo(previousState, memoriCalendar);
+			memoriCalendar = previousState;
+			return MESSAGE_UNDO;
+		}
+		return MESSAGE_UNDO_INVALID;
+	}
+
+	
 
 	public String add(MemoriCommand command, MemoriSync googleSync) {
 		if (maxIdSet == false)
@@ -140,9 +170,10 @@ public class MemoriCalendar {
 		MemoriEvent event = new MemoriEvent(command.getName(), command.getStart(), command.getEnd(), maxId, null,
 				command.getDescription(), command.getLocation());
 
+		undoManager.addToUndo(memoriCalendar);
 		memoriCalendar.add(event);
-		googleSync.addNewCommand(event, command);
-
+		googleSync.addNewRequest(event, command);
+		
 		return MESSAGE_ADD;
 	}
 
@@ -175,12 +206,15 @@ public class MemoriCalendar {
 					}
 					searchedEvent = searchedList.get(index - 1);
 					String checkStatus = checkUpdateConditions(command, searchedEvent);
-					if (checkStatus != null)
+					if (checkStatus != null){
 						return checkStatus;
+					}
+					undoManager.addToUndo(memoriCalendar);
 					updateStatus = searchedEvent.update(command.getName(), command.getStart(), command.getEnd(),
 							command.getDescription(), command.getLocation(), command.getMemoriField());
-					googleSync.addNewCommand(searchedEvent, command);
+					googleSync.addNewRequest(searchedEvent, command);
 				}
+				
 				return String.format(MESSAGE_UPDATE, index) + updateStatus;
 			}
 		}
@@ -200,14 +234,14 @@ public class MemoriCalendar {
 					return MESSAGE_INVALID_INDEX;
 				}
 			}
-			
+			undoManager.addToUndo(memoriCalendar);
 			for (int i = 0; i < toDelete.size(); i++) {
 				int index = toDelete.get(i);
 				if (!searchedList.isEmpty()) {
 					event = searchedList.get(index - 1);
 					int mainIndex = mainIndexMapper(event);
 					memoriCalendar.remove(mainIndex);
-					googleSync.addNewCommand(event, command);
+					googleSync.addNewRequest(event, command);
 				}
 			}
 			return MESSAGE_DELETE;
@@ -336,6 +370,7 @@ public class MemoriCalendar {
 					return MESSAGE_INVALID_INDEX;
 				} 
 			}
+			undoManager.addToUndo(memoriCalendar);
 			for (int i = 0; i < indexes.size(); i++) {
 				int index = indexes.get(i);
 					originalEvent = searchedList.get(index - 1);

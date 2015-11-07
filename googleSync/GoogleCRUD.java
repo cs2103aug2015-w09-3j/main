@@ -71,7 +71,6 @@ public class GoogleCRUD {
 		try {
 			event = executeEvent(event, ADD);
 			memoriEvent.setExternalCalId(event.getId());
-			System.out.println(event.getHtmlLink());
 		} catch (UnknownHostException e) {
 			return false;
 		} catch (IOException e) {
@@ -93,7 +92,6 @@ public class GoogleCRUD {
 				event = executeEvent(event, ADD);
 				memoriEvent.setExternalCalId(event.getId());
 			}
-			System.out.println(event.getHtmlLink());
 		} catch (UnknownHostException e) {
 			return false;
 		} catch (IOException e) {
@@ -117,7 +115,6 @@ public class GoogleCRUD {
 		} catch (UnknownHostException e) {
 			return false;
 		} catch (IOException e) {
-			System.out.println("hi");
 			return true;
 		}
 		return true;
