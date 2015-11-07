@@ -31,8 +31,7 @@ public class MemoriParser {
 			String[] commandConfig, MemoriCommandType cmdType, FieldsParser fp) {
 	
 		if((cmdType==MemoriCommandType.EXIT)
-				||(cmdType==MemoriCommandType.UNDO)
-				||cmdType==MemoriCommandType.REDO){
+				||(cmdType==MemoriCommandType.UNDO)){
 			
 			return fp.parse(cmdType,SystemField);
 		
@@ -70,8 +69,6 @@ public class MemoriParser {
 		case OPEN:
 			return new IndexesParser();
 		case UNDO:
-			return new SystemParser();
-		case REDO:	
 			return new SystemParser();
 		case EXIT:
 			return new SystemParser();
@@ -117,8 +114,6 @@ public class MemoriParser {
         	return MemoriCommandType.UNDO;
         case "EXIT":
         	return MemoriCommandType.EXIT;
-        case "REDO":	
-        	return MemoriCommandType.REDO;
         default:
         	 return MemoriCommandType.INVALID;
 		}

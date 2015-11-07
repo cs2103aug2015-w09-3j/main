@@ -14,11 +14,11 @@ public class AddParserTest {
 	@Test
 	public final void add1() {
 		MemoriCommandType add = MemoriCommandType.ADD;
-		MemoriCommand Expected = new MemoriCommand("");
+		MemoriCommand expected = new MemoriCommand("");
 		AddParser ap = new AddParser();
 		MemoriCommand result = ap.parse(add, "-s");
-		System.out.println(Expected.getType()+""+result.getType());
-		assertTrue(compareTo(result, Expected));
+		
+		assertTrue(compareTo(result, expected));
 	}
 
 	@Test
@@ -28,11 +28,11 @@ public class AddParserTest {
 		stringField[0] = "jayden";
 		Date StartDate = null;
 		Date EndDate = null;
-		MemoriCommand Expected = new MemoriCommand(add,StartDate,EndDate,stringField);
+		MemoriCommand expected = new MemoriCommand(add,StartDate,EndDate,stringField);
 		AddParser ap = new AddParser();
 		MemoriCommand result = ap.parse(add, "-n jayden");
-		System.out.println(Expected.getType()+""+result.getType());
-		assertTrue(compareTo(result, Expected));
+		
+		assertTrue(compareTo(result, expected));
 	}
 
 	@Test
@@ -45,11 +45,11 @@ public class AddParserTest {
 		DateParser dp = new DateParser();
 		Date StartDate = dp.parseDate("tmr");
 		Date EndDate = null;
-		MemoriCommand Expected = new MemoriCommand(add,StartDate,EndDate,stringField);
+		MemoriCommand expected = new MemoriCommand(add,StartDate,EndDate,stringField);
 		AddParser ap = new AddParser();
 		MemoriCommand result = ap.parse(add, "-n jayden -stmr -l sengkang -d with friends");
-		System.out.println(Expected.getType()+""+result.getType());
-		assertTrue(compareTo(result, Expected));
+		
+		assertTrue(compareTo(result, expected));
 	}
 	@Test
 	public final void add4() {
@@ -60,11 +60,11 @@ public class AddParserTest {
 		stringField[2] = "with family";
 		Date StartDate = null;
 		Date EndDate = null;
-		MemoriCommand Expected = new MemoriCommand(add,StartDate,EndDate,stringField);
+		MemoriCommand expected = new MemoriCommand(add,StartDate,EndDate,stringField);
 		AddParser ap = new AddParser();
 		MemoriCommand result = ap.parse(add, "-n jayden -l home -d with family");
-		System.out.println(Expected.getType()+""+result.getType());
-		assertTrue(compareTo(result, Expected));
+		
+		assertTrue(compareTo(result, expected));
 	}
 	@Test
 	public final void add5() {
@@ -76,11 +76,11 @@ public class AddParserTest {
 		stringField[2] = "with friends";
 		Date StartDate = dp.parseDate("thurs");
 		Date EndDate = dp.parseDate("fri");
-		MemoriCommand Expected = new MemoriCommand(add,StartDate,EndDate,stringField);
+		MemoriCommand expected = new MemoriCommand(add,StartDate,EndDate,stringField);
 		AddParser ap = new AddParser();
 		MemoriCommand result = ap.parse(add, "-n jayden -s thurs -e fri -l sengkang ");
-		System.out.println(Expected.getType()+""+result.getType());
-		assertTrue(compareTo(result, Expected));
+		
+		assertTrue(compareTo(result, expected));
 	}
 	@Test
 	public final void add6() {
@@ -91,11 +91,11 @@ public class AddParserTest {
 		stringField[2] = "with friends";
 		Date StartDate = null;
 		Date EndDate = null;
-		MemoriCommand Expected = new MemoriCommand(add,StartDate,EndDate,stringField);
+		MemoriCommand expected = new MemoriCommand(add,StartDate,EndDate,stringField);
 		AddParser ap = new AddParser();
 		MemoriCommand result = ap.parse(add, "-n jayden -l sengkang -d with friends ");
-		System.out.println(Expected.getType()+""+result.getType());
-		assertTrue(compareTo(result, Expected));
+		
+		assertTrue(compareTo(result, expected));
 	}
 	@Test
 	public final void add7() {
@@ -107,11 +107,11 @@ public class AddParserTest {
 		stringField[2] = "with friends";
 		Date StartDate = dp.parseDate("5 nov 9am");
 		Date EndDate = dp.parseDate("6 nov 10pm");
-		MemoriCommand Expected = new MemoriCommand(add,StartDate,EndDate,stringField);
+		MemoriCommand expected = new MemoriCommand(add,StartDate,EndDate,stringField);
 		AddParser ap = new AddParser();
 		MemoriCommand result = ap.parse(add, "-n jayden -s 5 nov 9am -e 6 nov 10pm -l sengkang ");
-		System.out.println(Expected.getType()+""+result.getType());
-		assertTrue(compareTo(result, Expected));
+		
+		assertTrue(compareTo(result, expected));
 	}
 	@Test
 	public final void add8() {
@@ -123,20 +123,20 @@ public class AddParserTest {
 		stringField[2] = "with friends";
 		Date StartDate = dp.parseDate("haha");
 		Date EndDate = dp.parseDate("haha");
-		MemoriCommand Expected = new MemoriCommand("");
+		MemoriCommand expected = new MemoriCommand("");
 		AddParser ap = new AddParser();
 		MemoriCommand result = ap.parse(add, "-n jayden -s haha -e haha -l sengkang -dwith friends");
-		System.out.println(Expected.getType()+""+result.getType());
-		assertTrue(compareTo(result, Expected));
+		
+		assertTrue(compareTo(result, expected));
 	}@Test
 	public final void add9() {
 		MemoriCommandType add = MemoriCommandType.ADD;
 		DateParser dp = new DateParser();
-		MemoriCommand Expected = new MemoriCommand("");
+		MemoriCommand expected = new MemoriCommand("");
 		AddParser ap = new AddParser();
 		MemoriCommand result = ap.parse(add, "-n -s -e -l -d");
-		System.out.println(Expected.getType()+""+result.getType());
-		assertTrue(compareTo(result, Expected));
+		
+		assertTrue(compareTo(result, expected));
 	}
 	/**
 	 * compare the start date in string format , end date in string format and
@@ -149,7 +149,7 @@ public class AddParserTest {
 	 */
 	public boolean compareTo(MemoriCommand results, MemoriCommand expected) {
 
-		MemoriCommandType resultsCommand = expected.getType();
+		MemoriCommandType resultsCommand = results.getType();
 		MemoriCommandType expectedCommand = expected.getType();
 		String[] resultsArgs = results.getCommandArgs();
 		String[] expectedArgs = results.getCommandArgs();
@@ -191,7 +191,8 @@ public class AddParserTest {
 	
 			return false;
 		}
-		
+		//if both resultsStartDate and expectedStartDate is not null
+		//compare the start dates
 		if(((expectedStartDate != null) && (resultStartDate != null))
 				|| ((expectedStartDate != null) && (resultStartDate != null))){
 			
@@ -201,7 +202,8 @@ public class AddParserTest {
 				return false;
 			}
 		}
-		
+		//if both resultsEndDate and expectedEndDate is not null
+		//compare the end dates
 		if(((expectedEndDate != null) && (resultEndDate != null))
 				|| ((expectedEndDate != null) && (resultEndDate != null))){
 			

@@ -4,7 +4,11 @@ package memori.parsers;
 import java.util.Date;
 
 public class UpdateParser extends FieldsParser {
-	private String INVALID_MESSAGE = "Oops,index you try to update is not available."+"\n"
+	private String INVALID_FIELD_MESSAGE = "Oops,there are no fields indicate to update."
+			+ "Please try again."+"\n";
+	private String INVALID_MESSAGE = "Oops,index you try to update is not available."
+			+ "Please try again."+"\n";
+	private String INVALID_DATE_MESSAGE = "Oops,invalid date format."
 			+ "Please try again."+"\n";
 	private boolean legitField = false;
 	public UpdateParser() {
@@ -24,22 +28,24 @@ public class UpdateParser extends FieldsParser {
 				UpdateFilledFields();
 				updateLegitField();
 				if(legitField == false){
-					return new MemoriCommand(INVALID_MESSAGE);
+					
+					return new MemoriCommand(INVALID_FIELD_MESSAGE);
 				}
 				if((FilledFields[START_INDEX]==true)&&(startEnd[0]==null)){
-					return new MemoriCommand(INVALID_MESSAGE);
+					return new MemoriCommand(INVALID_DATE_MESSAGE);
 				}
 				if((FilledFields[END_INDEX]==true)&&(startEnd[1]==null)){
-					return new MemoriCommand(INVALID_MESSAGE);
+					return new MemoriCommand(INVALID_DATE_MESSAGE);
 				}
 				
 				return new MemoriCommand(cmdType,startEnd[0],startEnd[1],stringFields,index,FilledFields);
 			
 			}
-	
-			return new MemoriCommand(INVALID_MESSAGE);
-		}catch(NumberFormatException e){
 			
+			return new MemoriCommand(INVALID_FIELD_MESSAGE);
+			
+		}catch(NumberFormatException e){
+			System.out.println("here");
 			return new MemoriCommand(INVALID_MESSAGE);
 		}
 	}
