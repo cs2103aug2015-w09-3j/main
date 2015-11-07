@@ -122,7 +122,6 @@ public class MemoriSync {
 					toUpdate = previous.get(i);
 					toUpdate.setExternalCalId(next.get(i).getExternalCalId());
 					MemoriCommand updateCmd = new MemoriCommand(MemoriCommandType.UPDATE);
-					System.out.println(toUpdate.getExternalCalId());
 					thingsToSync.add(new SyncObject(updateCmd,toUpdate));
 					processQueue();
 					break;
@@ -138,7 +137,6 @@ public class MemoriSync {
 					MemoriCommand deleteCmd = new MemoriCommand(MemoriCommandType.DELETE);
 					thingsToSync.add(new SyncObject(deleteCmd,current));
 					processQueue();
-					break;
 				}
 			}
 		}

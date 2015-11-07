@@ -95,7 +95,7 @@ public class MemoriCalendar {
 		calendar.set(Calendar.SECOND, LAST_SEC);
 		searchEnd = calendar.getTime();
 		undoManager = new MemoriUndoManager();
-		//undoManager.addToUndo(memoriCalendar);
+		sortBy(MemoriEvent.startDateComparator);
 	}
 
 	public ArrayList<MemoriEvent> getEvents() {
@@ -143,9 +143,7 @@ public class MemoriCalendar {
 			break;
 		default:
 			ack = command.getInvalidMessage();
-		}
-
-		
+		}	
 		return ack;
 	}
 
