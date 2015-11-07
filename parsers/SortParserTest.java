@@ -77,6 +77,15 @@ public class SortParserTest {
 		MemoriCommand result = sp.parse(sort, "-d -e -s");
 		assertTrue(compareTo(result, Expected));
 	}
+	@Test
+	public final void sort7() {
+		MemoriCommandType sort = MemoriCommandType.SORT;
+		MemoriCommand Expected = new MemoriCommand("");
+		SortParser sp = new SortParser();
+		MemoriCommand result = sp.parse(sort, "-f");
+		assertTrue(compareTo(result, Expected));
+	}
+
 public boolean compareTo(MemoriCommand results, MemoriCommand expected) {
 		
 		Boolean[] resultsField = results.getMemoriField();

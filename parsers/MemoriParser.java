@@ -9,7 +9,7 @@ public class MemoriParser {
 
 	private String[] commandConfig = new String[2];
 	private String SystemField = "system";
-	public String INVALID_MESSAGE = "No fields is added, please enter one or more fields"+"\n";	
+	public String INVALID_MESSAGE = "Oops you entered an invalid command, please try again."+"\n";	
 	
 	//The main parse method
 	public MemoriCommand parse(String userInput) {
@@ -29,16 +29,14 @@ public class MemoriParser {
 	 */
 	private MemoriCommand executeParse(String userInput,
 			String[] commandConfig, MemoriCommandType cmdType, FieldsParser fp) {
-		if((userInput.length()==0)){
-			return new MemoriCommand(INVALID_MESSAGE);
-		}
-		else if((cmdType==MemoriCommandType.EXIT)
+	
+		if((cmdType==MemoriCommandType.EXIT)
 				||(cmdType==MemoriCommandType.UNDO)
 				||cmdType==MemoriCommandType.REDO){
 			
 			return fp.parse(cmdType,SystemField);
 		
-		}else if(commandConfig.length==1){
+		}else if(commandConfig.length==1||userInput.length()==0){
 			
 			return new MemoriCommand(INVALID_MESSAGE);
 		
