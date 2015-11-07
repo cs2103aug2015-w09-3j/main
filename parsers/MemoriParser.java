@@ -9,7 +9,7 @@ public class MemoriParser {
 
 	private String[] commandConfig = new String[2];
 	private String SystemField = "system";
-	public String INVALID_MESSAGE = "No fields is added, please enter one or more fields"+"\n";	
+	public String INVALID_MESSAGE = "Oops you entered an invalid command, please try again."+"\n";	
 	
 	//The main parse method
 	public MemoriCommand parse(String userInput) {
@@ -29,14 +29,14 @@ public class MemoriParser {
 	 */
 	private MemoriCommand executeParse(String userInput,
 			String[] commandConfig, MemoriCommandType cmdType, FieldsParser fp) {
-		if((userInput.length()==0)){
-			return new MemoriCommand(INVALID_MESSAGE);
-		}
-		else if((cmdType==MemoriCommandType.EXIT)
-				||(cmdType==MemoriCommandType.UNDO)){
+	
+		if((cmdType==MemoriCommandType.EXIT)
+				||(cmdType==MemoriCommandType.UNDO)
+				||cmdType==MemoriCommandType.REDO){
+			
 			return fp.parse(cmdType,SystemField);
 		
-		}else if(commandConfig.length==1){
+		}else if(commandConfig.length==1||userInput.length()==0){
 			
 			return new MemoriCommand(INVALID_MESSAGE);
 		
@@ -70,6 +70,9 @@ public class MemoriParser {
 		case OPEN:
 			return new IndexesParser();
 		case UNDO:
+			return new SystemParser();
+		case REDO:	
+			return new SystemParser();
 		case EXIT:
 			return new SystemParser();
 		default:
@@ -86,7 +89,7 @@ public class MemoriParser {
 		return userInput.split(" ",2);
 	}
 	/**
-	 * This function determines users command type using switch cases and return 
+	 * This function determines users command type using swith cases and return 
 	 * the users commandType 
 	 * @param commandTypeString
 	 * @return MemoriCommandType
@@ -114,6 +117,8 @@ public class MemoriParser {
         	return MemoriCommandType.UNDO;
         case "EXIT":
         	return MemoriCommandType.EXIT;
+        case "REDO":	
+        	return MemoriCommandType.REDO;
         default:
         	 return MemoriCommandType.INVALID;
 		}

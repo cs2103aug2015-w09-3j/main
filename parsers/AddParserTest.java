@@ -1,5 +1,6 @@
 //@@author A0108454H
 package memori.parsers;
+import java.text.SimpleDateFormat;
 
 import static org.junit.Assert.*;
 
@@ -9,12 +10,14 @@ import org.junit.Test;
 
 public class AddParserTest {
 	public static final String DATE_FORMAT = "dd MMM yyyy HH:mm E";
+	private static final SimpleDateFormat DATE_FORMATTER = new SimpleDateFormat(DATE_FORMAT);
 	@Test
 	public final void add1() {
 		MemoriCommandType add = MemoriCommandType.ADD;
 		MemoriCommand Expected = new MemoriCommand("");
 		AddParser ap = new AddParser();
 		MemoriCommand result = ap.parse(add, "-s");
+		System.out.println(Expected.getType()+""+result.getType());
 		assertTrue(compareTo(result, Expected));
 	}
 
@@ -28,6 +31,7 @@ public class AddParserTest {
 		MemoriCommand Expected = new MemoriCommand(add,StartDate,EndDate,stringField);
 		AddParser ap = new AddParser();
 		MemoriCommand result = ap.parse(add, "-n jayden");
+		System.out.println(Expected.getType()+""+result.getType());
 		assertTrue(compareTo(result, Expected));
 	}
 
@@ -43,7 +47,8 @@ public class AddParserTest {
 		Date EndDate = null;
 		MemoriCommand Expected = new MemoriCommand(add,StartDate,EndDate,stringField);
 		AddParser ap = new AddParser();
-		MemoriCommand result = ap.parse(add, " -stmr -l sengkang -d with friends");
+		MemoriCommand result = ap.parse(add, "-n jayden -stmr -l sengkang -d with friends");
+		System.out.println(Expected.getType()+""+result.getType());
 		assertTrue(compareTo(result, Expected));
 	}
 	@Test
@@ -57,7 +62,8 @@ public class AddParserTest {
 		Date EndDate = null;
 		MemoriCommand Expected = new MemoriCommand(add,StartDate,EndDate,stringField);
 		AddParser ap = new AddParser();
-		MemoriCommand result = ap.parse(add, " -l home -d with family");
+		MemoriCommand result = ap.parse(add, "-n jayden -l home -d with family");
+		System.out.println(Expected.getType()+""+result.getType());
 		assertTrue(compareTo(result, Expected));
 	}
 	@Test
@@ -73,6 +79,7 @@ public class AddParserTest {
 		MemoriCommand Expected = new MemoriCommand(add,StartDate,EndDate,stringField);
 		AddParser ap = new AddParser();
 		MemoriCommand result = ap.parse(add, "-n jayden -s thurs -e fri -l sengkang ");
+		System.out.println(Expected.getType()+""+result.getType());
 		assertTrue(compareTo(result, Expected));
 	}
 	@Test
@@ -87,17 +94,61 @@ public class AddParserTest {
 		MemoriCommand Expected = new MemoriCommand(add,StartDate,EndDate,stringField);
 		AddParser ap = new AddParser();
 		MemoriCommand result = ap.parse(add, "-n jayden -l sengkang -d with friends ");
+		System.out.println(Expected.getType()+""+result.getType());
+		assertTrue(compareTo(result, Expected));
+	}
+	@Test
+	public final void add7() {
+		MemoriCommandType add = MemoriCommandType.ADD;
+		DateParser dp = new DateParser();
+		String[] stringField = new String[3];
+		stringField[0] = "jayden";
+		stringField[1] = "sengKang";
+		stringField[2] = "with friends";
+		Date StartDate = dp.parseDate("5 nov 9am");
+		Date EndDate = dp.parseDate("6 nov 10pm");
+		MemoriCommand Expected = new MemoriCommand(add,StartDate,EndDate,stringField);
+		AddParser ap = new AddParser();
+		MemoriCommand result = ap.parse(add, "-n jayden -s 5 nov 9am -e 6 nov 10pm -l sengkang ");
+		System.out.println(Expected.getType()+""+result.getType());
+		assertTrue(compareTo(result, Expected));
+	}
+	@Test
+	public final void add8() {
+		MemoriCommandType add = MemoriCommandType.ADD;
+		DateParser dp = new DateParser();
+		String[] stringField = new String[3];
+		stringField[0] = "jayden";
+		stringField[1] = "sengKang";
+		stringField[2] = "with friends";
+		Date StartDate = dp.parseDate("haha");
+		Date EndDate = dp.parseDate("haha");
+		MemoriCommand Expected = new MemoriCommand("");
+		AddParser ap = new AddParser();
+		MemoriCommand result = ap.parse(add, "-n jayden -s haha -e haha -l sengkang -dwith friends");
+		System.out.println(Expected.getType()+""+result.getType());
+		assertTrue(compareTo(result, Expected));
+	}@Test
+	public final void add9() {
+		MemoriCommandType add = MemoriCommandType.ADD;
+		DateParser dp = new DateParser();
+		MemoriCommand Expected = new MemoriCommand("");
+		AddParser ap = new AddParser();
+		MemoriCommand result = ap.parse(add, "-n -s -e -l -d");
+		System.out.println(Expected.getType()+""+result.getType());
 		assertTrue(compareTo(result, Expected));
 	}
 	/**
-	 * compare the start date , end date and all the string fields
-	 * of the expected and and the results of a add parser.
+	 * compare the start date in string format , end date in string format and
+	 * all the string fields of the expected and and the results of a add
+	 * parser.
+	 * 
 	 * @param results
 	 * @param expected
 	 * @return
 	 */
 	public boolean compareTo(MemoriCommand results, MemoriCommand expected) {
-		
+
 		MemoriCommandType resultsCommand = expected.getType();
 		MemoriCommandType expectedCommand = expected.getType();
 		String[] resultsArgs = results.getCommandArgs();
@@ -106,38 +157,61 @@ public class AddParserTest {
 		Date resultStartDate = results.getStart();
 		Date expectedEndDate = expected.getEnd();
 		Date resultEndDate = results.getEnd();
-		System.out.println(resultStartDate);
-		System.out.println(expectedStartDate);
-		System.out.println(resultEndDate);
-		System.out.println(expectedEndDate);
-		if(!resultsCommand.equals(expectedCommand)){
+		
+		//if both is an invalid command straight return true
+		if(expectedCommand.equals(MemoriCommandType.INVALID)
+				&&resultsCommand.equals(MemoriCommandType.INVALID)){
+			
+			return true;
+		}
+		// if memori command is not the same return false
+		if (!resultsCommand.equals(expectedCommand)) {
+			
 			return false;
 		}
-		if ((expectedArgs == null)
-				&& (resultsArgs == null)) {
-			return true;
-		}else {
-			for(int i = 0; i < resultsArgs.length;i++){
-				if(resultsArgs[i].equals(expectedArgs[i])!=true){
-					System.out.println("herere");
-					return false;
-				}
+		// if string fields of name , description location is not the same
+		// return false
+		for (int i = 0; i < resultsArgs.length; i++) {
+			if (resultsArgs[i].equals(expectedArgs[i]) != true) {
+				
+				return false;
 			}
 		}
+		// if either expectedStartDate is null but result start Date is not null
+		//viseversa return false
+		if (((expectedStartDate != null) && (resultStartDate == null))
+				|| ((expectedStartDate == null) && (resultStartDate != null))) {
+			
+			return false;
+		}
+		// if either expectedEndDate is null but resultEndDate is not null
+		//viseversa return false
+		if (((expectedEndDate != null) && (resultEndDate == null))
+				|| ((expectedEndDate == null) && (resultEndDate != null))) {
+	
+			return false;
+		}
 		
-		if((expectedStartDate!=null)&&(resultStartDate!=null)){
-			if(!expectedStartDate.equals(resultStartDate)){
-				System.out.println(expectedStartDate.compareTo(resultStartDate));
+		if(((expectedStartDate != null) && (resultStartDate != null))
+				|| ((expectedStartDate != null) && (resultStartDate != null))){
+			
+			if (!DATE_FORMATTER.format(expectedStartDate).equals(
+				DATE_FORMATTER.format(resultStartDate))) {
+				
 				return false;
 			}
 		}
 		
-		if((expectedEndDate!=null)&&(resultEndDate!=null)){
-			if(expectedEndDate.compareTo(resultEndDate) != 0){
-				System.out.println("herherhere");
+		if(((expectedEndDate != null) && (resultEndDate != null))
+				|| ((expectedEndDate != null) && (resultEndDate != null))){
+			
+			if (!DATE_FORMATTER.format(expectedEndDate).equals(
+				DATE_FORMATTER.format(resultEndDate))) {
+				
 				return false;
 			}
-		}	
+		}
+
 		return true;
 	}
 	
