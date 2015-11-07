@@ -190,7 +190,6 @@ public class MemoriEvent {
 			name = padRight(this.name, NAME_CUT_OFF);
 		}
 	
-		String completeStr = String.valueOf(this.complete);
 		if(this.complete == true){
 			completeOutputStr = String.format("%5s", "Y");
 		}else{
@@ -225,8 +224,9 @@ public class MemoriEvent {
 				return false;
 			} else if (!Compare(this.end, other.getEnd())) {
 				return false;
-			} else if (!Compare(this.location, other.getLocation()))
+			} else if (!Compare(this.location, other.getLocation())){
 				return false;
+			}
 			else
 				return true;
 		}
@@ -238,7 +238,7 @@ public class MemoriEvent {
 		else if (item1 == null && item2 != null || item2 == null && item1 != null)
 			return false;
 		else
-			return item1.equals(item2);
+			return item1.toString().equals(item2.toString());
 	}
 
 	public static Comparator<MemoriEvent> internalIdComparator = new Comparator<MemoriEvent>() {

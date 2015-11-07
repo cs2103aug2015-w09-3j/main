@@ -45,8 +45,6 @@ public class GoogleCRUD {
 			Event event = new Event();
 			event.setId(me.getExternalCalId());
 			event = executeEvent(event, RETRIEVE);
-			if (event.getStart() == null)
-				return null;
 			return EventConverter.toMemori(event);
 		} catch (UnknownHostException e) {
 			return null;

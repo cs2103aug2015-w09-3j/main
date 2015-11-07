@@ -32,9 +32,7 @@ public class MemoriCalendar {
 	private static final String MESSAGE_EMPTYFILE = "File is Empty.\n";
 	private static final String MESSAGE_CHANGE_SEARCH= "Your search conditions has been changed.\n";
 	private static final String MESSAGE_UNDO = "Your changes have been undone.\n";
-	private static final String MESSAGE_REDO ="Your changes have been redone.\n";
 	private static final String MESSAGE_UNDO_INVALID = "You cannot undo anymore.\n";
-	private static final String MESSAGE_REDO_INVALID = "You cannot redo anymore.\n";
 	
 	//Display headers
 	private static final String INDEX_HEADER = "No: ";

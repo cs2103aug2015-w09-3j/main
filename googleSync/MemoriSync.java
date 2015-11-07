@@ -9,7 +9,6 @@ import java.util.LinkedList;
 import java.util.Queue;
 
 import memori.ErrorSuppressor;
-import memori.Storage.FileHandler;
 import memori.Storage.MemoriStorage;
 import memori.logic.MemoriCalendar;
 import memori.logic.MemoriEvent;
