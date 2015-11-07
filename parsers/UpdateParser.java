@@ -45,7 +45,7 @@ public class UpdateParser extends FieldsParser {
 			return new MemoriCommand(INVALID_FIELD_MESSAGE);
 			
 		}catch(NumberFormatException e){
-			System.out.println("here");
+			
 			return new MemoriCommand(INVALID_MESSAGE);
 		}
 	}
