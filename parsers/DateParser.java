@@ -30,7 +30,13 @@ public class DateParser {
 	public static void setInvert(boolean status) {
 		invertMonth = status;
 	}
-
+	/**
+	 * this method get a date in a form of string
+	 * if its a relative date , set hour to 9 , min to 0 ,sec to 0
+	 * then return a date object
+	 * @param dateToParse
+	 * @return
+	 */
 	public static Date parseDate(String dateToParse) {
 		if (invertMonth) {
 			dateToParse = reverseMonth(dateToParse);
@@ -45,20 +51,26 @@ public class DateParser {
 			DateGroup dg = groups.get(0);
 			String syntaxTree = dg.getSyntaxTree().toStringTree();
 			dateList.addAll(dg.getDates());
-			if ((!syntaxTree.contains(EXPLICIT_TIME)) && (!syntaxTree.contains(RELATIVE_TIME))) {
-				Calendar calendar = Calendar.getInstance();
-				calendar.setTime(dateList.get(0));
-				calendar.set(Calendar.HOUR_OF_DAY, STANDARD_HOUR);
-				calendar.set(Calendar.MINUTE, STANDARD_MIN);
-				calendar.set(Calendar.SECOND, STANDARD_SEC);
-				return calendar.getTime();
+			if ((!syntaxTree.contains(EXPLICIT_TIME)) && 
+					(!syntaxTree.contains(RELATIVE_TIME))) {
+				return dateForRelativeDate(dateList,
+						STANDARD_HOUR,STANDARD_MIN,STANDARD_SEC);
 			}
 
 			return dateList.get(0);
 		}
 		return null;
 	}
+
 	
+	/**
+	 * this method gets the start date and the end date of search in a string array 
+	 * if its start replace hrs, mins, second to 0hrs 0mins 0 sec
+	 * if its a end replace hrs, mins ,second to 23hrs 59mins 59 mins
+	 * then return both start and end in a Date arrray
+	 * @param searchDate
+	 * @return
+	 */
 	public static Date[] parseSearchDate(String[] searchDate){
 		Date[] searchDates = new Date[2];
 		String dateToParse;
@@ -79,21 +91,14 @@ public class DateParser {
 				DateGroup dg = groups.get(0);
 				String syntaxTree = dg.getSyntaxTree().toStringTree();
 				dateList.addAll(dg.getDates());
-				if ((!syntaxTree.contains(EXPLICIT_TIME)) && (!syntaxTree.contains(RELATIVE_TIME))) {
+				if ((!syntaxTree.contains(EXPLICIT_TIME)) 
+						&& (!syntaxTree.contains(RELATIVE_TIME))) {
 					if(i==0){
-						Calendar calendar = Calendar.getInstance();
-						calendar.setTime(dateList.get(0));
-						calendar.set(Calendar.HOUR_OF_DAY, START_HOUR);
-						calendar.set(Calendar.MINUTE, START_MIN);
-						calendar.set(Calendar.SECOND, START_SEC);
-						searchDates[i] = calendar.getTime();
+						searchDates[i] = dateForRelativeDate(dateList,
+								START_HOUR,START_MIN,START_SEC);
 					}else{
-						Calendar calendar = Calendar.getInstance();
-						calendar.setTime(dateList.get(0));
-						calendar.set(Calendar.HOUR_OF_DAY, END_HOUR);
-						calendar.set(Calendar.MINUTE, END_MIN);
-						calendar.set(Calendar.SECOND, END_SEC);
-						searchDates[i] = calendar.getTime();
+						searchDates[i] = dateForRelativeDate(dateList,
+								END_HOUR,END_MIN,END_SEC);
 					}
 				}else{
 					searchDates[i] = dateList.get(0);
@@ -133,5 +138,23 @@ public class DateParser {
 
 		return dateToParse;
 	}
-	
+	/**
+	 *This method will set the hours , min and sec if the user 
+	 *enter a relative date 
+	 *then return a date object 
+	 * @param dateList
+	 * @param HOUR
+	 * @param MIN
+	 * @param SEC
+	 * @return
+	 */
+	private static Date dateForRelativeDate(List<Date> dateList,int HOUR
+			,int MIN,int SEC) {
+		Calendar calendar = Calendar.getInstance();
+		calendar.setTime(dateList.get(0));
+		calendar.set(Calendar.HOUR_OF_DAY, HOUR);
+		calendar.set(Calendar.MINUTE, MIN);
+		calendar.set(Calendar.SECOND, SEC);
+		return calendar.getTime();
+	}
 }

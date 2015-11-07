@@ -89,35 +89,53 @@ public class AddParserTest {
 		MemoriCommand result = ap.parse(add, "-n jayden -l sengkang -d with friends ");
 		assertTrue(compareTo(result, Expected));
 	}
-	
+	/**
+	 * compare the start date , end date and all the string fields
+	 * of the expected and and the results of a add parser.
+	 * @param results
+	 * @param expected
+	 * @return
+	 */
 	public boolean compareTo(MemoriCommand results, MemoriCommand expected) {
 		
+		MemoriCommandType resultsCommand = expected.getType();
+		MemoriCommandType expectedCommand = expected.getType();
 		String[] resultsArgs = results.getCommandArgs();
 		String[] expectedArgs = results.getCommandArgs();
 		Date expectedStartDate = expected.getStart();
 		Date resultStartDate = results.getStart();
 		Date expectedEndDate = expected.getEnd();
 		Date resultEndDate = results.getEnd();
+		System.out.println(resultStartDate);
+		System.out.println(expectedStartDate);
+		System.out.println(resultEndDate);
+		System.out.println(expectedEndDate);
+		if(!resultsCommand.equals(expectedCommand)){
+			return false;
+		}
 		if ((expectedArgs == null)
 				&& (resultsArgs == null)) {
 			return true;
 		}else {
 			for(int i = 0; i < resultsArgs.length;i++){
 				if(resultsArgs[i].equals(expectedArgs[i])!=true){
+					System.out.println("herere");
 					return false;
 				}
 			}
 		}
 		
 		if((expectedStartDate!=null)&&(resultStartDate!=null)){
-			if(expectedStartDate.compareTo(resultStartDate) != 0){
-				return true;
+			if(!expectedStartDate.equals(resultStartDate)){
+				System.out.println(expectedStartDate.compareTo(resultStartDate));
+				return false;
 			}
 		}
 		
-		if((expectedStartDate!=null)&&(resultStartDate!=null)){
-			if(expectedStartDate.compareTo(resultStartDate) != 0){
-				return true;
+		if((expectedEndDate!=null)&&(resultEndDate!=null)){
+			if(expectedEndDate.compareTo(resultEndDate) != 0){
+				System.out.println("herherhere");
+				return false;
 			}
 		}	
 		return true;

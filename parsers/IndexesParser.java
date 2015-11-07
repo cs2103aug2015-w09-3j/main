@@ -3,17 +3,17 @@ package memori.parsers;
 
 import java.util.ArrayList;
 
-public class DeleteParser extends FieldsParser {
-	private ArrayList<Integer> deleteIndex;
+public class IndexesParser extends FieldsParser {
+	private ArrayList<Integer> Indexes;
 	public String INVALID_MESSAGE = "Oops, index ares not available,please try again";
 
-	public DeleteParser() {
+	public IndexesParser() {
 		init();
 	}
 
 	@Override
 	public MemoriCommand parse(MemoriCommandType cmdType, String cmdFields) {
-		deleteIndex = new ArrayList<Integer>();
+		Indexes = new ArrayList<Integer>();
 		try {
 
 			while (cmdFields.contains("-")) {
@@ -51,7 +51,7 @@ public class DeleteParser extends FieldsParser {
 			}
 			insertSingleDeleteIndex(cmdFields);
 			
-			return new MemoriCommand(cmdType,deleteIndex);
+			return new MemoriCommand(cmdType,Indexes);
 		} catch (NumberFormatException e) {
 			return new MemoriCommand(INVALID_MESSAGE);
 		}
@@ -88,14 +88,14 @@ public class DeleteParser extends FieldsParser {
 			insertRangeArr(index1, index2);
 		}else if(index2>1){
 			insertRangeArr(index2,index1);
-		}else if((index1==index2)&&(!deleteIndex.contains(index1))){
-			deleteIndex.add(index1);
+		}else if((index1==index2)&&(!Indexes.contains(index1))){
+			Indexes.add(index1);
 		}
 	}
 	private void insertRangeArr(int index1, int index2) {
 		for(int i = index2;i < index1+1 ;i++){
-			if(!deleteIndex.contains(i)){
-				deleteIndex.add(i);
+			if(!Indexes.contains(i)){
+				Indexes.add(i);
 			}
 		}
 	}
@@ -104,8 +104,8 @@ public class DeleteParser extends FieldsParser {
 		for(int i = 0;i<indexes.length;i++){
 			if((!indexes[i].equals(" "))&&(!indexes[i].equals(""))){
 				int indexToAdd = Integer.parseInt(indexes[i].replaceAll(" ",""));
-				if(!deleteIndex.contains(indexToAdd)){
-					deleteIndex.add(indexToAdd);
+				if(!Indexes.contains(indexToAdd)){
+					Indexes.add(indexToAdd);
 				}
 			}
 		}

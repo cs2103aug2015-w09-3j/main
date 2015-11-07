@@ -43,6 +43,9 @@ public class UpdateParser extends FieldsParser {
 			return new MemoriCommand(INVALID_MESSAGE);
 		}
 	}
+	/*check whether the user has indicated that he would like to update at least one field
+	 * 
+	 */
 	public void updateLegitField(){
 		for(int i = 0;i < FilledFields.length; i++){
 			if(FilledFields[i]==true){

@@ -9,163 +9,163 @@ import java.util.Collections;
 
 import org.junit.Test;
 
-public class DeleteParserTest {
-	private ArrayList<Integer> deleteExpectedIndex;
+public class IndexesParserTest {
+	private ArrayList<Integer> ExpectedIndex;
 	
 	@Test
 	public final void testDeleteWithNegativeNumber() {
 		MemoriCommandType cmdType = MemoriCommandType.DELETE;
 		String deleteToTest = "-1";
-		DeleteParser dp = new DeleteParser();
-		MemoriCommand get = dp.parse(cmdType,deleteToTest);
+		IndexesParser ip = new IndexesParser();
+		MemoriCommand get = ip.parse(cmdType,deleteToTest);
 		assertTrue(get.getIndexes()==null);
 	}
 	@Test
 	public final void testDeleteWithNegativeNumber2() {
 		MemoriCommandType cmdType = MemoriCommandType.DELETE;
 		String deleteToTest = "-1 1";
-		DeleteParser dp = new DeleteParser();
-		MemoriCommand get = dp.parse(cmdType,deleteToTest);
+		IndexesParser ip = new IndexesParser();
+		MemoriCommand get = ip.parse(cmdType,deleteToTest);
 		assertTrue(get.getIndexes()==null);
 	}
 	@Test
 	public final void testDeleteWithNegativeNumber3() {
 		MemoriCommandType cmdType = MemoriCommandType.DELETE;
 		String deleteToTest = "-1 - 1";
-		DeleteParser dp = new DeleteParser();
-		MemoriCommand get = dp.parse(cmdType,deleteToTest);
+		IndexesParser ip = new IndexesParser();
+		MemoriCommand get = ip.parse(cmdType,deleteToTest);
 		assertTrue(get.getIndexes()==null);
 	}
 	@Test
 	public final void testDeleteWithNegativeNumber4() {
 		MemoriCommandType cmdType = MemoriCommandType.DELETE;
 		String deleteToTest = "1-1-1 ";
-		DeleteParser dp = new DeleteParser();
-		MemoriCommand get = dp.parse(cmdType,deleteToTest);
+		IndexesParser ip = new IndexesParser();
+		MemoriCommand get = ip.parse(cmdType,deleteToTest);
 		assertTrue(get.getIndexes()==null);
 	}
 	@Test
 	public final void testDeleteWithNegativeNumber5() {
 		MemoriCommandType cmdType = MemoriCommandType.DELETE;
 		String deleteToTest = "3-1  4-5-1";
-		DeleteParser dp = new DeleteParser();
-		MemoriCommand get = dp.parse(cmdType,deleteToTest);
+		IndexesParser ip = new IndexesParser();
+		MemoriCommand get = ip.parse(cmdType,deleteToTest);
 		assertTrue(get.getIndexes()==null);
 	}
 	@Test
 	public final void testDeleteWithRange() {
 		MemoriCommandType cmdType = MemoriCommandType.DELETE;
 		String deleteToTest = "3-1";
-		deleteExpectedIndex = new ArrayList<Integer>();
-		deleteExpectedIndex.add(1);
-		deleteExpectedIndex.add(2);
-		deleteExpectedIndex.add(3);
-		Collections.sort(deleteExpectedIndex);
-		DeleteParser dp = new DeleteParser();
-		MemoriCommand get = dp.parse(cmdType,deleteToTest);
+		ExpectedIndex = new ArrayList<Integer>();
+		ExpectedIndex.add(1);
+		ExpectedIndex.add(2);
+		ExpectedIndex.add(3);
+		Collections.sort(ExpectedIndex);
+		IndexesParser ip = new IndexesParser();
+		MemoriCommand get = ip.parse(cmdType,deleteToTest);
 		ArrayList<Integer> deleteResultsIndex = get.getIndexes();
 		Collections.sort(deleteResultsIndex);
-		assertTrue(equals(deleteResultsIndex,deleteExpectedIndex));
+		assertTrue(equals(deleteResultsIndex,ExpectedIndex));
 	}
 	@Test
 	public final void testDeleteWithRange1() {
 		MemoriCommandType cmdType = MemoriCommandType.DELETE;
 		String deleteToTest = "3   -1";
-		deleteExpectedIndex = new ArrayList<Integer>();
-		deleteExpectedIndex.add(1);
-		deleteExpectedIndex.add(2);
-		deleteExpectedIndex.add(3);
+		ExpectedIndex = new ArrayList<Integer>();
+		ExpectedIndex.add(1);
+		ExpectedIndex.add(2);
+		ExpectedIndex.add(3);
 
-		Collections.sort(deleteExpectedIndex);
-		DeleteParser dp = new DeleteParser();
-		MemoriCommand get = dp.parse(cmdType,deleteToTest);
+		Collections.sort(ExpectedIndex);
+		IndexesParser ip = new IndexesParser();
+		MemoriCommand get = ip.parse(cmdType,deleteToTest);
 		ArrayList<Integer> deleteResultsIndex = get.getIndexes();
 		Collections.sort(deleteResultsIndex);
-		assertTrue(equals(deleteResultsIndex,deleteExpectedIndex));
+		assertTrue(equals(deleteResultsIndex,ExpectedIndex));
 	}
 	@Test
 	public final void testDeleteWithRange2() {
 		MemoriCommandType cmdType = MemoriCommandType.DELETE;
 		String deleteToTest = "   32     -      50  ";
-		deleteExpectedIndex = new ArrayList<Integer>();
+		ExpectedIndex = new ArrayList<Integer>();
 		addIndex(32,50);
 	
-		Collections.sort(deleteExpectedIndex);
-		DeleteParser dp = new DeleteParser();
-		MemoriCommand get = dp.parse(cmdType,deleteToTest);
+		Collections.sort(ExpectedIndex);
+		IndexesParser ip = new IndexesParser();
+		MemoriCommand get = ip.parse(cmdType,deleteToTest);
 		ArrayList<Integer> deleteResultsIndex = get.getIndexes();
 		Collections.sort(deleteResultsIndex);
-		assertTrue(equals(deleteResultsIndex,deleteExpectedIndex));
+		assertTrue(equals(deleteResultsIndex,ExpectedIndex));
 	}
 	@Test
 	public final void testDeleteWithRange3() {
 		MemoriCommandType cmdType = MemoriCommandType.DELETE;
 		String deleteToTest = "40 ";
-		deleteExpectedIndex = new ArrayList<Integer>();
-		deleteExpectedIndex.add(40);
+		ExpectedIndex = new ArrayList<Integer>();
+		ExpectedIndex.add(40);
 	
-		Collections.sort(deleteExpectedIndex);
-		DeleteParser dp = new DeleteParser();
-		MemoriCommand get = dp.parse(cmdType,deleteToTest);
+		Collections.sort(ExpectedIndex);
+		IndexesParser ip = new IndexesParser();
+		MemoriCommand get = ip.parse(cmdType,deleteToTest);
 		ArrayList<Integer> deleteResultsIndex = get.getIndexes();
 		Collections.sort(deleteResultsIndex);
-		assertTrue(equals(deleteResultsIndex,deleteExpectedIndex));
+		assertTrue(equals(deleteResultsIndex,ExpectedIndex));
 	}
 	@Test
 	public final void testDeleteWithRange4() {
 		MemoriCommandType cmdType = MemoriCommandType.DELETE;
 		String deleteToTest = "40   50    40             ";
-		deleteExpectedIndex = new ArrayList<Integer>();
-		deleteExpectedIndex.add(40);
-		deleteExpectedIndex.add(50);
-		Collections.sort(deleteExpectedIndex);
-		DeleteParser dp = new DeleteParser();
-		MemoriCommand get = dp.parse(cmdType,deleteToTest);
+		ExpectedIndex = new ArrayList<Integer>();
+		ExpectedIndex.add(40);
+		ExpectedIndex.add(50);
+		Collections.sort(ExpectedIndex);
+		IndexesParser ip = new IndexesParser();
+		MemoriCommand get = ip.parse(cmdType,deleteToTest);
 		ArrayList<Integer> deleteResultsIndex = get.getIndexes();
 		Collections.sort(deleteResultsIndex);
-		assertTrue(equals(deleteResultsIndex,deleteExpectedIndex));
+		assertTrue(equals(deleteResultsIndex,ExpectedIndex));
 	}
 	@Test
 	public final void testDeleteWithRange5() {
 		MemoriCommandType cmdType = MemoriCommandType.DELETE;
 		String deleteToTest = "40 - 50 60 -70";
-		DeleteParser dp = new DeleteParser();
-		MemoriCommand get = dp.parse(cmdType,deleteToTest);
+		IndexesParser ip = new IndexesParser();
+		MemoriCommand get = ip.parse(cmdType,deleteToTest);
 		assertTrue(get.getIndexes()==null);
 	}
 	@Test
 	public final void testDeleteWithRange6() {
 		MemoriCommandType cmdType = MemoriCommandType.DELETE;
 		String deleteToTest = "40 - 50 60 -70  ";
-		DeleteParser dp = new DeleteParser();
-		MemoriCommand get = dp.parse(cmdType,deleteToTest);
+		IndexesParser ip = new IndexesParser();
+		MemoriCommand get = ip.parse(cmdType,deleteToTest);
 		assertTrue(get.getIndexes()==null);
 	}
 	@Test
 	public final void testDeleteWithRange7() {
 		MemoriCommandType cmdType = MemoriCommandType.DELETE;
 		String deleteToTest = "40 -  -70  ";
-		DeleteParser dp = new DeleteParser();
-		MemoriCommand get = dp.parse(cmdType,deleteToTest);
+		IndexesParser ip = new IndexesParser();
+		MemoriCommand get = ip.parse(cmdType,deleteToTest);
 		assertTrue(get.getIndexes()==null);
 	}
 	@Test
 	public final void testDeleteWithRange8() {
 		MemoriCommandType cmdType = MemoriCommandType.DELETE;
 		String deleteToTest = "40-   7";
-		deleteExpectedIndex = new ArrayList<Integer>();
+		ExpectedIndex = new ArrayList<Integer>();
 		addIndex(7,40);
 	
-		Collections.sort(deleteExpectedIndex);
-		DeleteParser dp = new DeleteParser();
-		MemoriCommand get = dp.parse(cmdType,deleteToTest);
+		Collections.sort(ExpectedIndex);
+		IndexesParser ip = new IndexesParser();
+		MemoriCommand get = ip.parse(cmdType,deleteToTest);
 		ArrayList<Integer> deleteResultsIndex = get.getIndexes();
 		Collections.sort(deleteResultsIndex);
-		assertTrue(equals(deleteResultsIndex,deleteExpectedIndex));
+		assertTrue(equals(deleteResultsIndex,ExpectedIndex));
 	}
 	public void addIndex(int lower,int upper){
 		for(;lower<upper+1;lower++){
-			deleteExpectedIndex.add(lower);
+			ExpectedIndex.add(lower);
 		}
 	}
 	private boolean equals(ArrayList<Integer>deleteResultsIndex
