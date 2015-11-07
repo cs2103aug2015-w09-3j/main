@@ -138,7 +138,6 @@ public class MemoriSync {
 					MemoriCommand deleteCmd = new MemoriCommand(MemoriCommandType.DELETE);
 					thingsToSync.add(new SyncObject(deleteCmd,current));
 					processQueue();
-					break;
 				}
 			}
 		}

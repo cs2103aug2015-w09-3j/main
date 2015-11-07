@@ -37,6 +37,7 @@ public class MemoriUndoManager {
 			MemoriEvent current = toCopy.get(i);
 			MemoriEvent toAdd = new MemoriEvent();
 			toAdd.replace(current);
+			toAdd.setExternalCalId(current.getExternalCalId());
 			toAdd.setInternalCalId(current.getInternalId());
 			toAdd.setComplete(current.getComplete());
 			theCopy.add(toAdd);
