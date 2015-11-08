@@ -4,6 +4,11 @@ package memori.Storage;
 import static org.junit.Assert.*;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 
 import org.junit.Test;
 
@@ -12,8 +17,9 @@ import memori.logic.MemoriCalendar;
 public class SettingsTest {
 	String defaultSettingsFileName = "settings.json";
 	String defaultStorageFileName = "memori.json";
-	String ValidStorageFolderName = "storageLocation";
-	String validStorageFilePath = "storageLocation/memori.json";
+	String duplicatedDefaultStorageFileName = "memori2.json";
+	String ValidStorageFolderName = "testStorageLocation";
+	String validStorageFilePath = "testStorageLocation/memori.json";
 	String invalidStorageFilePath = "wrongStorageLocation/memori.json";
 	File defaultSettingsTestFile = new File(defaultSettingsFileName);
 	File defaultStorageTestFile = new File(defaultStorageFileName);
@@ -35,6 +41,7 @@ public class SettingsTest {
 
 	@Test
 	public void testChangeStorageFileLocation() {
+		duplicateStoragefile();
 		defaultStorageTestFile.delete();
 		
 		MemoriSettings testSettings = MemoriSettings.getInstance();
@@ -54,5 +61,56 @@ public class SettingsTest {
 		testStorage.saveCalendar(testMemoriCalendar);
 
 		assertEquals(false, defaultStorageTestFile.exists());
+		
+		renameStorageFile();
+	}
+	
+	/**
+	 * Creates a copy of the storage file, memori.json
+	 *
+	 * @return     true if file is successfully copied
+	 */
+	private boolean duplicateStoragefile() {	    	
+	  InputStream inStream = null;
+		OutputStream outStream = null;
+		try {  		
+			File originalFile =new File(defaultStorageFileName);
+	    File copyOfFile =new File(duplicatedDefaultStorageFileName);
+	    		
+	    inStream = new FileInputStream(originalFile);
+	    outStream = new FileOutputStream(copyOfFile);
+	        	
+	    byte[] buffer = new byte[1024];
+	    		
+	    int length;
+	    //copy the file content in bytes 
+	    while ((length = inStream.read(buffer)) > 0){ 
+	    	 outStream.write(buffer, 0, length);
+	    }
+	    
+	    inStream.close();
+	    outStream.close();
+
+	    return true;
+		} catch (IOException e){
+	    e.printStackTrace();
+	    return false;
+		}
+	}
+	
+	/**
+	 * Renames the duplicated storage file as "memori.json"
+	 *
+	 * @return     true if file is successfully renamed
+	 */
+	private boolean renameStorageFile() {
+		File originalFile =new File(duplicatedDefaultStorageFileName);
+		File renamedFile =new File(defaultStorageFileName);
+		
+		if(originalFile.renameTo(renamedFile)){
+			return true;
+		}else{
+			return false;
+		}    	
 	}
 }
