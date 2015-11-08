@@ -16,14 +16,17 @@ public class MemoriSettings {
 
 	}
 	
+	/**
+	 * Singleton pattern to restrict the instantiation of a class to one object.
+	 */
 	public static MemoriSettings getInstance() {
 		return INSTANCE;
 	}
 
-	
 	public String getFileName() {
 		return this.fileName;
 	}
+	
 	public String setFileName(String name) {
 		return this.fileName = name;
 	}
@@ -46,6 +49,9 @@ public class MemoriSettings {
 		invertMonth = status;
 	}
 	
+	/**
+	 * Writes attributes to the settings file
+	 */
 	public void writeSettingsFile(){
 		FileHandler fh = new FileHandler();
 		Gson gson = new GsonBuilder().serializeNulls()
@@ -54,7 +60,13 @@ public class MemoriSettings {
 		String userSettings = gson.toJson(this);
 		checkValidFilePath(fh, userSettings);
 	}
-
+	
+	/**
+	 * Ensures that the user can only enter a valid file path for memori.json
+	 *
+	 * @param fh    					fileHandler to write files
+	 * @param userSettings		user's preferred settings
+	 */
 	private void checkValidFilePath(FileHandler fh, String userSettings) {
 		if (!fh.writeFile(SETTINGS_LOCATION, userSettings)) {
 			fileName = DEFAULT_FILE_NAME;
@@ -63,6 +75,12 @@ public class MemoriSettings {
 		}
 	}
 	
+	/**
+	 * loads the settings and converts its JSON objects to Java objects
+	 * 
+	 * @return     Lateral location.
+	 * @throws IllegalArgumentException  If zone is <= 0.
+	 */
 	public static MemoriSettings loadMemoriSettings() {
 		FileHandler fh = new FileHandler();
 		String settingsJSON= fh.readFile(SETTINGS_LOCATION);

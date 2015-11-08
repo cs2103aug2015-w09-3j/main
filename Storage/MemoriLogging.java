@@ -18,11 +18,14 @@ public class MemoriLogging {
 	public static final String LOG_DIRECTORY = "log/";
 	public static final String LOG_DIRECTORY_NAME = "log";
 
-	
 	private MemoriLogging() {
 		
 	}
 	
+	/**
+	 * Singleton pattern to restrict the instantiation of a class to one object.
+	 * Logging files are created based on timestamp. 
+	 */
 	public static MemoriLogging getInstance(String className) {
 		DateTimeFormatter formatter = new DateTimeFormatterBuilder()
         .appendPattern("MM").appendLiteral("-")
@@ -38,6 +41,11 @@ public class MemoriLogging {
 		return INSTANCE;
 	}
 	
+	/**
+	 * Creates a folder to store logging files
+	 *
+	 * @throws IllegalArgumentException  If zone is <= 0.
+	 */
 	private void createLogFolder() { 
 		File logDirectory = new File(LOG_DIRECTORY_NAME);
 
@@ -61,6 +69,13 @@ public class MemoriLogging {
 		}
 	}
 	
+	/**
+	 * Initializes the logging operation.
+	 *
+	 * @param className			 name of the class the requires logging	
+	 * @param logFileName    name of logging file
+	 * @return     					 true if logging is successfully initialized
+	 */
 	private boolean initializeLog(String className, String logFileName) {
 		logger = Logger.getLogger(className);
 		createLogFolder();
@@ -84,6 +99,11 @@ public class MemoriLogging {
 		}
 	}
 	
+	/**
+	 * Stops the logging operation
+	 *
+	 * @return			true if logging successfully stops
+	 */
 	public boolean closeLog(){
 		try{
 			if(fh != null){
@@ -98,7 +118,13 @@ public class MemoriLogging {
 		}
 	}
 	
-	//The highest value; intended for extremely important messages (e.g. fatal program errors).
+	/**
+	 * intended for events that are of considerable importance 
+	 * and which will prevent normal program execution.
+	 *
+	 * @param msg			 messaged to be logged
+	 * @return     		 true if the messaged is successfully logged
+	 */
 	public boolean severeLogging(String msg){
 		if(logger != null){
 			logger.severe(msg);
@@ -107,7 +133,13 @@ public class MemoriLogging {
 		return false;
 	}
 	
-	//Intended for warning messages.
+	/**
+	 * intended for events that will be of interest to end users or system managers, 
+	 * or which indicate potential problems.
+	 * 
+	 * @param msg			 messaged to be logged
+	 * @return     		 true if the messaged is successfully logged
+	 */
 	public boolean warningLogging(String msg) {
 		if(logger != null){
 			logger.warning(msg);
@@ -116,7 +148,13 @@ public class MemoriLogging {
 		return false;
 	}
 	
-	//Informational runtime messages.
+	/**
+	 * intended for reasonably significant messages that will make sense to end users 
+	 * and system administrators
+	 * 
+	 * @param msg			 messaged to be logged
+	 * @return     		 true if the messaged is successfully logged
+	 */
 	public boolean infoLogging(String msg){
 		if(logger != null){
 			logger.info(msg);
@@ -125,7 +163,13 @@ public class MemoriLogging {
 		return false;
 	}
 	
-	//Informational messages about configuration settings/setup.
+	/**
+	 * intended to provide a variety of static configuration information, to assist in 
+	 * debugging problems that may be associated with particular configurations.
+	 * 
+	 * @param msg			 messaged to be logged
+	 * @return     		 true if the messaged is successfully logged
+	 */
 	public boolean configLogging(String msg){
 		if(logger != null){
 			logger.config(msg);
@@ -134,7 +178,13 @@ public class MemoriLogging {
 		return false;
 	}
 	
-	//Used for greater detail, when debugging/diagnosing problems.
+	/**
+	 * information that will be broadly interesting to developers who do not have a 
+	 * specialized interest in the specific subsystem.
+	 * 
+	 * @param msg			 messaged to be logged
+	 * @return     		 true if the messaged is successfully logged
+	 */
 	public boolean fineLogging(String msg){
 		if(logger != null){
 			logger.fine(msg);
@@ -143,6 +193,13 @@ public class MemoriLogging {
 		return false;
 	}
 	
+	/**
+	 * fairly detailed tracing message. By default logging calls for entering, 
+	 * returning, or throwing an exception are traced at this level.
+	 * 
+	 * @param msg			 messaged to be logged
+	 * @return     		 true if the messaged is successfully logged
+	 */
 	//Even greater detail than fine
 	public boolean finerLogging(String msg){
 		if(logger != null){
@@ -152,6 +209,13 @@ public class MemoriLogging {
 		return false;
 	}
 	
+	/**
+	 * logging of highest level,
+	 * highly detailed tracing message.
+	 * 
+	 * @param msg			 messaged to be logged
+	 * @return     		 true if the messaged is successfully logged
+	 */
 	//The lowest value; greatest detail.
 	public boolean finestLogging(String msg){
 		if(logger != null){

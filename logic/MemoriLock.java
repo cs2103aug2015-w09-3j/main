@@ -8,7 +8,11 @@ public class MemoriLock implements Runnable{
 		//testAndCreateLock();
 	}
 
-
+	/**
+	 * Prevents to creation of more than 1 instance of Memori, such that
+	 * only 1 instance of Memori can be run by the user at the same time. 
+	 * @throws IllegalArgumentException  If zone is <= 0.
+	 */
 	public void testAndCreateLock() {
 		try {
 			ServerSocket ss = new ServerSocket();

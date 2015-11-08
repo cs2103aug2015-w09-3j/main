@@ -15,7 +15,13 @@ public class FileHandler {
 	public static FileHandler getInstance() {
 		return fileHandlerInstance;
 	}
-
+	
+	/**
+	 * Return the content of the file by reading the file.
+	 *
+	 * @param filePath		file path of the file that needs to be read
+	 * @return     				content of the file, in String form.
+	 */
 	public String readFile(String filePath) {
 		BufferedReader br = null;
 		String output = "";
@@ -47,6 +53,13 @@ public class FileHandler {
 		return output;
 	}
 
+	/**
+	 * Writes content into a file, with the file path specified
+	 *
+	 * @param filePath		file path of the file that requires content to be written
+	 * @param content			content to be written into the specified file
+	 * @return     				true if file is successfully written
+	 */
 	public boolean writeFile(String filePath, String content) {
 		try {
 			File file = new File(filePath);

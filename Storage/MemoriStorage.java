@@ -25,6 +25,9 @@ public class MemoriStorage {
 
 	}
 
+	/**
+	 * Singleton pattern to restrict the instantiation of a class to one object.
+	 */
 	public static MemoriStorage getInstance() {
 		if (memoriLogger == null) {
 			storageInstance.initializeLog();
@@ -32,7 +35,12 @@ public class MemoriStorage {
 
 		return storageInstance;
 	}
-
+	
+	/**
+	 * Initializes logging for MemoriStorage.java
+	 * 
+	 * @return		true if logging is successfully initialized.
+	 */
 	public boolean initializeLog() {
 		try {
 			memoriLogger = MemoriLogging.getInstance(MemoriStorage.class.getName());
@@ -44,19 +52,30 @@ public class MemoriStorage {
 	}
 
 	/**
-	 * public void printSampleMessage() { System.out.println("blank fire"); }
-	 **/
+	 * retrieves content of storage file
+	 */
 	private void readFile() {
 		fileContents = fh.readFile(ms.getFileName());
 	}
 
+	/**
+	 * loads the storage file by converting JSON objects in memori.json 
+	 * to Java objects
+	 *
+	 * @return     Java objects from their JSON representation in the storage file
+	 */
 	public MemoriCalendar loadCalendar() {
-
 		readFile();
 		memoriLogger.infoLogging(LOG_STORAGE_LOAD_SUCCESS);
 		return new Gson().fromJson(fileContents, MemoriCalendar.class);
 	}
-
+	
+	/**
+	 * Saves content of the calendar into storage by converting Java objects
+	 * into their JSON representation
+	 *
+	 * @param memoriCalendar	Calendar object to be saved
+	 */
 	public void saveCalendar(MemoriCalendar memoriCalendar) {
 		FileHandler fh = new FileHandler();
 		Gson gson = new GsonBuilder().serializeNulls().setPrettyPrinting().create();
@@ -68,6 +87,11 @@ public class MemoriStorage {
 		memoriLogger.infoLogging(LOG_STORAGE_SAVE_SUCCESS);
 	}
 	
+	/**
+	 * Saving for sync to Google Calendar
+	 *
+	 * @param toGoogle		Java object to be synced to Google Calendar
+	 */
 	public void saveQueue(SyncObjectQueue toGoogle){
 		FileHandler fh = new FileHandler();
 		Gson gson = new GsonBuilder().serializeNulls().setPrettyPrinting().create();
@@ -75,7 +99,13 @@ public class MemoriStorage {
 		fh.writeFile(QUEUE_FILE_NAME, fileContent);
 		memoriLogger.infoLogging(LOG_STORAGE_SAVE_SUCCESS);
 	}
-
+	
+	/**
+	 * creates settings file if settings file is deleted.
+	 *
+	 * @return     an instance of MemoriSettings
+	 * @throws IllegalArgumentException  If zone is <= 0.
+	 */
 	public MemoriSettings loadSettings() {
 		ms = MemoriSettings.loadMemoriSettings();
 		if (ms == null) {
@@ -86,6 +116,11 @@ public class MemoriStorage {
 		return ms;
 	}
 	
+	/**
+	 * loads from Google Calendar. supports 2-way sync.
+	 * 
+	 * @return     Java object from its JSON representation in queue.json.
+	 */
 	public SyncObjectQueue loadQueue() {
 		FileHandler fh = new FileHandler();
 		String queueContents = fh.readFile(QUEUE_FILE_NAME);
