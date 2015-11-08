@@ -1,4 +1,4 @@
-package memori.parsers;
+package memori.parsers.parserTesting;
 
 import static org.junit.Assert.*;
 
@@ -6,6 +6,11 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
+
+import memori.parsers.DateParser;
+import memori.parsers.MemoriCommand;
+import memori.parsers.MemoriCommandType;
+import memori.parsers.MemoriParser;
 
 import org.junit.Test;
 

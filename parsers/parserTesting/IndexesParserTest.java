@@ -1,11 +1,15 @@
 //@@author A0108454H
-package memori.parsers;
+package memori.parsers.parserTesting;
 
 import static org.junit.Assert.*;
 
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+
+import memori.parsers.IndexesParser;
+import memori.parsers.MemoriCommand;
+import memori.parsers.MemoriCommandType;
 
 import org.junit.Test;
 

@@ -1,9 +1,13 @@
-package memori.parsers;
+package memori.parsers.parserTesting;
 
 import static org.junit.Assert.*;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+
+import memori.parsers.MemoriCommand;
+import memori.parsers.MemoriCommandType;
+import memori.parsers.SearchParser;
 
 import org.junit.Test;
 

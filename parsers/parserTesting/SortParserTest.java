@@ -1,9 +1,13 @@
 //@@author A0108454H
-package memori.parsers;
+package memori.parsers.parserTesting;
 
 import static org.junit.Assert.*;
 
 import java.util.Date;
+
+import memori.parsers.MemoriCommand;
+import memori.parsers.MemoriCommandType;
+import memori.parsers.SortParser;
 
 import org.junit.Test;
 
