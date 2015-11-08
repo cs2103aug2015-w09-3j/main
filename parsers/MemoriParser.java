@@ -114,6 +114,7 @@ public class MemoriParser {
         	return MemoriCommandType.UNDO;
         case "EXIT":
         	return MemoriCommandType.EXIT;
+     
         default:
         	 return MemoriCommandType.INVALID;
 		}
