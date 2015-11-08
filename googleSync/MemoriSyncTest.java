@@ -28,7 +28,7 @@ public class MemoriSyncTest {
 	private static final String DESCRIPTION = "description";
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception {
-		ms.initialize(ui, calendar);
+		ms.initialize(calendar);
 		calendar.initialize();
 		calendar.display();
 	}

@@ -60,7 +60,7 @@ public class MemoriTest {
 		calendar = new MemoriCalendar();
 		sync = new MemoriSync();
 		calendar.initialize();
-		sync.initialize(ui, calendar);
+		sync.initialize(calendar);
 		calendar.display();
 	}
 

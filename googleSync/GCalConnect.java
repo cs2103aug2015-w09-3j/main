@@ -22,7 +22,7 @@ import com.google.api.services.calendar.CalendarScopes;
 public class GCalConnect {
 
 	private static final String CLIENT_SECRET_JSON = "/client_secret.json";
-	private static final String APPLICATION_NAME = "Google Calendar API Java Quickstart";
+	private static final String APPLICATION_NAME = "Memori";
 	private static final String CREDENTIALS_LOCATION = "GCalCredentials";
 
 	/** Directory to store user credentials for this application. */

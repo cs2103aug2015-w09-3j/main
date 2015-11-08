@@ -29,7 +29,6 @@ public class MemoriSync {
 	private ArrayList<MemoriEvent> doNotDelete;
 	private boolean isConnected;
 	private Queue<SyncObject> thingsToSync;
-
 	private MemoriStorage st;
 
 	public MemoriSync() {
@@ -55,25 +54,26 @@ public class MemoriSync {
 	}
 
 	// Called to do the initial sync
-	public void initialize(MemoriUI ui, MemoriCalendar calendar) {
+	public String initialize(MemoriCalendar calendar) {
+		String output = "";
 		if (googleCalendar != null) {
 			crud = new GoogleCRUD(googleCalendar);
 			try {
 				processQueue();
 				remoteCopy = crud.retrieveAllEvents();
 				isConnected = true;
-				ui.displayToUser(pullEvents(calendar));
-				ui.displayToUser(pushEvents(calendar));
+				output += pullEvents(calendar);
+				output += pushEvents(calendar);
 				checkForConflicts(calendar);
 			} catch (UnknownHostException e) {
 				isConnected = false;
-				ui.displayToUser(PULL_ERROR);
+				output += PUSH_ERROR;
+				output += PULL_ERROR;
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
-
 		}
-
+		return output;
 	}
 
 	private String pullEvents(MemoriCalendar localCopy) {
@@ -117,14 +117,14 @@ public class MemoriSync {
 		ArrayList<Integer> toDelete = new ArrayList<Integer>();
 		Collections.sort(remoteCopy, MemoriEvent.externalIdComparator);
 
-		compareLocalAndRemote(localEvents, toGoogle, toDelete);
+		markForDeleteOrUpdate(localEvents, toGoogle, toDelete);
 		deleteFromLocal(localEvents, toDelete);
 		updateGoogleEvents(toGoogle);
 
 	}
 	
 	//check if the Event was deleted from Google Calendar or Updated on Google Calendar/Memori
-	private void compareLocalAndRemote(ArrayList<MemoriEvent> localEvents, ArrayList<SyncObject> toGoogle,
+	private void markForDeleteOrUpdate(ArrayList<MemoriEvent> localEvents, ArrayList<SyncObject> toGoogle,
 			ArrayList<Integer> toDelete) {
 		for (int i = 0; i < localEvents.size(); i++) {
 			MemoriEvent currentLocal = localEvents.get(i);

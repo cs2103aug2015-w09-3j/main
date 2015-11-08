@@ -62,7 +62,7 @@ public class Memori {
 			memoriCalendar = new MemoriCalendar();
 		}
 		ui.clearConsole();
-		googleSync.initialize(ui, memoriCalendar);
+		ui.displayToUser(googleSync.initialize(memoriCalendar));
 		memoriCalendar.initialize();
 		st.saveCalendar(memoriCalendar);
 		ui.displayToUser(WELCOME_MSG);

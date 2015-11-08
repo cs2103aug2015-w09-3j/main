@@ -61,7 +61,7 @@ public class MemoriCalendarTest {
 		calendar = new MemoriCalendar();
 		google = new MemoriSync();
 		calendar.initialize();
-		google.initialize(ui, calendar);
+		google.initialize(calendar);
 		calendar.display();
 	}
 
@@ -343,7 +343,7 @@ public class MemoriCalendarTest {
 		Date start = null;
 		Date end = null;
 		calendar.initialize();
-		google.initialize(new MemoriUI(), calendar);
+		google.initialize(calendar);
 		calendar.display();
 		MemoriCommand mc = new MemoriCommand(MemoriCommandType.SEARCH, start, end, fieldStr);
 		String observed = calendar.execute(mc, google);
@@ -353,7 +353,7 @@ public class MemoriCalendarTest {
 	public void testExecuteToggleComplete() {
 		ArrayList<Integer> indexes = new ArrayList<Integer>();
 		calendar.initialize();
-		google.initialize(new MemoriUI(), calendar);
+		google.initialize(calendar);
 		calendar.display();
 		indexes.add(1);
 		MemoriCommand mc = new MemoriCommand(MemoriCommandType.OPEN, indexes);
