@@ -7,7 +7,7 @@ import java.util.ArrayList;
 public class IndexesParser extends FieldsParser {
 	public String INVALID_MESSAGE = "Oops, index ares not available,please try again"+"\n";
     public String RANGE_SPLITTER = "-";
-    ArrayList<Integer> indexes = new ArrayList<Integer>();
+    public ArrayList<Integer> indexes = new ArrayList<Integer>();
     public IndexesParser() {
 		// TODO Auto-generated constructor stub
 		init();

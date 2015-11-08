@@ -53,11 +53,11 @@ public class UpdateParserTest {
 	@Test
 	public final void update4() {
 		MemoriCommandType update = MemoriCommandType.UPDATE;
-		DateParser dp = new DateParser();
+		
 		String[] stringField = new String[3];
 		stringField[0] = "jayden";
-		Date StartDate = dp.parseDate("tmr");
-		Date EndDate = dp.parseDate("tmr");
+		Date StartDate = DateParser.parseDate("tmr");
+		Date EndDate = DateParser.parseDate("tmr");
 		Boolean[] FilledFields = new Boolean[5];
 		for (int i = 0; i < FilledFields.length; i++) {
 			FilledFields[i] = false;
@@ -116,11 +116,11 @@ public class UpdateParserTest {
 	@Test
 	public final void update9() {
 		MemoriCommandType update = MemoriCommandType.UPDATE;
-		DateParser dp = new DateParser();
+		
 		String[] stringField = new String[3];
 		stringField[0] = "jayden";
-		Date StartDate = dp.parseDate("");
-		Date EndDate = dp.parseDate("");
+		Date StartDate = DateParser.parseDate("");
+		Date EndDate = DateParser.parseDate("");
 		Boolean[] FilledFields = new Boolean[5];
 		for (int i = 0; i < FilledFields.length; i++) {
 			FilledFields[i] = false;

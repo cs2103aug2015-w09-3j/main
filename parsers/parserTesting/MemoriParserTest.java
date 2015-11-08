@@ -21,10 +21,32 @@ public class MemoriParserTest {
 
 	// when user enters an invalid command
 	@Test
-	public final void testAdd() {
-		MemoriCommandType add = MemoriCommandType.ADD;
+	public final void testInvalid() {
 		MemoriParser mp = new MemoriParser();
+		MemoriCommand expected = new MemoriCommand("");
+		MemoriCommand addResults = mp.parse("43543254325earewr");
+		assertTrue(compareAdd(addResults, expected));
+	}
 
+	// when user enters an invalid command
+	@Test
+	public final void testInvalid1() {
+		MemoriParser mp = new MemoriParser();
+		MemoriCommand expected = new MemoriCommand("");
+		MemoriCommand addResults = mp.parse("43543254325earewr  -n -s");
+		assertTrue(compareAdd(addResults, expected));
+	}
+	@Test
+	public final void testInvalid2() {
+		MemoriParser mp = new MemoriParser();
+		MemoriCommand expected = new MemoriCommand("");
+		MemoriCommand addResults = mp.parse("add 12132 -n jayden -stmr");
+		assertTrue(compareAdd(addResults, expected));
+	}
+	// when user enters an invalid command
+	@Test
+	public final void testAdd() {
+		MemoriParser mp = new MemoriParser();
 		MemoriCommand expected = new MemoriCommand("");
 		MemoriCommand addResults = mp.parse("add234324 -n jayden");
 		assertTrue(compareAdd(addResults, expected));
@@ -33,9 +55,7 @@ public class MemoriParserTest {
 	// when user enters an invalid command
 	@Test
 	public final void testAdd1() {
-		MemoriCommandType add = MemoriCommandType.ADD;
 		MemoriParser mp = new MemoriParser();
-
 		MemoriCommand expected = new MemoriCommand("");
 		MemoriCommand addResults = mp
 				.parse("add234324 -n jayden -s tmr -e tmr");
@@ -148,9 +168,9 @@ public class MemoriParserTest {
 		MemoriParser mp = new MemoriParser();
 		String[] stringField = new String[3];
 		stringField[0] = "jayden";
-		DateParser dp = new DateParser();
-		Date StartDate = dp.parseDate("tmr");
-		Date EndDate = dp.parseDate("mon");
+
+		Date StartDate = DateParser.parseDate("tmr");
+		Date EndDate = DateParser.parseDate("mon");
 		MemoriCommand expected = new MemoriCommand(add, StartDate, EndDate,
 				stringField);
 		MemoriCommand addResults = mp.parse("ADD -n jayden -s tmr -e mon");
@@ -620,7 +640,6 @@ public class MemoriParserTest {
 	// when users forgot to indicate which index he would like to update
 	@Test
 	public final void testUpdate3() {
-		MemoriCommandType update = MemoriCommandType.UPDATE;
 		MemoriCommand expected = new MemoriCommand("");
 		MemoriParser mp = new MemoriParser();
 		MemoriCommand result = mp.parse("update -n jayden -s tmr -e tmr");
@@ -631,11 +650,10 @@ public class MemoriParserTest {
 	@Test
 	public final void update4() {
 		MemoriCommandType update = MemoriCommandType.UPDATE;
-		DateParser dp = new DateParser();
 		String[] stringField = new String[3];
 		stringField[0] = "jayden";
-		Date StartDate = dp.parseDate("tmr");
-		Date EndDate = dp.parseDate("tmr");
+		Date StartDate = DateParser.parseDate("tmr");
+		Date EndDate = DateParser.parseDate("tmr");
 		Boolean[] FilledFields = new Boolean[5];
 		for (int i = 0; i < FilledFields.length; i++) {
 			FilledFields[i] = false;
@@ -653,7 +671,6 @@ public class MemoriParserTest {
 	// when the users never indicate a accepted field to update
 	@Test
 	public final void update5() {
-		MemoriCommandType update = MemoriCommandType.UPDATE;
 		MemoriCommand expected = new MemoriCommand("");
 		MemoriParser mp = new MemoriParser();
 		MemoriCommand result = mp.parse("update 1 -q -o ");
@@ -663,7 +680,6 @@ public class MemoriParserTest {
 	// when the users dates are not of an excepted format
 	@Test
 	public final void update6() {
-		MemoriCommandType update = MemoriCommandType.UPDATE;
 		MemoriCommand expected = new MemoriCommand("");
 		MemoriParser mp = new MemoriParser();
 		MemoriCommand result = mp.parse("update 1 -elove -shaha ");
@@ -673,7 +689,6 @@ public class MemoriParserTest {
 	// when the users dates are empty
 	@Test
 	public final void update7() {
-		MemoriCommandType update = MemoriCommandType.UPDATE;
 		MemoriCommand expected = new MemoriCommand("");
 		MemoriParser mp = new MemoriParser();
 		MemoriCommand result = mp.parse("update 1 -e -s ");
@@ -683,7 +698,6 @@ public class MemoriParserTest {
 	// when the index is not excepted
 	@Test
 	public final void update8() {
-		MemoriCommandType update = MemoriCommandType.UPDATE;
 		MemoriCommand expected = new MemoriCommand("");
 		MemoriParser mp = new MemoriParser();
 		MemoriCommand result = mp.parse("update 1asdfdsfds -e -s ");
@@ -694,11 +708,10 @@ public class MemoriParserTest {
 	@Test
 	public final void update9() {
 		MemoriCommandType update = MemoriCommandType.UPDATE;
-		DateParser dp = new DateParser();
 		String[] stringField = new String[3];
 		stringField[0] = "jayden";
-		Date StartDate = dp.parseDate("");
-		Date EndDate = dp.parseDate("");
+		Date StartDate = DateParser.parseDate("");
+		Date EndDate = DateParser.parseDate("");
 		Boolean[] FilledFields = new Boolean[5];
 		for (int i = 0; i < FilledFields.length; i++) {
 			FilledFields[i] = false;
@@ -717,7 +730,6 @@ public class MemoriParserTest {
 	// start and end date
 	@Test
 	public final void testSearch() {
-		MemoriCommandType search = MemoriCommandType.SEARCH;
 		MemoriParser mp = new MemoriParser();
 		MemoriCommand expected = new MemoriCommand("");
 		MemoriCommand results = mp.parse("search -n jayden -s tmr ");
@@ -727,7 +739,6 @@ public class MemoriParserTest {
 	// added
 	@Test
 	public final void testSearch1() {
-		MemoriCommandType search = MemoriCommandType.SEARCH;
 		MemoriParser mp = new MemoriParser();
 		MemoriCommand expected = new MemoriCommand("");
 		MemoriCommand results = mp.parse("search -n jayden -s tmr -e haha ");
@@ -736,7 +747,6 @@ public class MemoriParserTest {
 	// when the user would like to perform a search but no fields is added
 	@Test
 	public final void testSearch2() {
-		MemoriCommandType search = MemoriCommandType.SEARCH;
 		MemoriParser mp = new MemoriParser();
 		MemoriCommand expected = new MemoriCommand("");
 		MemoriCommand results = mp.parse("search");
@@ -745,7 +755,6 @@ public class MemoriParserTest {
 	// when the user would like to perform a search but indicate a invalid field
 	@Test
 	public final void testSearch3() {
-		MemoriCommandType search = MemoriCommandType.SEARCH;
 		MemoriParser mp = new MemoriParser();
 		MemoriCommand expected = new MemoriCommand("");
 		MemoriCommand results = mp.parse("search -werwe");
@@ -754,7 +763,6 @@ public class MemoriParserTest {
 	// when the user did not indicate which field to sort
 	@Test
 	public final void testSort1() {
-		MemoriCommandType sort = MemoriCommandType.SORT;
 		MemoriCommand Expected = new MemoriCommand("");
 		MemoriParser mp = new MemoriParser();
 		MemoriCommand result = mp.parse("sort");
@@ -809,6 +817,7 @@ public class MemoriParserTest {
 	// when the user will like to sort by description
 	@Test
 	public final void sort5() {
+
 		MemoriCommandType sort = MemoriCommandType.SORT;
 		Boolean[] FilledFields = new Boolean[5];
 		for (int i = 0; i < FilledFields.length; i++) {
@@ -824,7 +833,6 @@ public class MemoriParserTest {
 	// when the user would like to sort more than one acceptable field
 	@Test
 	public final void sort6() {
-		MemoriCommandType sort = MemoriCommandType.SORT;
 		MemoriCommand Expected = new MemoriCommand("");
 		MemoriParser mp = new MemoriParser();
 		MemoriCommand result = mp.parse("sort -d -e -s");
@@ -834,7 +842,6 @@ public class MemoriParserTest {
 	// when the user would like to sort an unacceptable
 	@Test
 	public final void sort7() {
-		MemoriCommandType sort = MemoriCommandType.SORT;
 		MemoriCommand Expected = new MemoriCommand("");
 		MemoriParser mp = new MemoriParser();
 		MemoriCommand result = mp.parse("sort -f");
@@ -921,16 +928,16 @@ public class MemoriParserTest {
 	}
 
 	public boolean compareSort(MemoriCommand results, MemoriCommand expected) {
-		
+
 		Boolean[] resultsField = results.getMemoriField();
 		Boolean[] expectedField = results.getMemoriField();
 		MemoriCommandType resultsCommand = results.getType();
 		MemoriCommandType expectedCommand = expected.getType();
-		
-		if(resultsCommand != expectedCommand){
+
+		if (resultsCommand != expectedCommand) {
 			return false;
 		}
-		
+
 		if ((expectedField == null) && (resultsField == null)) {
 			return true;
 		}
