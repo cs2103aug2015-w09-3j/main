@@ -83,6 +83,12 @@ public class EventConverter {
 		String location = ge.getLocation();
 		int internalId = MemoriEvent.INTERNAL_ID_WILDCARD;
 		String externalId = ge.getId();
+		if(description == null){
+			description = "";
+		}
+		if(location == null){
+			location = "";
+		}
 		MemoriEvent me = new MemoriEvent(name, start, end, internalId, externalId, description, location);
 		me.setExternalCalId(ge.getId());
 		return me;

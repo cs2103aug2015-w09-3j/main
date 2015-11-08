@@ -4,24 +4,25 @@ package memori.parsers;
 import java.util.ArrayList;
 
 
-public class CompleteParser extends FieldsParser {
-	private ArrayList<Integer> completeIndex;
+public class IndexesParser extends FieldsParser {
 	public String INVALID_MESSAGE = "Oops, index ares not available,please try again"+"\n";
     public String RANGE_SPLITTER = "-";
-	public CompleteParser() {
+    ArrayList<Integer> indexes = new ArrayList<Integer>();
+    public IndexesParser() {
+		// TODO Auto-generated constructor stub
 		init();
 	}
 
 	@Override
 	public MemoriCommand parse(MemoriCommandType cmdType, String cmdFields) {
-		completeIndex = new ArrayList<Integer>();
+		indexes = new ArrayList<Integer>();
 		try{
 			if(!cmdFields.contains(RANGE_SPLITTER)){
 				splitIndividualIndex(cmdFields);
-				return new MemoriCommand(cmdType,completeIndex);
+				return new MemoriCommand(cmdType,indexes);
 			}else{
 				addRange(cmdFields);
-				return new MemoriCommand(cmdType,completeIndex);
+				return new MemoriCommand(cmdType,indexes);
 			}
 			
 		}catch(NumberFormatException e){
@@ -36,8 +37,8 @@ public class CompleteParser extends FieldsParser {
 			if(cmdFields.charAt(index)!=' '){
 				int nextSpace = findNextSpace(index,cmdFields);
 				int indexToDelete = Integer.parseInt(cmdFields.substring(index,nextSpace).replaceAll(" ",""));
-				if(!completeIndex.contains(indexToDelete)){
-					completeIndex.add(indexToDelete);
+				if(!indexes.contains(indexToDelete)){
+					indexes.add(indexToDelete);
 				}
 				index = nextSpace;
 			}
@@ -63,11 +64,11 @@ public class CompleteParser extends FieldsParser {
 		}else{
 			rangeIndex1 = Integer.parseInt(split[0].trim());
 			rangeIndex2 = Integer.parseInt(split[1].trim());
-			addToCompleteIndex(rangeIndex1,rangeIndex2);
+			addToindexes(rangeIndex1,rangeIndex2);
 		}
 	}
 
-	public void addToCompleteIndex(int rangeIndex1,int rangeIndex2){
+	public void addToindexes(int rangeIndex1,int rangeIndex2){
 		int upper;
 		int lower;
 		if(rangeIndex1 > rangeIndex2){
@@ -80,7 +81,7 @@ public class CompleteParser extends FieldsParser {
 		
 		}
 		for(;lower<upper+1;lower++){
-			completeIndex.add(lower);
+			indexes.add(lower);
 		}
 	}
 	

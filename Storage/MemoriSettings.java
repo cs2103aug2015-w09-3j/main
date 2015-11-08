@@ -52,6 +52,10 @@ public class MemoriSettings {
 		 		.setPrettyPrinting()
 				.create();
 		String userSettings = gson.toJson(this);
+		checkValidFilePath(fh, userSettings);
+	}
+
+	private void checkValidFilePath(FileHandler fh, String userSettings) {
 		if (!fh.writeFile(SETTINGS_LOCATION, userSettings)) {
 			fileName = DEFAULT_FILE_NAME;
 			writeSettingsFile();

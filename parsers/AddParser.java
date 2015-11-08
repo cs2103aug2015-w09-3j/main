@@ -24,16 +24,28 @@ public class AddParser extends FieldsParser {
 		UpdateFilledFields();
 		
 		//*added if there is no name for the add event
+		
 		if(stringFields[0].equals("")||(cmdFields.length()==0)){
+			
 			return new MemoriCommand(INVALID_NAME_MESSAGE);
-		}else if((FilledFields[START_INDEX]==true)&&startEnd[0]==null){
+		
+		//*if the user indicates he wants to enter a start date but there is no start date.	
+		}else if((FilledFields[START_INDEX]==true)&&startEnd[0]==null){	
+			
 			return new MemoriCommand(INVALID_DATE_MESSAGE);
+		//*if the user indicates he wants to enter a end date but there is no end date 
 		}else if((FilledFields[END_INDEX]==true)&&(startEnd[1]==null)){
+			
 			return new MemoriCommand(INVALID_DATE_MESSAGE);
+		//*if the user indicates he wants to enter a location but there is no location
 		}else if((FilledFields[LOCATION_INDEX]==true)&&(stringFields[1].equals(""))){
+			
 			return new MemoriCommand(INVALID_LOCATION_MESSAGE);
+		//if the users indicates he wants to enter a description but there is no description
 		}else if((FilledFields[DESCRIPTION_INDEX]==true)&&(stringFields[2].equals(""))){
+			
 			return new MemoriCommand(INVALID_DESCRIPTION_MESSAGE);
+		
 		}
 		
 		return new MemoriCommand(cmdType,startEnd[0],startEnd[1],stringFields);

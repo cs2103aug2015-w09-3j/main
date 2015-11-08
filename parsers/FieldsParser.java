@@ -24,7 +24,12 @@ public abstract class FieldsParser {
 			fields[i] = new Field(FIELD_IDENTIFIERS[i]);
 		}
 	}
-	//able to extract location and priority
+	/**
+	 * This method first check the which field is stored in the Field array
+	 * by comparing with the FieldIdentifiers,
+	 * the content will be stored in string fields
+	 * @return
+	 */
 	protected String[] extractStrings(){
 		String[] strFields = new String[MemoriCommand.NUM_STRING_FIELDS];
 		
@@ -41,11 +46,14 @@ public abstract class FieldsParser {
 
 			}
 		
-			
 		}
 		return strFields;
 	}
-	
+	/**
+	 * This method will first indicate which is the start date and the 
+	 * end date. It will then parse the date to DateParser to get an date object 
+	 * @return
+	 */
 	protected Date[] extractDates(){
 		Date[] startEnd = new Date[2];
 		for(Field f: fields){
@@ -64,6 +72,11 @@ public abstract class FieldsParser {
 		}
 		return  startEnd;
 	}
+	/**
+	 * this method find the start and the end of the search dates
+	 * pass it to dateparser and process
+	 * @return
+	 */
 	protected Date[] extractSearchDates(){
 		
 		String[] startEnd = new String[2];
@@ -80,7 +93,13 @@ public abstract class FieldsParser {
 	
 		return DateParser.parseSearchDate(startEnd);
 	}
-	
+	/**
+	 *This has method will extract all the indexes of the position
+	 *of the indicated fields in the userInput which memori allows 
+	 *Then it will get all the information of the respective fields
+	 *
+	 * @param toExtract
+	 */
 	protected void extractFields(String toExtract){
 		int i =0;
 		for(; i < fields.length ; i++ ){
@@ -101,7 +120,10 @@ public abstract class FieldsParser {
 			fields[i].setContent(toExtract.substring(start,end).trim());
 		}
 	}
-	//filled up the first entered field
+	/**
+	 *update which are the Fields the user has indicated
+	 * 
+	 */
 	public void UpdateFilledFields(){
 		
 		for(int i = 0;i < fields.length;i++){
@@ -125,6 +147,7 @@ public abstract class FieldsParser {
 			}
 		}
 	}
+	
 	//for testing
 	public Boolean[] returnFilledFields(){
 		return FilledFields;

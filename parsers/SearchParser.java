@@ -19,19 +19,31 @@ public class SearchParser extends FieldsParser {
 		Date[] startEnd = extractSearchDates();
 		UpdateFilledFields();
 		updateLegitField();
+		
 		if(legitField == false){
+			
 			return new MemoriCommand(INVALID_MESSAGE);
 		}
+		
 		if((FilledFields[START_INDEX]==true)&&(FilledFields[END_INDEX]==true)){
+			
 			if((startEnd[0]!=null)&&(startEnd[1]!=null)){
+				
 				return new MemoriCommand(cmdType,startEnd[0],startEnd[1],StringFields);
+			
 			}else{
+				
 				return new MemoriCommand(INVALID_MESSAGE);
 			}
+		
 		}else if((FilledFields[START_INDEX]==false)&&(FilledFields[END_INDEX]==false)){
-				return new MemoriCommand(cmdType,startEnd[0],startEnd[1],StringFields);
+				
+			return new MemoriCommand(cmdType,startEnd[0],startEnd[1],StringFields);
+		
 		}else{
+			
 			return new MemoriCommand(INVALID_MESSAGE);
+		
 		}
 	}
 	public void updateLegitField(){

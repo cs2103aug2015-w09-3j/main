@@ -2,7 +2,6 @@
 package memori.logic;
 
 import java.net.*;
-import java.io.*;
 
 public class MemoriLock implements Runnable{
 	public MemoriLock() {
@@ -16,6 +15,7 @@ public class MemoriLock implements Runnable{
 		  ss.bind(new InetSocketAddress(12345));
 		  System.out.println("Application started");
 		  Thread.sleep(1000000000);
+		  ss.close();
 		} catch (SocketException e) {
 		  System.out.println("Application already running");
 		  System.exit(1);
@@ -28,7 +28,6 @@ public class MemoriLock implements Runnable{
 
 	@Override
 	public void run() {
-		// TODO Auto-generated method stub
 		testAndCreateLock();
 	}
 }

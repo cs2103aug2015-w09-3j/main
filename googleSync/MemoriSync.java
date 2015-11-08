@@ -9,7 +9,6 @@ import java.util.LinkedList;
 import java.util.Queue;
 
 import memori.ErrorSuppressor;
-import memori.Storage.FileHandler;
 import memori.Storage.MemoriStorage;
 import memori.logic.MemoriCalendar;
 import memori.logic.MemoriEvent;
@@ -57,7 +56,7 @@ public class MemoriSync {
 		thingsToSync  = tempQueue;
 	}
 
-	public void SetUp(MemoriUI ui, MemoriCalendar calendar) {
+	public void initialize(MemoriUI ui, MemoriCalendar calendar) {
 		if (googleCalendar != null) {
 			crud = new GoogleCRUD(googleCalendar);
 			try {
@@ -77,8 +76,7 @@ public class MemoriSync {
 		}
 
 	}
-
-	private void checkForConflicts(MemoriCalendar calendar) {
+	public void checkForConflicts(MemoriCalendar calendar) {
 		ArrayList<MemoriEvent> localEvents = calendar.getEvents();
 		ArrayList<SyncObject> toGoogle = new ArrayList<SyncObject>();
 		ArrayList<Integer> toDelete = new ArrayList<Integer>();
@@ -106,9 +104,52 @@ public class MemoriSync {
 		for (int i = 0; i < toGoogle.size(); i++) {
 			MemoriEvent e = toGoogle.get(i).getEvent();
 			MemoriCommand cmd = toGoogle.get(i).getCommand();
-			addNewCommand(e, cmd);
+			addNewRequest(e, cmd);
 		}
 
+	}
+	
+	// use for undo
+	public void undo(ArrayList<MemoriEvent> previous, ArrayList<MemoriEvent> next){
+		Collections.sort(previous,MemoriEvent.internalIdComparator);
+		Collections.sort(next,MemoriEvent.internalIdComparator);
+		MemoriEvent toUpdate = null;
+		//undo was an undoing an update if it was a complete nothing will sync
+		if(previous.size() == next.size()){
+			for(int i=0;i<previous.size(); i++){
+				if(!previous.get(i).equals(next.get(i))){
+					toUpdate = previous.get(i);
+					toUpdate.setExternalCalId(next.get(i).getExternalCalId());
+					MemoriCommand updateCmd = new MemoriCommand(MemoriCommandType.UPDATE);
+					thingsToSync.add(new SyncObject(updateCmd,toUpdate));
+					processQueue();
+					break;
+				}
+			}
+			
+		}
+		//if undo was undoing an add
+		else  if(previous.size() < next.size()){
+			for(int i =0; i <  next.size(); i ++){
+				MemoriEvent current = next.get(i);
+				if(!previous.contains(current)){
+					MemoriCommand deleteCmd = new MemoriCommand(MemoriCommandType.DELETE);
+					thingsToSync.add(new SyncObject(deleteCmd,current));
+					processQueue();
+				}
+			}
+		}
+		//if undo was undoing an delete
+		else{
+			for(int i =0; i <  previous.size(); i ++){
+				MemoriEvent current = previous.get(i);
+				if(!next.contains(current)){
+					MemoriCommand addCmd = new MemoriCommand(MemoriCommandType.ADD);
+					thingsToSync.add(new SyncObject(addCmd,current));
+				}
+			}
+			processQueue();
+		}
 	}
 
 	private void solveDifferences(MemoriEvent currentLocal, MemoriEvent currentRemote, ArrayList<SyncObject> toGoogle) {
@@ -121,7 +162,7 @@ public class MemoriSync {
 		}
 	}
 	
-	public void addNewCommand(MemoriEvent memoriEvent, MemoriCommand cmd) {
+	public void addNewRequest(MemoriEvent memoriEvent, MemoriCommand cmd) {
 		SyncObject newEntry = new SyncObject(cmd, memoriEvent);
 		thingsToSync.offer(newEntry);
 		isConnected = true;
@@ -196,7 +237,7 @@ public class MemoriSync {
 			}
 		}
 		for (MemoriEvent e : toBePushed) {
-			addNewCommand(e, addCommand);
+			addNewRequest(e, addCommand);
 			doNotDelete.add(e);
 		}
 		if (thingsToSync.isEmpty())
