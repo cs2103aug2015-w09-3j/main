@@ -13,7 +13,7 @@ import memori.parsers.DateParser;
 import memori.parsers.MemoriCommand;
 import memori.parsers.MemoriCommandType;
 
-public class MemoriSyncTest {
+public class GoogleCRUDTest {
 	
 	private com.google.api.services.calendar.Calendar googleCalendar = GCalConnect.getCalendarService();
 	private GoogleCRUD crud = new GoogleCRUD(googleCalendar);
@@ -23,8 +23,6 @@ public class MemoriSyncTest {
 	private static final String LOCATION = "location";
 	private static final String DESCRIPTION = "description";
 	
-	private String externalId = "";
-	private String externalIdtoUpdate = "";
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception {
 		
@@ -35,7 +33,7 @@ public class MemoriSyncTest {
 		MemoriEvent  me = new  MemoriEvent(NAME, START, END, 0,null, LOCATION,DESCRIPTION);
 		MemoriCommand cmd  = new MemoriCommand(MemoriCommandType.ADD);
 		Boolean status  = crud.executeCmd(me, cmd);
-		externalId = me.getExternalCalId();
+		String externalId = me.getExternalCalId();
 		MemoriEvent remote = crud.retrieveRemote(me);
 		assertTrue(status);
 		assertTrue(me.equals(remote));
@@ -66,7 +64,7 @@ public class MemoriSyncTest {
 		MemoriCommand cmd  = new MemoriCommand(MemoriCommandType.ADD);
 		Boolean status  = crud.executeCmd(me, cmd);
 		MemoriEvent remote = crud.retrieveRemote(me);
-		externalIdtoUpdate = me.getExternalCalId();
+		String externalIdtoUpdate = me.getExternalCalId();
 		assertTrue(status);
 		assertTrue(me.equals(remote));
 	}
@@ -83,7 +81,7 @@ public class MemoriSyncTest {
 	public void testUpdatewithEID(){
 		MemoriEvent  me = new  MemoriEvent(NAME, START, END, 0,null, LOCATION,DESCRIPTION);
 		MemoriCommand cmd  = new MemoriCommand(MemoriCommandType.ADD);
-		externalId = me.getExternalCalId();
+		String externalId = me.getExternalCalId();
 		me = new  MemoriEvent(NAME + "Updated", null, END, 0,externalId, LOCATION,DESCRIPTION);
 		cmd  = new MemoriCommand(MemoriCommandType.UPDATE);
 		Boolean status  = crud.executeCmd(me, cmd);
@@ -103,7 +101,7 @@ public class MemoriSyncTest {
 		MemoriEvent  me = new  MemoriEvent("DELETE", START, END, 0,null, LOCATION,DESCRIPTION);
 		MemoriCommand cmd  = new MemoriCommand(MemoriCommandType.ADD);
 		crud.executeCmd(me, cmd);
-		externalId = me.getExternalCalId();
+		String externalId = me.getExternalCalId();
 		me = new  MemoriEvent(NAME, null, END, 0,externalId, LOCATION,DESCRIPTION);
 		cmd  = new MemoriCommand(MemoriCommandType.DELETE);
 		Boolean status  = crud.executeCmd(me, cmd);

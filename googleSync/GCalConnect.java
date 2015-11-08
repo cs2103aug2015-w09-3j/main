@@ -1,5 +1,4 @@
 //@@author A0098038W -reused //(given by Google Calendar Java QuickStart)
-
 package memori.googleSync;
 
 import java.io.IOException;
