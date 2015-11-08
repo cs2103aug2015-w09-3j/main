@@ -7,6 +7,7 @@ import memori.Storage.SettingsTest;
 import memori.Storage.StorageTest;
 import memori.googleSync.GoogleCRUDTest;
 import memori.googleSync.MemoriSyncTest;
+import memori.logic.MemoriCalendarTest;
 import memori.parsers.parserTesting.AddParserTest;
 import memori.parsers.parserTesting.IndexesParserTest;
 import memori.parsers.parserTesting.MemoriParserTest;
@@ -16,6 +17,7 @@ import memori.parsers.parserTesting.UpdateParserTest;
 @RunWith(Suite.class)
 @Suite.SuiteClasses({
    MemoriTest.class,
+   MemoriCalendarTest.class,
    GoogleCRUDTest.class,
    MemoriSyncTest.class,
    AddParserTest.class,

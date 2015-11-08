@@ -166,7 +166,9 @@ public class MemoriSync {
 		SyncObject newEntry = new SyncObject(cmd, memoriEvent);
 		thingsToSync.offer(newEntry);
 		isConnected = true;
-		processQueue();
+		if(crud != null){
+			processQueue();
+		}
 	}
 
 	private void processQueue() {

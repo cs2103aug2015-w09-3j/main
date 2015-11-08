@@ -35,6 +35,13 @@ public class MemoriTest {
 	private static final String MESSAGE_CHANGE_SEARCH = "Your search conditions has been changed.\n";
 	private static final String MESSAGE_UNDO = "Your changes have been undone.\n";
 	private static final String MESSAGE_UNDO_INVALID = "You cannot undo anymore.\n";
+	
+	private static final String INDEX_HEADER = "No: ";
+	private static final String NAME_HEADER = "Name:";
+	private static final String START_HEADER = "Start: ";
+	private static final String END_HEADER = "End: ";
+	private static final String LOCATION_HEADER = "Location:";
+	private static final String DESCRIPTION_HEADER = "Description:";
 
 	private MemoriCalendar calendar;
 	private MemoriSync sync;
@@ -180,6 +187,7 @@ public class MemoriTest {
 		String response = calendar.execute(cmd, sync);
 		System.out.println(response);
 		assertTrue(response.contains(String.format(MESSAGE_UPDATE, 1)));
+		assertTrue(response.contains(NAME_HEADER));
 	}
 	
 	@Test
@@ -194,6 +202,7 @@ public class MemoriTest {
 		String response = calendar.execute(cmd, sync);
 		System.out.println(response);
 		assertTrue(response.contains(String.format(MESSAGE_UPDATE, 1)));
+		assertTrue(response.contains(START_HEADER));
 	}
 	
 	@Test
@@ -208,6 +217,7 @@ public class MemoriTest {
 		String response = calendar.execute(cmd, sync);
 		System.out.println(response);
 		assertTrue(response.contains(String.format(MESSAGE_UPDATE, 1)));
+		assertTrue(response.contains(END_HEADER));
 	}
 	
 	@Test
@@ -222,6 +232,8 @@ public class MemoriTest {
 		String response = calendar.execute(cmd, sync);
 		System.out.println(response);
 		assertTrue(response.contains(String.format(MESSAGE_UPDATE, 1)));
+		assertTrue(response.contains(START_HEADER));
+		assertTrue(response.contains(END_HEADER));
 	}
 	
 	@Test
@@ -236,6 +248,11 @@ public class MemoriTest {
 		String response = calendar.execute(cmd, sync);
 		System.out.println(response);
 		assertTrue(response.contains(String.format(MESSAGE_UPDATE, 1)));
+		assertTrue(response.contains(NAME_HEADER));
+		assertTrue(response.contains(START_HEADER));
+		assertTrue(response.contains(END_HEADER));
+		assertTrue(response.contains(LOCATION_HEADER));
+		assertTrue(response.contains(DESCRIPTION_HEADER));
 	}
 
 
