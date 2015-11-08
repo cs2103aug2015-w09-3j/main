@@ -2,12 +2,17 @@ package memori.logic;
 
 import static org.junit.Assert.assertTrue;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
 
 import org.junit.BeforeClass;
 import org.junit.Test;
 
+import com.google.api.services.calendar.Calendar;
+
+import memori.ErrorSuppressor;
+import memori.googleSync.GCalConnect;
 import memori.googleSync.MemoriSync;
 import memori.parsers.MemoriCommand;
 import memori.parsers.MemoriCommandType;
@@ -38,21 +43,34 @@ public class MemoriCalendarTest {
 	private MemoriSync google = new MemoriSync();
 	
 	private ArrayList<MemoriEvent> searchedList = new ArrayList<MemoriEvent>();;
-	
+	private Calendar service = GCalConnect.getCalendarService();
+	private MemoriUI ui = new MemoriUI();
 	@BeforeClass
 	public static void setUpBforeClass() throws Exception {
 		
+	}
+	
+	public void initialize() {
+		ErrorSuppressor.supress();
+		try {
+			service.calendars().clear("primary").execute();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		calendar = new MemoriCalendar();
+		google = new MemoriSync();
+		calendar.initialize();
+		google.initialize(ui, calendar);
+		calendar.display();
 	}
 
 	@Test
 	public void testExecuteRead() {
 		//MemoriCalendar calendar= new MemoriCalendar();
 		//MemoriSync google = new MemoriSync();
-		calendar.initialize();
-		google.initialize(new MemoriUI(), calendar);
-		calendar.display();
+		initialize();
 		ArrayList<Integer> indexes = new ArrayList<Integer>();
-		
 		indexes.add(1);
 		MemoriCommand mc = new MemoriCommand(MemoriCommandType.READ, indexes);
 		String observed = calendar.execute(mc,google);
