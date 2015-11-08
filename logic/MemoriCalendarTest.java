@@ -106,9 +106,45 @@ public class MemoriCalendarTest {
 	}
 	
 	@Test
-	public void testExecuteSort(){
+	public void testExecuteSortName(){
 		Boolean[] memoriField = new Boolean[] {Boolean.TRUE, Boolean.FALSE, Boolean.FALSE, Boolean.FALSE
 				, Boolean.FALSE};
+		MemoriCommand mc = new MemoriCommand(MemoriCommandType.SORT, memoriField);
+		String observed = calendar.execute(mc,google);
+		assertTrue(observed.contains(MESSAGE_SORT));
+	}
+	
+	@Test
+	public void testExecuteSortStart(){
+		Boolean[] memoriField = new Boolean[] {Boolean.FALSE, Boolean.TRUE, Boolean.FALSE, Boolean.FALSE
+				, Boolean.FALSE};
+		MemoriCommand mc = new MemoriCommand(MemoriCommandType.SORT, memoriField);
+		String observed = calendar.execute(mc,google);
+		assertTrue(observed.contains(MESSAGE_SORT));
+	}
+	
+	@Test
+	public void testExecuteSortEnd(){
+		Boolean[] memoriField = new Boolean[] {Boolean.FALSE, Boolean.FALSE, Boolean.TRUE, Boolean.FALSE
+				, Boolean.FALSE};
+		MemoriCommand mc = new MemoriCommand(MemoriCommandType.SORT, memoriField);
+		String observed = calendar.execute(mc,google);
+		assertTrue(observed.contains(MESSAGE_SORT));
+	}
+	
+	@Test
+	public void testExecuteSortDescription(){
+		Boolean[] memoriField = new Boolean[] {Boolean.FALSE, Boolean.FALSE, Boolean.FALSE, Boolean.TRUE
+				, Boolean.FALSE};
+		MemoriCommand mc = new MemoriCommand(MemoriCommandType.SORT, memoriField);
+		String observed = calendar.execute(mc,google);
+		assertTrue(observed.contains(MESSAGE_SORT));
+	}
+	
+	@Test
+	public void testExecuteSortLocation(){
+		Boolean[] memoriField = new Boolean[] {Boolean.FALSE, Boolean.FALSE, Boolean.FALSE, Boolean.FALSE
+				, Boolean.TRUE};
 		MemoriCommand mc = new MemoriCommand(MemoriCommandType.SORT, memoriField);
 		String observed = calendar.execute(mc,google);
 		assertTrue(observed.contains(MESSAGE_SORT));
