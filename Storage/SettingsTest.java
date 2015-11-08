@@ -1,4 +1,5 @@
-package memori.test;
+//@@author A0121262X
+package memori.Storage;
 
 import static org.junit.Assert.*;
 
@@ -6,8 +7,6 @@ import java.io.File;
 
 import org.junit.Test;
 
-import memori.Storage.MemoriSettings;
-import memori.Storage.MemoriStorage;
 import memori.logic.MemoriCalendar;
 
 public class SettingsTest {
@@ -41,7 +40,7 @@ public class SettingsTest {
 		MemoriSettings testSettings = MemoriSettings.getInstance();
 		MemoriStorage testStorage = MemoriStorage.getInstance();
 		validTestStorageFolder.mkdir();
-		testSettings.changeFilePath("storageLocation/memori.json");
+		testSettings.changeFilePath(validStorageFilePath);
 		testSettings = testStorage.loadSettings();
 		testMemoriCalendar = testStorage.loadCalendar();
 		testStorage.saveCalendar(testMemoriCalendar);
@@ -49,7 +48,7 @@ public class SettingsTest {
 		assertEquals(true, validStorageTestPath.exists());
 		
 		validStorageTestPath.delete();
-		testSettings.changeFilePath("wrongStorageLocation/memori.json");
+		testSettings.changeFilePath(invalidStorageFilePath);
 		testSettings = testStorage.loadSettings();
 		testMemoriCalendar = testStorage.loadCalendar();
 		testStorage.saveCalendar(testMemoriCalendar);
