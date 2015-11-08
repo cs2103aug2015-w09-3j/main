@@ -36,13 +36,6 @@ public class MemoriParserTest {
 		MemoriCommand addResults = mp.parse("43543254325earewr  -n -s");
 		assertTrue(compareAdd(addResults, expected));
 	}
-	@Test
-	public final void testInvalid2() {
-		MemoriParser mp = new MemoriParser();
-		MemoriCommand expected = new MemoriCommand("");
-		MemoriCommand addResults = mp.parse("add 12132 -n jayden -stmr");
-		assertTrue(compareAdd(addResults, expected));
-	}
 	// when user enters an invalid command
 	@Test
 	public final void testAdd() {
