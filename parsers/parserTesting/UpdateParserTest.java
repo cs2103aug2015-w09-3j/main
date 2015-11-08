@@ -131,7 +131,7 @@ public class UpdateParserTest {
 		MemoriCommand expected = new MemoriCommand(update, StartDate, EndDate,
 				stringField, 1, FilledFields);
 		UpdateParser up = new UpdateParser();
-		MemoriCommand result = up.parse(update, "1 -n -d -l");
+		MemoriCommand result = up.parse(update, "1 -njayden -d -l");
 		assertTrue(compareTo(result, expected));
 	}
 
