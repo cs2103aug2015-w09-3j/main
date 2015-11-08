@@ -47,8 +47,8 @@ public class AddParserTest {
 		stringField[0] = "jayden";
 		stringField[1] = "sengKang";
 		stringField[2] = "with friends";
-		DateParser dp = new DateParser();
-		Date StartDate = dp.parseDate("tmr");
+		
+		Date StartDate = DateParser.parseDate("tmr");
 		Date EndDate = null;
 		MemoriCommand expected = new MemoriCommand(add,StartDate,EndDate,stringField);
 		AddParser ap = new AddParser();
@@ -74,13 +74,13 @@ public class AddParserTest {
 	@Test
 	public final void add5() {
 		MemoriCommandType add = MemoriCommandType.ADD;
-		DateParser dp = new DateParser();
+		
 		String[] stringField = new String[3];
 		stringField[0] = "jayden";
 		stringField[1] = "sengKang";
 		stringField[2] = "with friends";
-		Date StartDate = dp.parseDate("thurs");
-		Date EndDate = dp.parseDate("fri");
+		Date StartDate = DateParser.parseDate("thurs");
+		Date EndDate = DateParser.parseDate("fri");
 		MemoriCommand expected = new MemoriCommand(add,StartDate,EndDate,stringField);
 		AddParser ap = new AddParser();
 		MemoriCommand result = ap.parse(add, "-n jayden -s thurs -e fri -l sengkang ");
@@ -105,13 +105,13 @@ public class AddParserTest {
 	@Test
 	public final void add7() {
 		MemoriCommandType add = MemoriCommandType.ADD;
-		DateParser dp = new DateParser();
+		
 		String[] stringField = new String[3];
 		stringField[0] = "jayden";
 		stringField[1] = "sengKang";
 		stringField[2] = "with friends";
-		Date StartDate = dp.parseDate("5 nov 9am");
-		Date EndDate = dp.parseDate("6 nov 10pm");
+		Date StartDate = DateParser.parseDate("5 nov 9am");
+		Date EndDate = DateParser.parseDate("6 nov 10pm");
 		MemoriCommand expected = new MemoriCommand(add,StartDate,EndDate,stringField);
 		AddParser ap = new AddParser();
 		MemoriCommand result = ap.parse(add, "-n jayden -s 5 nov 9am -e 6 nov 10pm -l sengkang ");
@@ -121,13 +121,13 @@ public class AddParserTest {
 	@Test
 	public final void add8() {
 		MemoriCommandType add = MemoriCommandType.ADD;
-		DateParser dp = new DateParser();
+		
 		String[] stringField = new String[3];
 		stringField[0] = "jayden";
 		stringField[1] = "sengKang";
 		stringField[2] = "with friends";
-		Date StartDate = dp.parseDate("haha");
-		Date EndDate = dp.parseDate("haha");
+		Date StartDate = DateParser.parseDate("haha");
+		Date EndDate = DateParser.parseDate("haha");
 		MemoriCommand expected = new MemoriCommand("");
 		AddParser ap = new AddParser();
 		MemoriCommand result = ap.parse(add, "-n jayden -s haha -e haha -l sengkang -dwith friends");
@@ -136,7 +136,7 @@ public class AddParserTest {
 	}@Test
 	public final void add9() {
 		MemoriCommandType add = MemoriCommandType.ADD;
-		DateParser dp = new DateParser();
+		
 		MemoriCommand expected = new MemoriCommand("");
 		AddParser ap = new AddParser();
 		MemoriCommand result = ap.parse(add, "-n -s -e -l -d");

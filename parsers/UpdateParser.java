@@ -4,11 +4,13 @@ package memori.parsers;
 import java.util.Date;
 
 public class UpdateParser extends FieldsParser {
-	private String INVALID_FIELD_MESSAGE = "Oops,there are no fields indicate to update."
+	private static final String INVALID_FIELD_MESSAGE = "Oops,there are no fields indicate to update."
 			+ "Please try again."+"\n";
-	private String INVALID_MESSAGE = "Oops,index you try to update is not available."
+	private static final String INVALID_NAME_MESSAGE = "Oops,update name is blank."
 			+ "Please try again."+"\n";
-	private String INVALID_DATE_MESSAGE = "Oops,invalid date format."
+	private static final String INVALID_MESSAGE = "Oops,index you try to update is not available."
+			+ "Please try again."+"\n";
+	private static final String INVALID_DATE_MESSAGE = "Oops,invalid date format."
 			+ "Please try again."+"\n";
 	private boolean legitField = false;
 	public UpdateParser() {
@@ -30,6 +32,10 @@ public class UpdateParser extends FieldsParser {
 				if(legitField == false){
 					
 					return new MemoriCommand(INVALID_FIELD_MESSAGE);
+				}
+				if((FilledFields[NAME_INDEX]==true)&&(stringFields[0].equals(""))){
+					
+					return new MemoriCommand(INVALID_NAME_MESSAGE);
 				}
 				if((FilledFields[START_INDEX]==true)&&(startEnd[0]==null)){
 					return new MemoriCommand(INVALID_DATE_MESSAGE);

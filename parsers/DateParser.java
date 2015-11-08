@@ -15,17 +15,17 @@ import memori.Storage.MemoriSettings;
 public class DateParser {
 	private static boolean invertMonth = MemoriSettings.getInstance().getInvertMonth();
 	public static final String[] regex = { "/", "-" };
-	private static int STANDARD_HOUR = 9;
-	private static int STANDARD_MIN = 0;
-	private static int STANDARD_SEC = 0;
-	private static int START_HOUR = 0;
-	private static int START_MIN = 0;
-	private static int START_SEC = 0;
-	private static int END_HOUR = 23;
-	private static int END_MIN = 59;
-	private static int END_SEC = 59;
-	private static String EXPLICIT_TIME = "EXPLICIT_TIME";
-	private static String RELATIVE_TIME = "RELATIVE_TIME";
+	private static final int STANDARD_HOUR = 9;
+	private static final int STANDARD_MIN = 0;
+	private static final int STANDARD_SEC = 0;
+	private static final int START_HOUR = 0;
+	private static final int START_MIN = 0;
+	private static final int START_SEC = 0;
+	private static final int END_HOUR = 23;
+	private static final int END_MIN = 59;
+	private static final int END_SEC = 59;
+	private static final String EXPLICIT_TIME = "EXPLICIT_TIME";
+	private static final String RELATIVE_TIME = "RELATIVE_TIME";
 
 	public static void setInvert(boolean status) {
 		invertMonth = status;
