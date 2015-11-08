@@ -1,60 +1,52 @@
-//@@author A0108454H
-package memori.parsers;
+package memori.parsers.parserTesting;
 
 import static org.junit.Assert.*;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import memori.parsers.MemoriCommand;
+import memori.parsers.MemoriCommandType;
+import memori.parsers.SearchParser;
+
 import org.junit.Test;
 
-public class UpdateParserTest {
+public class SearchParserTest {
 	public static final String DATE_FORMAT = "dd MMM yyyy HH:mm E";
-	private static final SimpleDateFormat DATE_FORMATTER = new SimpleDateFormat(
-			DATE_FORMAT);
-
-	// test case when users did not indicate a index
+	private static final SimpleDateFormat DATE_FORMATTER = new SimpleDateFormat(DATE_FORMAT);
+	
+	//when the user would like to perform a search but did not fill in both start and end date
 	@Test
-	public final void update1() {
-		MemoriCommandType update = MemoriCommandType.UPDATE;
-		MemoriCommand Expected = new MemoriCommand("");
-		UpdateParser up = new UpdateParser();
-		MemoriCommand result = up.parse(update, "-s");
-		assertTrue(compareTo(result, Expected));
+	public final void testSearch() {
+		MemoriCommandType search = MemoriCommandType.SEARCH;
+		SearchParser sp = new SearchParser();
+		MemoriCommand expected = new MemoriCommand("");
+		MemoriCommand results = sp.parse(search,"-n jayden -s tmr ");
 	}
-
-	// test case when user indicates that he would like to update a certain line
-	// but did not enter any fields
+	//when the user would like to perform a search but no field is added
 	@Test
-	public final void update2() {
-		MemoriCommandType update = MemoriCommandType.UPDATE;
-		MemoriCommand Expected = new MemoriCommand("");
-		UpdateParser up = new UpdateParser();
-		MemoriCommand result = up.parse(update, "1");
-		assertTrue(compareTo(result, Expected));
+	public final void testSearch1() {
+		MemoriCommandType search = MemoriCommandType.SEARCH;
+		SearchParser sp = new SearchParser();
+		MemoriCommand expected = new MemoriCommand("");
+		MemoriCommand results = sp.parse(search,"-n jayden -s tmr -e haha ");
 	}
-
-	// when users forgot to indicate which index he would like to update
+	//when the user would like to perform a search but no fields is added
 	@Test
-	public final void update3() {
-		MemoriCommandType update = MemoriCommandType.UPDATE;
-		MemoriCommand Expected = new MemoriCommand("");
-		UpdateParser up = new UpdateParser();
-		MemoriCommand result = up.parse(update, "-n jayden -s tmr -e tmr");
-		assertTrue(compareTo(result, Expected));
+	public final void testSearch2() {
+		MemoriCommandType search = MemoriCommandType.SEARCH;
+		SearchParser sp = new SearchParser();
+		MemoriCommand expected = new MemoriCommand("");
+		MemoriCommand results = sp.parse(search,"");
 	}
-
-	//
+	//when the user would like to perform a search but indicate a invalid field
 	@Test
-	public final void update4() {
-		MemoriCommandType update = MemoriCommandType.UPDATE;
-		MemoriCommand Expected = new MemoriCommand("");
-		UpdateParser up = new UpdateParser();
-		MemoriCommand result = up.parse(update, "1 -n jayden -s tmr -e tmr");
-		System.out.println(Expected.getType()+""+result.getType());
-		assertTrue(compareTo(result, Expected));
+	public final void testSearch3() {
+		MemoriCommandType search = MemoriCommandType.SEARCH;
+		SearchParser sp = new SearchParser();
+		MemoriCommand expected = new MemoriCommand("");
+		MemoriCommand results = sp.parse(search,"-werwe");
 	}
-
 	/**
 	 * compare the start date in string format , end date in string format and
 	 * all the string fields of the expected and and the results of a add
@@ -66,7 +58,7 @@ public class UpdateParserTest {
 	 */
 	public boolean compareTo(MemoriCommand results, MemoriCommand expected) {
 
-		MemoriCommandType resultsCommand = expected.getType();
+		MemoriCommandType resultsCommand = results.getType();
 		MemoriCommandType expectedCommand = expected.getType();
 		String[] resultsArgs = results.getCommandArgs();
 		String[] expectedArgs = results.getCommandArgs();
@@ -74,11 +66,10 @@ public class UpdateParserTest {
 		Date resultStartDate = results.getStart();
 		Date expectedEndDate = expected.getEnd();
 		Date resultEndDate = results.getEnd();
-		System.out.println(expectedCommand+""+resultsCommand);
+		
 		//if both is an invalid command straight return true
-		if((expectedCommand.equals(MemoriCommandType.INVALID))
-				&&(resultsCommand.equals(MemoriCommandType.INVALID))){
-			
+		if(expectedCommand.equals(MemoriCommandType.INVALID)
+				&&resultsCommand.equals(MemoriCommandType.INVALID)){
 			
 			return true;
 		}
@@ -95,19 +86,22 @@ public class UpdateParserTest {
 				return false;
 			}
 		}
-
+		// if either expectedStartDate is null but result start Date is not null
+		//viseversa return false
 		if (((expectedStartDate != null) && (resultStartDate == null))
 				|| ((expectedStartDate == null) && (resultStartDate != null))) {
 			
 			return false;
 		}
-
+		// if either expectedEndDate is null but resultEndDate is not null
+		//viseversa return false
 		if (((expectedEndDate != null) && (resultEndDate == null))
 				|| ((expectedEndDate == null) && (resultEndDate != null))) {
 	
 			return false;
 		}
-		
+		//if both resultsStartDate and expectedStartDate is not null
+		//compare the start dates
 		if(((expectedStartDate != null) && (resultStartDate != null))
 				|| ((expectedStartDate != null) && (resultStartDate != null))){
 			
@@ -117,7 +111,8 @@ public class UpdateParserTest {
 				return false;
 			}
 		}
-		
+		//if both resultsEndDate and expectedEndDate is not null
+		//compare the end dates
 		if(((expectedEndDate != null) && (resultEndDate != null))
 				|| ((expectedEndDate != null) && (resultEndDate != null))){
 			

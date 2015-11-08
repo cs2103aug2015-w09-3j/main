@@ -13,7 +13,7 @@ public class MemoriParser {
 	
 	//The main parse method
 	public MemoriCommand parse(String userInput) {
-		commandConfig = seperateCommand(userInput);
+		String[] commandConfig = seperateCommand(userInput);
 		MemoriCommandType cmdType = determineCommandType(commandConfig[COMMAND_TYPE]);
 		FieldsParser fp = createFieldsParser(cmdType);
 		return executeParse(userInput, commandConfig, cmdType, fp);	
@@ -69,6 +69,7 @@ public class MemoriParser {
 		case OPEN:
 			return new IndexesParser();
 		case UNDO:
+			return new SystemParser();
 		case EXIT:
 			return new SystemParser();
 		default:
@@ -113,6 +114,7 @@ public class MemoriParser {
         	return MemoriCommandType.UNDO;
         case "EXIT":
         	return MemoriCommandType.EXIT;
+     
         default:
         	 return MemoriCommandType.INVALID;
 		}
