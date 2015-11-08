@@ -17,7 +17,7 @@ public class MemoriCalendar {
 	private static final String MESSAGE_ADD = "Event Added.\n";
 	private static final String MESSAGE_DELETE = "Event Deleted.\n";
 	private static final String MESSAGE_NO_RESULTS = "No results found\n";
-	private static final String MESSAGE_READ = "Reading:\n";
+	private static final String MESSAGE_READ = "Reading: %1$d \n";
 	private static final String MESSAGE_SORT = "Sorted.\n";
 	private static final String MESSAGE_UPDATE = "Updated Event %1$d \n";
 	private static final String MESSAGE_INVALID_INDEX = "Line index does not exists.\n";

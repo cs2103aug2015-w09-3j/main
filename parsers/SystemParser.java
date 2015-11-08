@@ -10,5 +10,5 @@ public class SystemParser extends FieldsParser {
 		// TODO Auto-generated method stub
 		return new MemoriCommand(cmdType);
 	}
-
+	
 }
