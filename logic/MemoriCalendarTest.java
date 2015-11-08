@@ -11,6 +11,7 @@ import org.junit.Test;
 import memori.googleSync.MemoriSync;
 import memori.parsers.MemoriCommand;
 import memori.parsers.MemoriCommandType;
+import memori.ui.MemoriUI;
 
 public class MemoriCalendarTest {
 
@@ -33,7 +34,9 @@ public class MemoriCalendarTest {
 	private static final String MESSAGE_CHANGE_SEARCH= "Your search conditions has been changed\n";
 	
 	private MemoriCalendar calendar = new MemoriCalendar();
+	
 	private MemoriSync google = new MemoriSync();
+	
 	private ArrayList<MemoriEvent> searchedList = new ArrayList<MemoriEvent>();;
 	
 	@BeforeClass
@@ -45,14 +48,15 @@ public class MemoriCalendarTest {
 	public void testExecuteRead() {
 		//MemoriCalendar calendar= new MemoriCalendar();
 		//MemoriSync google = new MemoriSync();
+		calendar.initialize();
+		google.initialize(new MemoriUI(), calendar);
+		calendar.display();
 		ArrayList<Integer> indexes = new ArrayList<Integer>();
 		
 		indexes.add(1);
 		MemoriCommand mc = new MemoriCommand(MemoriCommandType.READ, indexes);
 		String observed = calendar.execute(mc,google);
-		assertTrue(observed.contains(MESSAGE_EMPTYFILE));
-		
-		
+		assertTrue(observed.contains("Reading: 1"));
 	}
 	
 	@Test
@@ -60,7 +64,9 @@ public class MemoriCalendarTest {
 		String[] fieldStr = new String[] {"test", "testDescribe", "testPlace"};
 		Date start = null;
 		Date end = null;
-		
+		calendar.initialize();
+		google.initialize(new MemoriUI(), calendar);
+		calendar.display();
 		MemoriCommand mc = new MemoriCommand(MemoriCommandType.ADD, start, end, fieldStr);
 		String observed = calendar.execute(mc, google);
 		assertTrue(observed.contains(MESSAGE_ADD));
@@ -69,21 +75,34 @@ public class MemoriCalendarTest {
 	@Test
 	public void testExecuteDelete(){
 		ArrayList<Integer> indexes = new ArrayList<Integer>();
-		
+		calendar.initialize();
+		google.initialize(new MemoriUI(), calendar);
+		calendar.display();
 		indexes.add(1);
 		MemoriCommand mc = new MemoriCommand(MemoriCommandType.DELETE, indexes);
 		String observed = calendar.execute(mc,google);
-		assertTrue(observed.contains(MESSAGE_EMPTYFILE));
+		assertTrue(observed.contains(MESSAGE_DELETE));
 	}
 	
 	@Test
 	public void testExecuteUpdate(){
-		ArrayList<Integer> indexes = new ArrayList<Integer>();
+		String[] fieldStr = new String[] {"test", "testDescribe", "testPlace"};
+		Date start = null;
+		Date end = null;
+		int index = 1;
+		Boolean[] memoriField = new Boolean[] {Boolean.TRUE, Boolean.FALSE, Boolean.FALSE, Boolean.FALSE
+				, Boolean.FALSE};
+		//ArrayList<Integer> indexes = new ArrayList<Integer>();
 		
-		indexes.add(1);
-		MemoriCommand mc = new MemoriCommand(MemoriCommandType.UPDATE, indexes);
+		calendar.initialize();
+		google.initialize(new MemoriUI(), calendar);
+		calendar.display();
+		//indexes.add(1);
+		
+		MemoriCommand mc = new MemoriCommand(MemoriCommandType.UPDATE, start, end, fieldStr, index,
+				memoriField);
 		String observed = calendar.execute(mc,google);
-		assertTrue(observed.contains(MESSAGE_EMPTYFILE));
+		assertTrue(observed.contains("Updated Event 1"));
 	}
 	
 	@Test
@@ -100,20 +119,24 @@ public class MemoriCalendarTest {
 		String[] fieldStr = new String[] {"test", "testDescribe", "testPlace"};
 		Date start = null;
 		Date end = null;
-		
+		calendar.initialize();
+		google.initialize(new MemoriUI(), calendar);
+		calendar.display();
 		MemoriCommand mc = new MemoriCommand(MemoriCommandType.SEARCH, start, end, fieldStr);
 		String observed = calendar.execute(mc,google);
-		assertTrue(observed.contains(MESSAGE_CHANGE_SEARCH));
+		assertTrue(observed.contains("Your search conditions has been changed."));
 	}
 	
 	@Test
 	public void testExecuteToggleComplete(){
 		ArrayList<Integer> indexes = new ArrayList<Integer>();
-		
+		calendar.initialize();
+		google.initialize(new MemoriUI(), calendar);
+		calendar.display();
 		indexes.add(1);
 		MemoriCommand mc = new MemoriCommand(MemoriCommandType.OPEN, indexes);
 		String observed = calendar.execute(mc,google);
-		assertTrue(observed.contains(MESSAGE_EMPTYFILE));
+		assertTrue(observed.contains("Tasks have been reopened"));
 	}
 
 }
