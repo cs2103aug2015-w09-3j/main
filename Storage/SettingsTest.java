@@ -27,6 +27,9 @@ public class SettingsTest {
 	File validStorageTestPath = new File(ValidStorageFolderName + "/" + defaultStorageFileName);
 	private MemoriCalendar testMemoriCalendar;
 
+	/**
+	 * tests if settings file is recreated in the event the settings file is deleted
+	 */
 	@Test
 	public void testWriteSettingsFile() {
 		defaultSettingsTestFile.delete();
@@ -38,12 +41,17 @@ public class SettingsTest {
 		
 		assertEquals(true, defaultSettingsTestFile.exists());
 	}
-
+	
+	/**
+	 * tests if changeFilePath prevents users 
+	 * from changing storage file path to one which is illegal
+	 */
 	@Test
 	public void testChangeStorageFileLocation() {
 		duplicateStoragefile();
 		defaultStorageTestFile.delete();
 		
+		//first, test by changing file path to valid file path (target directory exists)
 		MemoriSettings testSettings = MemoriSettings.getInstance();
 		MemoriStorage testStorage = MemoriStorage.getInstance();
 		validTestStorageFolder.mkdir();
@@ -54,6 +62,7 @@ public class SettingsTest {
 		
 		assertEquals(true, validStorageTestPath.exists());
 		
+	  //next, test by changing file path to invalid file path (target directory does not exist)
 		validStorageTestPath.delete();
 		testSettings.changeFilePath(invalidStorageFilePath);
 		testSettings = testStorage.loadSettings();

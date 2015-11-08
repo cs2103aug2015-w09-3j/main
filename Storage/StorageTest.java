@@ -15,6 +15,10 @@ public class StorageTest {
 	private MemoriCalendar testMemoriCalendar;
 	private MemoriCalendar testMemoriCalendar2;
 
+	/**
+	 * tests if saving and loading works properly by comparing 2 calendars.
+	 * 1 of the calendars will be saved with a task, while the 2nd calendar loads the storage.
+	 */
 	@Test
 	public void TestSaveAndLoadCalendar() {
 		MemoriSettings testSettings = MemoriSettings.getInstance();
@@ -30,6 +34,7 @@ public class StorageTest {
 		testMemoriCalendar2 = testStorage.loadCalendar();
 		ArrayList<MemoriEvent> events2 = testMemoriCalendar2.getEvents();
 		
+		//compare
 		boolean status = true;
 		for (int i = 0; i < events.size(); i++) {
 			if (!(events.get(i).equals((events2.get(i))))) {
