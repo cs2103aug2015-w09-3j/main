@@ -198,17 +198,6 @@ public class MemoriEvent {
 		return String.format(DISPLAY_FORMAT, name, startString, endString, completeOutputStr);
 	}
 
-	public String toJson() {
-		GsonBuilder builder = new GsonBuilder();
-		Gson gson = builder.create();
-		return gson.toJson(this);
-	}
-
-	public static MemoriEvent fromJSON(String json) {
-		MemoriEvent event = new Gson().fromJson(json, MemoriEvent.class);
-		return event;
-	}
-
 	public boolean equals(Object obj) {
 		if (obj == null) {
 			return false;
