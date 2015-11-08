@@ -3,8 +3,8 @@ package memori.parsers;
 
 
 public class SortParser extends FieldsParser{
-	public boolean legitField = false;
-	public int numberOfSorts = 0;
+	private boolean legitField = false;
+	private int numberOfSorts = 0;
 	private static final String INVALID_MESSAGE = "Oops,invalid sort format.Please try again."+"\n";
 	public SortParser(){
 		init();
@@ -23,7 +23,7 @@ public class SortParser extends FieldsParser{
 	/*check if the user actually enters a legit sort field
 	 * check update how many sort field that the user has entered
 	 */
-	public void updateLegitField(){
+	private void updateLegitField(){
 		for(int index = 0;index < FilledFields.length; index++){
 			if(FilledFields[index]==true){
 				legitField = true; 

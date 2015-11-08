@@ -31,7 +31,7 @@ public class IndexesParser extends FieldsParser {
 			return new MemoriCommand(INVALID_MESSAGE);
 		}
 	}	
-	public void splitIndividualIndex(String cmdFields){
+	private void splitIndividualIndex(String cmdFields){
 		
 		for(int index = 0; index <cmdFields.length();index++){
 			if(cmdFields.charAt(index)!=' '){
@@ -44,7 +44,7 @@ public class IndexesParser extends FieldsParser {
 			}
 		}
 	}
-	public int findNextSpace(int index,String cmdFields){
+	private int findNextSpace(int index,String cmdFields){
 		for(;index<cmdFields.length();index++){
 			if(cmdFields.charAt(index)==' '){
 				return index;
@@ -52,7 +52,7 @@ public class IndexesParser extends FieldsParser {
 		}
 		return index;
 	}
-	public void addRange(String cmdFields) throws wrongIndexFormat{
+	private void addRange(String cmdFields) throws wrongIndexFormat{
 		int rangeIndex1;
 		int rangeIndex2;
 		int ExpectedNoOfNumbers = 2;
@@ -64,11 +64,11 @@ public class IndexesParser extends FieldsParser {
 		}else{
 			rangeIndex1 = Integer.parseInt(split[0].trim());
 			rangeIndex2 = Integer.parseInt(split[1].trim());
-			addToINDEXES(rangeIndex1,rangeIndex2);
+			addToIndexes(rangeIndex1,rangeIndex2);
 		}
 	}
 
-	public void addToINDEXES(int rangeIndex1,int rangeIndex2){
+	private void addToIndexes(int rangeIndex1,int rangeIndex2){
 		int upper;
 		int lower;
 		if(rangeIndex1 > rangeIndex2){
