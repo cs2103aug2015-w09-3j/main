@@ -6,10 +6,10 @@ public class MemoriParser {
 	// commandConfig Array indexes
 	private static final int COMMAND_TYPE = 0;
 	private static final int FIELDS = 1;
+	private static final String SYSTEM_FIELD = "system";
 
 	private String[] commandConfig = new String[2];
-	private String SystemField = "system";
-	public String INVALID_MESSAGE = "Oops you entered an invalid command, please try again."+"\n";	
+	public static final String INVALID_MESSAGE = "Oops you entered an invalid command, please try again."+"\n";	
 	
 	//The main parse method
 	public MemoriCommand parse(String userInput) {
@@ -33,7 +33,7 @@ public class MemoriParser {
 		if((cmdType==MemoriCommandType.EXIT)
 				||(cmdType==MemoriCommandType.UNDO)){
 			
-			return fp.parse(cmdType,SystemField);
+			return fp.parse(cmdType,SYSTEM_FIELD);
 		
 		}else if(commandConfig.length==1||userInput.length()==0){
 			

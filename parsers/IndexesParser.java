@@ -5,9 +5,9 @@ import java.util.ArrayList;
 
 
 public class IndexesParser extends FieldsParser {
-	public String INVALID_MESSAGE = "Oops, index ares not available,please try again"+"\n";
-    public String RANGE_SPLITTER = "-";
-    public ArrayList<Integer> indexes = new ArrayList<Integer>();
+	public static final String INVALID_MESSAGE = "Oops, index ares not available,please try again"+"\n";
+    private static final String RANGE_SPLITTER = "-";
+    private static ArrayList<Integer> INDEXES = new ArrayList<Integer>();
     public IndexesParser() {
 		// TODO Auto-generated constructor stub
 		init();
@@ -15,14 +15,14 @@ public class IndexesParser extends FieldsParser {
 
 	@Override
 	public MemoriCommand parse(MemoriCommandType cmdType, String cmdFields) {
-		indexes = new ArrayList<Integer>();
+		INDEXES = new ArrayList<Integer>();
 		try{
 			if(!cmdFields.contains(RANGE_SPLITTER)){
 				splitIndividualIndex(cmdFields);
-				return new MemoriCommand(cmdType,indexes);
+				return new MemoriCommand(cmdType,INDEXES);
 			}else{
 				addRange(cmdFields);
-				return new MemoriCommand(cmdType,indexes);
+				return new MemoriCommand(cmdType,INDEXES);
 			}
 			
 		}catch(NumberFormatException e){
@@ -37,8 +37,8 @@ public class IndexesParser extends FieldsParser {
 			if(cmdFields.charAt(index)!=' '){
 				int nextSpace = findNextSpace(index,cmdFields);
 				int indexToDelete = Integer.parseInt(cmdFields.substring(index,nextSpace).replaceAll(" ",""));
-				if(!indexes.contains(indexToDelete)){
-					indexes.add(indexToDelete);
+				if(!INDEXES.contains(indexToDelete)){
+					INDEXES.add(indexToDelete);
 				}
 				index = nextSpace;
 			}
@@ -64,11 +64,11 @@ public class IndexesParser extends FieldsParser {
 		}else{
 			rangeIndex1 = Integer.parseInt(split[0].trim());
 			rangeIndex2 = Integer.parseInt(split[1].trim());
-			addToindexes(rangeIndex1,rangeIndex2);
+			addToINDEXES(rangeIndex1,rangeIndex2);
 		}
 	}
 
-	public void addToindexes(int rangeIndex1,int rangeIndex2){
+	public void addToINDEXES(int rangeIndex1,int rangeIndex2){
 		int upper;
 		int lower;
 		if(rangeIndex1 > rangeIndex2){
@@ -81,7 +81,7 @@ public class IndexesParser extends FieldsParser {
 		
 		}
 		for(;lower<upper+1;lower++){
-			indexes.add(lower);
+			INDEXES.add(lower);
 		}
 	}
 	

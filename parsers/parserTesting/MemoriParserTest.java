@@ -641,7 +641,7 @@ public class MemoriParserTest {
 
 	// a passable update case
 	@Test
-	public final void update4() {
+	public final void testUpdate4() {
 		MemoriCommandType update = MemoriCommandType.UPDATE;
 		String[] stringField = new String[3];
 		stringField[0] = "jayden";
@@ -663,7 +663,7 @@ public class MemoriParserTest {
 
 	// when the users never indicate a accepted field to update
 	@Test
-	public final void update5() {
+	public final void testUpdate5() {
 		MemoriCommand expected = new MemoriCommand("");
 		MemoriParser mp = new MemoriParser();
 		MemoriCommand result = mp.parse("update 1 -q -o ");
@@ -672,25 +672,25 @@ public class MemoriParserTest {
 
 	// when the users dates are not of an excepted format
 	@Test
-	public final void update6() {
+	public final void testUpdate6() {
 		MemoriCommand expected = new MemoriCommand("");
 		MemoriParser mp = new MemoriParser();
 		MemoriCommand result = mp.parse("update 1 -elove -shaha ");
 		assertTrue(compareUpdate(result, expected));
 	}
 
-	// when the users dates are empty
+	// when the users name is blank
 	@Test
-	public final void update7() {
+	public final void testUpdate7() {
 		MemoriCommand expected = new MemoriCommand("");
 		MemoriParser mp = new MemoriParser();
-		MemoriCommand result = mp.parse("update 1 -e -s ");
+		MemoriCommand result = mp.parse("update 1 -n -etmr -stmr ");
 		assertTrue(compareUpdate(result, expected));
 	}
 
 	// when the index is not excepted
 	@Test
-	public final void update8() {
+	public final void testUpdate8() {
 		MemoriCommand expected = new MemoriCommand("");
 		MemoriParser mp = new MemoriParser();
 		MemoriCommand result = mp.parse("update 1asdfdsfds -e -s ");
@@ -699,7 +699,7 @@ public class MemoriParserTest {
 
 	// allowed update
 	@Test
-	public final void update9() {
+	public final void testUpdate9() {
 		MemoriCommandType update = MemoriCommandType.UPDATE;
 		String[] stringField = new String[3];
 		stringField[0] = "jayden";
@@ -715,7 +715,7 @@ public class MemoriParserTest {
 		MemoriCommand expected = new MemoriCommand(update, StartDate, EndDate,
 				stringField, 1, FilledFields);
 		MemoriParser mp = new MemoriParser();
-		MemoriCommand result = mp.parse("update 1 -n -d -l");
+		MemoriCommand result = mp.parse("update 1 -n jayden -d -l");
 		assertTrue(compareUpdate(result, expected));
 	}
 

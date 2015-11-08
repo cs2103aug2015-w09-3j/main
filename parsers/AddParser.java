@@ -4,10 +4,10 @@ package memori.parsers;
 import java.util.Date;
 
 public class AddParser extends FieldsParser {
-	private String INVALID_NAME_MESSAGE = "Oops,please enter the name of the event"+"\n";
-	private String INVALID_DATE_MESSAGE = "Oops,invalid date format.Please try again"+"\n";
-	private String INVALID_LOCATION_MESSAGE = "Oops,invalid location format.Please try again"+"\n";
-	private String INVALID_DESCRIPTION_MESSAGE = "Oops,invalid description format.Please try again"+"\n";
+	private static final String INVALID_NAME_MESSAGE = "Oops,please enter the name of the event"+"\n";
+	private static final String INVALID_DATE_MESSAGE = "Oops,invalid date format.Please try again"+"\n";
+	private static final String INVALID_LOCATION_MESSAGE = "Oops,invalid location format.Please try again"+"\n";
+	private static final String INVALID_DESCRIPTION_MESSAGE = "Oops,invalid description format.Please try again"+"\n";
 
 	public AddParser() {
 		// TODO Auto-generated constructor stub

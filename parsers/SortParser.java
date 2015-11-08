@@ -5,7 +5,7 @@ package memori.parsers;
 public class SortParser extends FieldsParser{
 	public boolean legitField = false;
 	public int numberOfSorts = 0;
-	private String INVALID_MESSAGE = "Oops,invalid sort format.Please try again."+"\n";
+	private static final String INVALID_MESSAGE = "Oops,invalid sort format.Please try again."+"\n";
 	public SortParser(){
 		init();
 	}
