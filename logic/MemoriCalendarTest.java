@@ -1,3 +1,4 @@
+//@@author A0098038W
 package memori.logic;
 
 import static org.junit.Assert.assertTrue;
@@ -150,14 +151,14 @@ public class MemoriCalendarTest {
 		Date start = null;
 		Date end = null;
 		MemoriCommand mc = new MemoriCommand(MemoriCommandType.ADD, start, end, fieldStr);
-		String observed = calendar.execute(mc, google);
+		calendar.execute(mc, google);
 		ArrayList<MemoriEvent> main = calendar.getEvents();
 		MemoriEvent latestEvent = main.get(main.size() - 1);
 		ArrayList<Integer> indexes = new ArrayList<Integer>();
 		indexes.add(1);
 		calendar.display();
 		mc = new MemoriCommand(MemoriCommandType.DELETE, indexes);
-		observed = calendar.execute(mc, google);
+		calendar.execute(mc, google);
 
 		assertTrue(!main.contains(latestEvent));
 	}
@@ -184,7 +185,7 @@ public class MemoriCalendarTest {
 	@Test
 	public void testExecuteUpdateName() {
 		initialize();
-		Boolean[] memoriField = new Boolean[] { true, false, false,false,false};
+		Boolean[] memoriField = new Boolean[] { true, false, false, false, false };
 		String[] fieldStr = new String[] { "test", "testDescribe", "testPlace" };
 		Date start = null;
 		Date end = null;
@@ -220,7 +221,7 @@ public class MemoriCalendarTest {
 		MemoriEvent expectedEvent = new MemoriEvent(fieldStr[0], start, end, 0, null, fieldStr[2], fieldStr[1]);
 		assertTrue(latestEvent.equals(expectedEvent));
 	}
-	
+
 	@Test
 	public void testExecuteUpdateEnd() {
 		initialize();
@@ -240,7 +241,7 @@ public class MemoriCalendarTest {
 		MemoriEvent expectedEvent = new MemoriEvent(fieldStr[0], start, end, 0, null, fieldStr[2], fieldStr[1]);
 		assertTrue(latestEvent.equals(expectedEvent));
 	}
-	
+
 	@Test
 	public void testExecuteUpdateLocation() {
 		initialize();
@@ -260,7 +261,7 @@ public class MemoriCalendarTest {
 		MemoriEvent expectedEvent = new MemoriEvent(fieldStr[0], start, end, 0, null, fieldStr[2], fieldStr[1]);
 		assertTrue(latestEvent.equals(expectedEvent));
 	}
-	
+
 	@Test
 	public void testExecuteUpdateDescription() {
 		initialize();
@@ -281,13 +282,28 @@ public class MemoriCalendarTest {
 		assertTrue(latestEvent.equals(expectedEvent));
 	}
 
-
+	@Test
 	public void testExecuteSortName() {
 		Boolean[] memoriField = new Boolean[] { Boolean.TRUE, Boolean.FALSE, Boolean.FALSE, Boolean.FALSE,
 				Boolean.FALSE };
 		MemoriCommand mc = new MemoriCommand(MemoriCommandType.SORT, memoriField);
+		String[] names = new String[]{"5","name","123name","HELLO","hello","blah"};
+		for(int i=0; i < names.length;i++){
+			
+		}
 		String observed = calendar.execute(mc, google);
-		assertTrue(observed.contains(MESSAGE_SORT));
+		ArrayList<MemoriEvent> sorted = calendar.getEvents();
+		boolean sortStatus = true;
+
+		for (int i = 0; i < sorted.size() - 1; i++) {
+			String first = sorted.get(i).getName();
+			String second = sorted.get(i + 1).getName();
+			if(first.compareToIgnoreCase(second) > 0){
+				sortStatus = false;
+				break;
+			}
+		}
+		assertTrue(sortStatus);
 	}
 
 	public void testExecuteSortStart() {

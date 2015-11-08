@@ -1,3 +1,4 @@
+//@@author A0098038W
 package memori;
 
 import static org.junit.Assert.assertTrue;
@@ -36,7 +37,6 @@ public class MemoriTest {
 	private static final String MESSAGE_UNDO = "Your changes have been undone.\n";
 	private static final String MESSAGE_UNDO_INVALID = "You cannot undo anymore.\n";
 	
-	private static final String INDEX_HEADER = "No: ";
 	private static final String NAME_HEADER = "Name:";
 	private static final String START_HEADER = "Start: ";
 	private static final String END_HEADER = "End: ";
