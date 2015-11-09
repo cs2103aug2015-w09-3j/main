@@ -88,7 +88,8 @@ public class MemoriStorage {
 	}
 	
 	/**
-	 * Saving for sync to Google Calendar
+	 * Keeps track of what needs to be synced to Google Calendar if internet
+	 * connection is not available.
 	 *
 	 * @param toGoogle		Java object to be synced to Google Calendar
 	 */
@@ -117,7 +118,8 @@ public class MemoriStorage {
 	}
 	
 	/**
-	 * loads from Google Calendar. supports 2-way sync.
+	 * Loads the queue.json which contains tasks which are not synced to Google Calendar
+	 * due to lack of internet connection.
 	 * 
 	 * @return     Java object from its JSON representation in queue.json.
 	 */
