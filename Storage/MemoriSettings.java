@@ -78,7 +78,7 @@ public class MemoriSettings {
 	/**
 	 * loads the settings and converts its JSON objects to Java objects
 	 * 
-	 * @return     Lateral location.
+	 * @return     MemoriSettings object
 	 * @throws IllegalArgumentException  If zone is <= 0.
 	 */
 	public static MemoriSettings loadMemoriSettings() {
