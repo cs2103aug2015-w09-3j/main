@@ -19,13 +19,13 @@ import memori.ui.MemoriUI;
 
 public class MemoriSyncTest {
 	private static MemoriSync ms = new MemoriSync();
-	private static MemoriUI ui = new MemoriUI();
 	private static MemoriCalendar calendar = new MemoriCalendar();
 	private static final String NAME = "test name";
 	private static final Date START = DateParser.parseDate("today");
 	private static final Date END = DateParser.parseDate("today");
 	private static final String LOCATION = "location";
 	private static final String DESCRIPTION = "description";
+	
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception {
 		ms.initialize(calendar);

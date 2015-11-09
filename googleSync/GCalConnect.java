@@ -4,6 +4,8 @@ package memori.googleSync;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.net.InetAddress;
+import java.net.UnknownHostException;
 import java.util.Arrays;
 import java.util.List;
 
@@ -20,11 +22,13 @@ import com.google.api.client.util.store.FileDataStoreFactory;
 import com.google.api.services.calendar.CalendarScopes;
 
 public class GCalConnect {
-
+	private static final String GOOGLE = "www.google.com";
+	/** Location of required files */
 	private static final String CLIENT_SECRET_JSON = "/client_secret.json";
-	private static final String APPLICATION_NAME = "Memori";
 	private static final String CREDENTIALS_LOCATION = "GCalCredentials";
-
+	
+	private static final String APPLICATION_NAME = "Memori";
+	
 	/** Directory to store user credentials for this application. */
 	private static final java.io.File DATA_STORE_DIR = new java.io.File(CREDENTIALS_LOCATION);
 
@@ -71,10 +75,15 @@ public class GCalConnect {
 	/**
 	 * Build and return an authorized Calendar client service.
 	 * 
-	 * @return an authorized Calendar client service
+	 * @return an authorized Calendar client service or null if not connected to the internet
 	 * @throws IOException
 	 */
 	public static com.google.api.services.calendar.Calendar getCalendarService() {
+		try {
+			InetAddress.getByName(GOOGLE);
+		} catch (UnknownHostException e) {
+			return null;
+		}
 
 		Credential credential;
 		try {

@@ -13,16 +13,20 @@ import memori.logic.MemoriEvent;
 import memori.parsers.MemoriCommand;
 
 public class GoogleCRUD {
+	/** Modes for Google Calendar operations */
 	private static final int ADD = 0;
 	private static final int UPDATE = 1;
 	private static final int RETRIEVE = 2;
 	private static final int DELETE = 3;
 
+	/** Modes for Google Calendar operations */
 	private static final String CALENDAR_ID = "primary";
 	private static final int MAX_RESULTS = 100000;
 
+	/** Service Object used to authenticate the program */
 	private com.google.api.services.calendar.Calendar googleCalendar;
 
+	/** Constructor */
 	public GoogleCRUD(com.google.api.services.calendar.Calendar googleCalendar) {
 		this.googleCalendar = googleCalendar;
 	}
@@ -56,13 +60,21 @@ public class GoogleCRUD {
 	public ArrayList<MemoriEvent> retrieveAllEvents() throws IOException, UnknownHostException {
 		Events events = googleCalendar.events().list(CALENDAR_ID).setMaxResults(MAX_RESULTS).execute();
 		List<Event> items = events.getItems();
-		ArrayList<MemoriEvent> remoteCopy =  new ArrayList<MemoriEvent>();
-		for(Event e: items){
+		ArrayList<MemoriEvent> remoteCopy = new ArrayList<MemoriEvent>();
+		for (Event e : items) {
 			remoteCopy.add(EventConverter.toMemori(e));
 		}
 		return remoteCopy;
 	}
 
+	/**
+	 * Converts a MemoriEvent object to a Google Calendar Event object and adds
+	 * it to Google Calendar
+	 * 
+	 * @param memoriEvent
+	 *            the local event that needs to be sync
+	 * @return completion status of the operation
+	 */
 	private boolean addEvent(MemoriEvent memoriEvent) {
 		Event event = EventConverter.toGoogle(memoriEvent);
 
@@ -77,6 +89,14 @@ public class GoogleCRUD {
 		return true;
 	}
 
+	/**
+	 * Converts a MemoriEvent object to a Google Calendar Event object and
+	 * update it on Google Calendar
+	 * 
+	 * @param memoriEvent
+	 *            the local event that needs to be sync
+	 * @return completion status of the operation
+	 */
 	private boolean updateEvent(MemoriEvent memoriEvent) {
 
 		Event event = EventConverter.toGoogle(memoriEvent);
@@ -99,13 +119,19 @@ public class GoogleCRUD {
 		return true;
 	}
 
+	/**
+	 * Deletes an MemoriEvent on Google
+	 * 
+	 * @param memoriEvent
+	 *            the local event that needs to be sync
+	 * @return completion status of the operation
+	 */
 	private boolean deleteEvent(MemoriEvent memoriEvent) {
 		Event event = new Event();
 		String externalId = memoriEvent.getExternalCalId();
-		if(externalId != null){
+		if (externalId != null) {
 			event.setId(externalId);
-		}
-		else{
+		} else {
 			return true;
 		}
 		try {
@@ -118,6 +144,19 @@ public class GoogleCRUD {
 		return true;
 	}
 
+	/**
+	 * 
+	 * @param event
+	 *            a Google Event Object to be added/updated/Delete
+	 * @param mode
+	 *            Update/Retrieve/Add/Delete
+	 * @return an update Google Event object after performing the operation
+	 * @throws IOException
+	 *             when incorrect Google Calendar Id or Start and End are
+	 *             entered
+	 * @throws UnknownHostException
+	 *             when there is no connection to Google Calendar
+	 */
 	private Event executeEvent(Event event, int mode) throws IOException, UnknownHostException {
 		switch (mode) {
 		case ADD:

@@ -362,7 +362,7 @@ public class MemoriCalendar {
 		} else {
 			for (int i = 0; i < indexes.size(); i++) {
 				int index = indexes.get(i);
-				if (searchedList.size() < index) {
+				if (searchedList.size() < index || index<= 0) {
 					return MESSAGE_INVALID_INDEX;
 				} 
 			}
