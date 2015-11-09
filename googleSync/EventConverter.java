@@ -15,6 +15,15 @@ public class EventConverter {
 	public static final Date END_OF_TIME = new Date(9999999999999L);
 	public static final Date START_OF_TIME = new Date(-9999999999999L);
 
+	/**
+	 * Converts a MemoriEvent Object to a Google Event Object Memori Attributes
+	 * -> Google Attributes Name -> Summary Start -> Start End -> End Location -
+	 * > Location Description -> Description ExternalCalId -> Id
+	 *
+	 * @param me
+	 *            MemoriEvent that needs to be converted
+	 * @return
+	 */
 	public static Event toGoogle(MemoriEvent me) {
 		Event event = new Event();
 		DateTime end;
@@ -39,6 +48,20 @@ public class EventConverter {
 		return event;
 	}
 
+	/**
+	 * Converts a Google event Object to a Memori Event Object 
+	 * Memori Attributes <- Google Attributes 
+	 * Name <- Summary
+	 * Start <- Start 
+	 * End <- End 
+	 * Location <- Location 
+	 * Description <- Description 
+	 * ExternalCalId <- Id
+	 *
+	 * @param ge
+	 *            Google Event that needs to be converted
+	 * @return
+	 */
 	public static MemoriEvent toMemori(Event ge) {
 		if (ge == null)
 			return null;
@@ -83,10 +106,10 @@ public class EventConverter {
 		String location = ge.getLocation();
 		int internalId = MemoriEvent.INTERNAL_ID_WILDCARD;
 		String externalId = ge.getId();
-		if(description == null){
+		if (description == null) {
 			description = "";
 		}
-		if(location == null){
+		if (location == null) {
 			location = "";
 		}
 		MemoriEvent me = new MemoriEvent(name, start, end, internalId, externalId, description, location);
