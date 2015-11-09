@@ -3,8 +3,8 @@ package memori.logic;
 
 import java.net.*;
 
-public class MemoriLock implements Runnable{
-	public MemoriLock() {
+public class Lock implements Runnable{
+	public Lock() {
 		//testAndCreateLock();
 	}
 

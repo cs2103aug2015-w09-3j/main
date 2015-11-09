@@ -1,5 +1,5 @@
 //@@author A0098038W
-package memori.googleSync;
+package memori.googleSync.UnitTest;
 
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
@@ -10,6 +10,7 @@ import java.util.Date;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
+import memori.googleSync.MemoriSync;
 import memori.logic.MemoriCalendar;
 import memori.logic.MemoriEvent;
 import memori.parsers.DateParser;

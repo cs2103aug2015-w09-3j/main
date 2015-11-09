@@ -1,5 +1,5 @@
 //@@author A0098038W
-package memori.logic;
+package memori.logic.UnitTest;
 
 import static org.junit.Assert.assertTrue;
 
@@ -15,6 +15,8 @@ import com.google.api.services.calendar.Calendar;
 import memori.ErrorSuppressor;
 import memori.googleSync.GCalConnect;
 import memori.googleSync.MemoriSync;
+import memori.logic.MemoriCalendar;
+import memori.logic.MemoriEvent;
 import memori.parsers.MemoriCommand;
 import memori.parsers.MemoriCommandType;
 import memori.ui.MemoriUI;

@@ -1,5 +1,5 @@
 //@@author A0108454H
-package memori.parsers.parserTesting;
+package memori.parsers.UnitTest;
 
 import static org.junit.Assert.*;
 

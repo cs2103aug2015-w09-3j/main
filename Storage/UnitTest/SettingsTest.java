@@ -1,5 +1,5 @@
 //@@author A0121262X
-package memori.Storage;
+package memori.Storage.UnitTest;
 
 import static org.junit.Assert.*;
 
@@ -12,6 +12,8 @@ import java.io.OutputStream;
 
 import org.junit.Test;
 
+import memori.Storage.MemoriSettings;
+import memori.Storage.MemoriStorage;
 import memori.logic.MemoriCalendar;
 
 public class SettingsTest {

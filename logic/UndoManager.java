@@ -4,10 +4,10 @@ package memori.logic;
 import java.util.ArrayList;
 import java.util.Stack;
 
-public class MemoriUndoManager {
+public class UndoManager {
 	private Stack<ArrayList<MemoriEvent>> undoStack;
 
-	public MemoriUndoManager() {
+	public UndoManager() {
 		undoStack = new Stack<ArrayList<MemoriEvent>>();
 	}
 	

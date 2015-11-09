@@ -5,7 +5,7 @@ import memori.Storage.MemoriSettings;
 import memori.Storage.MemoriStorage;
 import memori.googleSync.MemoriSync;
 import memori.logic.MemoriCalendar;
-import memori.logic.MemoriLock;
+import memori.logic.Lock;
 import memori.parsers.MemoriCommand;
 import memori.parsers.MemoriCommandType;
 import memori.parsers.MemoriParser;
@@ -47,7 +47,7 @@ public class Memori {
 
 	/** Sets up Memori by initializing the components */
 	public void setup() {
-		Thread memoriLockThread = new Thread(new MemoriLock());
+		Thread memoriLockThread = new Thread(new Lock());
 		memoriLockThread.start();
 		memoriSettings = st.loadSettings();
 		memoriCalendar = st.loadCalendar();
