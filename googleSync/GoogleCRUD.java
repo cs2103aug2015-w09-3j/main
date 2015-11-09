@@ -40,6 +40,7 @@ public class GoogleCRUD {
 		case DELETE:
 			return deleteEvent(me);
 		default:
+			assert false :cmd.getType();
 			return false;
 		}
 	}
@@ -167,7 +168,9 @@ public class GoogleCRUD {
 			return googleCalendar.events().get(CALENDAR_ID, event.getId()).execute();
 		case DELETE:
 			googleCalendar.events().delete(CALENDAR_ID, event.getId()).execute();
+			return null;
 		default:
+			assert false :mode;
 			return null;
 		}
 	}
